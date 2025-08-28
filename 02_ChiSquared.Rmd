@@ -86,7 +86,6 @@ La première étape est de transformer la matrice en table de contingence (table
 
 ```{r, warning = FALSE}
 df <- read.table("data/SHN-microbiote.csv", sep=",", header=T, stringsAsFactors = T, encoding = 'latin1', row.names=1)
-colnames(df)
 knitr::kable(table(df))
 ```
 

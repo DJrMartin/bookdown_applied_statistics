@@ -1,3 +1,0 @@
-"0",""
-"0","# Représentation du paramètre de position."
-"0","abline(v=mean(birds$altitude), col='red', lwd=2)"

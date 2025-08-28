@@ -1,3 +1,0 @@
-"0","# Représenter la variable d'altitude."
-"0","hist(birds$altitude, col=""lightblue"", xlab=""Altitude (mètres)"",ylim=c(0,8),"
-"0","     ylab=""Comptage"", main=""Histogramme de l'altitude des sites"")"

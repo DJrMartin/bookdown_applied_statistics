@@ -1,6 +1,0 @@
-"0","layout(matrix(c(1,2), nrow=1))"
-"0","par(mar=c(5,5,2,2)) # Gérer les marges du plot."
-"0",""
-"0","# PLOT N°1"
-"0","boxplot(birds$Medium.dependency,birds$High.Dependency, names = c(""Moyenne"", 'Élevée'), xlab='Niveau de dependance',"
-"0","        ylab=""Richesse d'oiseaux (diversité)"")"

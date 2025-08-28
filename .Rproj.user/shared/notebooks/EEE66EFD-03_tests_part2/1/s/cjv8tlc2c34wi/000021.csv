@@ -1,4 +1,0 @@
-"0",""
-"0","# On ajoute une légende pour comprendre notre graphique."
-"0","legend(""topleft"", col=c(""darkolivegreen"",""red"",""blue""), lty=1, legend = c(""sd"", ""mean"", ""median""), "
-"0","       lwd=2, bty=""n"")"

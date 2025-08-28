@@ -1,6 +1,6 @@
 # Tests statistiques (t. test et t. wilcoxon)
 
-**Les tests que nous verrons dans cette partie 2 seront à mettre en place lorsqu'une des deux variables sera qualitative et l'autre quantitative.**
+**Les tests abordés dans ce chapitre seront à mettre en place lorsqu'une des deux variables sera qualitative et l'autre quantitative.**
 
 ## Statistiques descriptives et visualisations
 
@@ -9,6 +9,8 @@ L’ensemble des données de l'exemple ci-contre est issu d'un article paru dans
 Il comprend des informations concernant le nombre d'espèces différentes observé sachant un paramètre de dépendence à la forêt. La survie des espèces d'oiseaux ont été classée comme étant moyennement dépendant de la forêt ("Medium.dependency") ou bien fortement dépendant ("High.Dependency"). Enfin ce jeu de donnée présente la variable de l'atlitude moyenne associée à l'observation de ces espèces. Ces deux variables quantitatives sont associées à des sites géographiques de la cordillère des Andes (plus précisement en Colombie). 
 
 > Vous avez la possibilité de sauvegarder et d'uploader des datas en utilisant la forme de stockage .RDATA ou .rda. La fonction de stockage est save() et celle de chargement des données load().
+
+Les données peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/data/Birds_dataset.rda)
 
 ```{r, warning=FALSE}
 load(file = "data/Birds_dataset.rda")

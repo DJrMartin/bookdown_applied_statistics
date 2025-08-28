@@ -455,6 +455,8 @@ rm(list=ls()) # Permet de supprimer les objects et fonctions enregister sur l'en
 
 Objectifs : explorer les conséquences de la microgravité (i.e. pas de pesanteur) sur le métabolisme du fer dans des Hematopoïetic Stem Cell en condition de différenciation cellulaire (HSC vers osteoblastes).
 
+Les données du TP peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/data/TPs/iron_metabolism_RNA_TP.csv)
+
 1) Importer les données
 
 ```{r}
