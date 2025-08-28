@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Tests statistiques (Corrélations) | Statistique appliquée aux sciences de l’environnement et du vivant</title>
+  <meta name="description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Tests statistiques (Corrélations) | Statistique appliquée aux sciences de l’environnement et du vivant" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Tests statistiques (Corrélations) | Statistique appliquée aux sciences de l’environnement et du vivant" />
+  
+  <meta name="twitter:description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  
+
+<meta name="author" content="David M. Carminati" />
+
+
+<meta name="date" content="2025-08-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tests-statistiques-anova-et-kruskal-wallis.html"/>
+<link rel="next" href="clustering.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistiques appliquées aux sciences du vivant</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Statistique appliquée aux sciences de l’environnement et du vivant.</a></li>
+<li class="chapter" data-level="1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html"><i class="fa fa-check"></i><b>1</b> Introduction au langage de programmation <code>R</code></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#rstudio-et-ide."><i class="fa fa-check"></i><b>1.1</b> Rstudio et IDE.</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-pré-requis"><i class="fa fa-check"></i><b>1.2</b> Les pré-requis</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-objects"><i class="fa fa-check"></i><b>1.2.1</b> Les objects</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-fonctions"><i class="fa fa-check"></i><b>1.2.2</b> Les fonctions</a></li>
+<li class="chapter" data-level="1.2.3" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-data-frames"><i class="fa fa-check"></i><b>1.2.3</b> Les data-frames</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-boucles"><i class="fa fa-check"></i><b>1.3</b> Les boucles</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-fonctions-version-intermédiaire"><i class="fa fa-check"></i><b>1.4</b> Les fonctions (version intermédiaire)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html"><i class="fa fa-check"></i><b>2</b> Test statistique (<span class="math inline">\(\chi^2\)</span>)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#observationexpériencecausalité-quelques-mots-de-vocabulaire"><i class="fa fa-check"></i><b>2.1</b> Observation/Expérience/causalité (quelques mots de vocabulaire)</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#échantillonspopulations"><i class="fa fa-check"></i><b>2.1.1</b> Échantillons/populations</a></li>
+<li class="chapter" data-level="2.1.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#donnéesindividuvariables"><i class="fa fa-check"></i><b>2.1.2</b> Données/individu/variables</a></li>
+<li class="chapter" data-level="2.1.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#méthodologie-danalyse"><i class="fa fa-check"></i><b>2.1.3</b> Méthodologie d’analyse</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#test-statistique-avec-2-variables-qualitatives."><i class="fa fa-check"></i><b>2.2</b> Test statistique avec 2 variables qualitatives.</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#statistiques-descriptives-et-visualisations"><i class="fa fa-check"></i><b>2.2.1</b> Statistiques descriptives et visualisations</a></li>
+<li class="chapter" data-level="2.2.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#explication-des-tests-statistiques"><i class="fa fa-check"></i><b>2.2.2</b> Explication des Tests Statistiques</a></li>
+<li class="chapter" data-level="2.2.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#test-statistique-pour-variables-qualitatives-chi2"><i class="fa fa-check"></i><b>2.2.3</b> Test Statistique pour variables qualitatives (<span class="math inline">\(\chi^2\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#révision-test-du-χ²"><i class="fa fa-check"></i><b>2.3</b> Révision test du χ²</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#qcm"><i class="fa fa-check"></i><b>2.3.1</b> QCM</a></li>
+<li class="chapter" data-level="2.3.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#questions-ouvertes-définitions"><i class="fa fa-check"></i><b>2.3.2</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="2.3.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#problème"><i class="fa fa-check"></i><b>2.3.3</b> Problème</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#travaux-pratiques"><i class="fa fa-check"></i><b>2.4</b> Travaux Pratiques</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#pokemons"><i class="fa fa-check"></i><b>2.4.1</b> Pokemons</a></li>
+<li class="chapter" data-level="2.4.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#travaux-pratiques-1"><i class="fa fa-check"></i><b>2.4.2</b> Travaux Pratiques</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html"><i class="fa fa-check"></i><b>3</b> Tests statistiques (t. test et t. wilcoxon)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#statistiques-descriptives-et-visualisations-1"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives et visualisations</a></li>
+<li class="chapter" data-level="3.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-statistique-pour-variables-quantitatives-paramétriques-non-paramétriques"><i class="fa fa-check"></i><b>3.2</b> Test Statistique pour variables quantitatives (Paramétriques / Non paramétriques)</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#généralités-1"><i class="fa fa-check"></i><b>3.2.1</b> Généralités</a></li>
+<li class="chapter" data-level="3.2.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#prérequis-pour-le-choix-du-test"><i class="fa fa-check"></i><b>3.2.2</b> Prérequis pour le choix du test</a></li>
+<li class="chapter" data-level="3.2.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-paramétrique-test-de-student"><i class="fa fa-check"></i><b>3.2.3</b> Test paramétrique (test de Student)</a></li>
+<li class="chapter" data-level="3.2.4" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-non-paramétrique-test-de-wilcoxon-mann-whitney"><i class="fa fa-check"></i><b>3.2.4</b> Test non paramétrique (test de Wilcoxon-Mann-Whitney)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#révisions-des-tests"><i class="fa fa-check"></i><b>3.3</b> Révisions des tests</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#rappel"><i class="fa fa-check"></i><b>3.3.1</b> Rappel</a></li>
+<li class="chapter" data-level="3.3.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#qcm-1"><i class="fa fa-check"></i><b>3.3.2</b> QCM</a></li>
+<li class="chapter" data-level="3.3.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#questions-ouvertes-définitions-1"><i class="fa fa-check"></i><b>3.3.3</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="3.3.4" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#exercices-1"><i class="fa fa-check"></i><b>3.3.4</b> Exercices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html"><i class="fa fa-check"></i><b>4</b> Tests statistiques (ANOVA et Kruskal Wallis)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques-pour-plusieurs-groupes"><i class="fa fa-check"></i><b>4.1</b> Tests statistiques pour plusieurs groupes</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#test-non-paramétrique-kruskall-wallis"><i class="fa fa-check"></i><b>4.1.1</b> Test non paramétrique (<strong>Kruskall-Wallis</strong>)</a></li>
+<li class="chapter" data-level="4.1.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#test-paramétrique-anova"><i class="fa fa-check"></i><b>4.1.2</b> Test paramétrique (<strong>ANOVA</strong>)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques-multiples."><i class="fa fa-check"></i><b>4.2</b> Tests statistiques Multiples.</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#généralités-2"><i class="fa fa-check"></i><b>4.2.1</b> Généralités</a></li>
+<li class="chapter" data-level="4.2.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#applications"><i class="fa fa-check"></i><b>4.2.2</b> Applications</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#révisions-des-tests-1"><i class="fa fa-check"></i><b>4.3</b> Révisions des tests</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#qcm-2"><i class="fa fa-check"></i><b>4.3.1</b> QCM</a></li>
+<li class="chapter" data-level="4.3.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#questions-ouvertes-définitions-2"><i class="fa fa-check"></i><b>4.3.2</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="4.3.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#problème-1"><i class="fa fa-check"></i><b>4.3.3</b> Problème</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#travaux-pratiques-2"><i class="fa fa-check"></i><b>4.4</b> Travaux pratiques</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#statistiques-descriptives-du-metabolisme-du-fer"><i class="fa fa-check"></i><b>4.4.1</b> Statistiques descriptives du metabolisme du fer</a></li>
+<li class="chapter" data-level="4.4.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques"><i class="fa fa-check"></i><b>4.4.2</b> Tests Statistiques</a></li>
+<li class="chapter" data-level="4.4.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#modelisation-à-2-facteurs"><i class="fa fa-check"></i><b>4.4.3</b> Modelisation à 2 facteurs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html"><i class="fa fa-check"></i><b>5</b> Tests statistiques (Corrélations)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#tests-dindépendance-entre-2-variables-quantitatives."><i class="fa fa-check"></i><b>5.1</b> Tests d’indépendance entre 2 variables <strong>quantitatives</strong>.</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#généralités-3"><i class="fa fa-check"></i><b>5.1.1</b> Généralités</a></li>
+<li class="chapter" data-level="5.1.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#conditions"><i class="fa fa-check"></i><b>5.1.2</b> Conditions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#paramètres-des-tests-de-correlation-exemple-avec-la-méthode-de-pearson"><i class="fa fa-check"></i><b>5.2</b> Paramètres des tests de correlation : Exemple avec la méthode de Pearson</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#premier-paramètre-a-coefficient-linéaire"><i class="fa fa-check"></i><b>5.2.1</b> Premier paramètre : <span class="math inline">\(a\)</span>, coefficient linéaire</a></li>
+<li class="chapter" data-level="5.2.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#second-paramètre-r"><i class="fa fa-check"></i><b>5.2.2</b> Second paramètre : <span class="math inline">\(r\)</span></a></li>
+<li class="chapter" data-level="5.2.3" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#troisième-paramètre-r2"><i class="fa fa-check"></i><b>5.2.3</b> troisième paramètre : <span class="math inline">\(r^2\)</span></a></li>
+<li class="chapter" data-level="5.2.4" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#quatrième-paramètre-p-value"><i class="fa fa-check"></i><b>5.2.4</b> quatrième paramètre : <span class="math inline">\(p value\)</span></a></li>
+<li class="chapter" data-level="5.2.5" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#code-r"><i class="fa fa-check"></i><b>5.2.5</b> Code R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#test-de-spearman"><i class="fa fa-check"></i><b>5.3</b> Test de Spearman</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>6</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="clustering.html"><a href="clustering.html#généralités-4"><i class="fa fa-check"></i><b>6.1</b> Généralités</a></li>
+<li class="chapter" data-level="6.2" data-path="clustering.html"><a href="clustering.html#k-means-ou-algorithme-des-centres-mobiles-en-français"><i class="fa fa-check"></i><b>6.2</b> K-means (ou algorithme des centres mobiles en français)</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="clustering.html"><a href="clustering.html#principe"><i class="fa fa-check"></i><b>6.2.1</b> Principe</a></li>
+<li class="chapter" data-level="6.2.2" data-path="clustering.html"><a href="clustering.html#algorithme-du-k-means-appartenance-à-une-classe-pour-chaque-individu"><i class="fa fa-check"></i><b>6.2.2</b> Algorithme du k-means (appartenance à une classe pour chaque individu)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="clustering.html"><a href="clustering.html#classification-hiérarchique-ascendante"><i class="fa fa-check"></i><b>6.3</b> Classification Hiérarchique Ascendante</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="clustering.html"><a href="clustering.html#mesure-déloignement-entre-les-individus"><i class="fa fa-check"></i><b>6.3.1</b> Mesure d’éloignement entre les individus</a></li>
+<li class="chapter" data-level="6.3.2" data-path="clustering.html"><a href="clustering.html#mesure-dagrégation"><i class="fa fa-check"></i><b>6.3.2</b> Mesure d’agrégation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="clustering.html"><a href="clustering.html#définir-le-nombre-de-classes-optimales"><i class="fa fa-check"></i><b>6.4</b> Définir le nombre de classes optimales ?</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="clustering.html"><a href="clustering.html#première-approche-variance-totale-et-règle-du-coude"><i class="fa fa-check"></i><b>6.4.1</b> Première approche : Variance totale et règle du coude</a></li>
+<li class="chapter" data-level="6.4.2" data-path="clustering.html"><a href="clustering.html#seconde-approche-coefficient-de-silhouette."><i class="fa fa-check"></i><b>6.4.2</b> Seconde approche : coefficient de Silhouette.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html"><i class="fa fa-check"></i><b>7</b> Analyse en Composantes Principales</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#généralités-5"><i class="fa fa-check"></i><b>7.1</b> Généralités</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#etude-des-variables"><i class="fa fa-check"></i><b>7.1.1</b> Etude des variables</a></li>
+<li class="chapter" data-level="7.1.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#normalisation-des-individus-pré-requis"><i class="fa fa-check"></i><b>7.1.2</b> Normalisation des individus : pré-requis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#réaliser-la-pca-sur-r."><i class="fa fa-check"></i><b>7.2</b> Réaliser la PCA sur R.</a></li>
+<li class="chapter" data-level="7.3" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#interprétation"><i class="fa fa-check"></i><b>7.3</b> Interprétation</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#graphique-des-individus"><i class="fa fa-check"></i><b>7.3.1</b> Graphique des individus</a></li>
+<li class="chapter" data-level="7.3.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#graphique-des-variables-cercle-de-correlation-des-variables"><i class="fa fa-check"></i><b>7.3.2</b> Graphique des variables (cercle de correlation des variables)</a></li>
+<li class="chapter" data-level="7.3.3" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#compréhension-des-axes"><i class="fa fa-check"></i><b>7.3.3</b> Compréhension des axes</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistique appliquée aux sciences de l’environnement et du vivant</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tests-statistiques-corrélations" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Tests statistiques (Corrélations)<a href="tests-statistiques-corrélations.html#tests-statistiques-corrélations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Ce chapitre concerne cette fois ci les tests à utiliser lorsque 2 variables sont <strong>quantitatives</strong>.</p>
+<p>Nous illustrerons nos propos par un jeu de données caractérisant les résultats d’un heptathlon féminin. Le nombre d’athlètes s’élève à 18 (<span class="math inline">\(n = 18\)</span>) et le nombre d’épreuve, logiquement à 8 (<span class="math inline">\(p=8\)</span>). Le nom des lignes correspond au noms des athlètes. Vous pouvez télécharger les données <a href="data/heptathlon_2023.csv">ici</a></p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tests-statistiques-corrélations.html#cb130-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/heptathlon_2023.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">header=</span>T, <span class="at">stringsAsFactors =</span> T, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb130-2"><a href="tests-statistiques-corrélations.html#cb130-2" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
+<pre><code>##             Pays Points X100m Hauteur Poids X200m Longueur Javelot   X800m
+## Oosterwegel  NED   6394 13.46    1.75 13.80 24.48     6.18   56.66 2m13s62
+## Kalin        SUI   6390 13.21    1.75 12.33 24.20     6.67   46.05 2m15s20
+## Brooks       USA   6181 12.91    1.75 12.93 24.02     6.24   37.41 2m15s66
+## Kunz         USA   6126 13.36    1.72 13.54 24.43     5.96   44.68 2m15s98
+## Esselink     NED   6101 13.36    1.75 13.28 24.63     5.82   46.75 2m17s68
+## Weissenberg  GER   6055 13.72    1.81 13.67 24.05     6.18   43.42 2m32s65</code></pre>
+<div id="tests-dindépendance-entre-2-variables-quantitatives." class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Tests d’indépendance entre 2 variables <strong>quantitatives</strong>.<a href="tests-statistiques-corrélations.html#tests-dindépendance-entre-2-variables-quantitatives." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="généralités-3" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Généralités<a href="tests-statistiques-corrélations.html#généralités-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Objectif des tests d’association : estimer une valeur statistique qui résume la relation entre deux variables que nous nommerons ici <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span> dans un échantillon donné.</p>
+<blockquote>
+<p>Pour rappel, un échantillon n’est pas toujours représentatif de la population.</p>
+</blockquote>
+<p>Précédemment, on a mesuré l’association entre 2 variables qualitatives avec le test de <span class="math inline">\(\chi^2\)</span>. Ici on testera l’association entre deux variables quantitatives par un <strong>test de corrélation</strong>.</p>
+<p>On mesure statistiquement la force de la relation entre 2 variables quantitatives dans un échantillon donnée (et uniquement entre 2 variables). Les associations entre plusieurs variables sont possibles, mais ne seront pas abordées dans ce chapitre.</p>
+<blockquote>
+<p>Pour rappel, pas de lien de cause à effet !! JUSTE UNE ASSOCIATION.</p>
+</blockquote>
+<p>Quelques tests statistiques :</p>
+<p>Le coefficient de corrélation de <strong>Pearson</strong> suppose une relation linéaire (PARAMETRIQUE)</p>
+<p>Le coefficient de corrélation de <strong>Spearman</strong> suppose une relation pas forcément linéaire (basée sur les rangs) et donc NON PARAMÉTRIQUE.</p>
+<blockquote>
+<p>Visuellement, on peut se baser sur un diagramme de dispersion bivarié et décrire l’ellipse entourant le nuage de points, plus elle est étroite, plus la relation linéaire sera importante.</p>
+</blockquote>
+<p>Dans l’exemple ci contre, je vous montre deux relations : (1) entre le temps au 100mH et le temps au 200m, (2) entre la performance au saut en longueur et le temps au 200m.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="tests-statistiques-corrélations.html#cb132-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">1</span>))</span>
+<span id="cb132-2"><a href="tests-statistiques-corrélations.html#cb132-2" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>X100m, df<span class="sc">$</span>X200m, <span class="at">xlab=</span><span class="st">&quot;100H (s)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;200 (s)&quot;</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;gray&quot;</span>)</span>
+<span id="cb132-3"><a href="tests-statistiques-corrélations.html#cb132-3" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>Longueur, df<span class="sc">$</span>X200m,  <span class="at">xlab=</span><span class="st">&quot;Longueur (m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;200 (s)&quot;</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;gray&quot;</span>)</span></code></pre></div>
+<p><img src="Applied-statistics_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Que pouvez vous dire des relations entre les variables ?</p></li>
+<li><p>Est ce que l’on pourrait dire que la vitesse de course est proportionnelle à la longueur de saut ?</p></li>
+</ol>
+</div>
+<div id="conditions" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Conditions<a href="tests-statistiques-corrélations.html#conditions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>De la même manière que pour les test précédents, il est nécéssaire de vérifier la normalité des variables via un test du <strong>shapiro wilk</strong>. Si les 2 variables sont normales alors vous pourrez réaliser soit un test de Pearson (paramétrique) sinon vous devrez faire un test de Spearman (non paramétrique).</p>
+<blockquote>
+<p>Pour rappel, les tests paramétriques ont plus de puissance que les tests non paramétriques. Si les variables sont normales, il faut privilégiez les tests paramétriques.</p>
+</blockquote>
+</div>
+</div>
+<div id="paramètres-des-tests-de-correlation-exemple-avec-la-méthode-de-pearson" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Paramètres des tests de correlation : Exemple avec la méthode de Pearson<a href="tests-statistiques-corrélations.html#paramètres-des-tests-de-correlation-exemple-avec-la-méthode-de-pearson" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dans le test de Pearson, vous allez estimer plusieurs paramètres qui vont permettront de caractériser au mieux une dépendance entre deux variables.</p>
+<div id="premier-paramètre-a-coefficient-linéaire" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Premier paramètre : <span class="math inline">\(a\)</span>, coefficient linéaire<a href="tests-statistiques-corrélations.html#premier-paramètre-a-coefficient-linéaire" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La fonction <code>lm</code> dans <code>R</code> est très importante. Dans notre cas elle permet de construire la fonction affine <span class="math inline">\(f(x) = b + ax\)</span> où <span class="math inline">\(a\)</span> est le coefficient linéaire et <span class="math inline">\(b\)</span> est l’intercept. Vous pouvez ensuite l’afficher sur le graphique.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="tests-statistiques-corrélations.html#cb133-1" tabindex="-1"></a><span class="fu">lm</span>(df<span class="sc">$</span>X200m<span class="sc">~</span>df<span class="sc">$</span>X100m)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = df$X200m ~ df$X100m)
+## 
+## Coefficients:
+## (Intercept)     df$X100m  
+##     20.0347       0.3369</code></pre>
+<p>Dans l’exemple de la relation entre le temps au 200m et le temps au 100mH, la fonction affine coupe l’axe des abscisse à 20.03” c’est le <span class="math inline">\(b\)</span>. Alors que l’indice <span class="math inline">\(a\)</span> est de 0.33”. Cela signifie qu’une augmentation de 1” sur 100mH est associé à une augmentation de 0.33” au 200m.</p>
+<p>Nous pouvons représenter la fonction affine sur le graphique.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="tests-statistiques-corrélations.html#cb135-1" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>X100m, df<span class="sc">$</span>X200m, <span class="at">xlab=</span><span class="st">&quot;100H (s)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;200 (s)&quot;</span>, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;gray&quot;</span>)</span>
+<span id="cb135-2"><a href="tests-statistiques-corrélations.html#cb135-2" tabindex="-1"></a><span class="fu">points</span>(df<span class="sc">$</span>X100m[<span class="fu">which</span>(df<span class="sc">$</span>X100m<span class="sc">&gt;</span><span class="dv">15</span>)],df<span class="sc">$</span>X200m[<span class="fu">which</span>(df<span class="sc">$</span>X100m<span class="sc">&gt;</span><span class="dv">15</span>)], <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb135-3"><a href="tests-statistiques-corrélations.html#cb135-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">coef</span>(<span class="fu">lm</span>(df<span class="sc">$</span>X200m<span class="sc">~</span>df<span class="sc">$</span>X100m)))</span></code></pre></div>
+<p><img src="Applied-statistics_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Que pouvons nous dire de la relation ? Vous semble t’elle représenter la relation du plot ? Que peut-on dire du point rouge ?</p></li>
+<li><p>Refaire le graphique en enlevant le point rouge ? Que pouvons-nous dire ?</p></li>
+</ol>
+</div>
+<div id="second-paramètre-r" class="section level3 hasAnchor" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Second paramètre : <span class="math inline">\(r\)</span><a href="tests-statistiques-corrélations.html#second-paramètre-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math inline">\(r\)</span> est le coefficient de correlation qui mesure la force estimée de la relation linéaire entre 2 variables de l’échantillon. Possibilité d’obtenir manuellement le <span class="math inline">\(r\)</span> à partir des données brutes (X et Y) via la <em>covariance</em>. La covariance est le produit moyen des distances entre les observations et leurs moyennes respectives, soit :</p>
+<p><span class="math display">\[ r_{X,Y} = \frac{Cov(X, Y)}{\sqrt{Var(X)}\sqrt{Var(Y)}}\]</span></p>
+<p>avec <span class="math inline">\(Cov(X, Y) = \frac{1}{N-1} \sum_{i=1}^N{(X_i-\hat{\mu}_X)(Y_i-\hat{\mu}_Y)}\)</span></p>
+<p>et <span class="math inline">\(Var(X) = \frac{1}{N-1} \sum_{i=1}^N{(X_i-\hat{\mu}_X)^2}\)</span></p>
+<p>ou Ecart type <span class="math inline">\(X=\sqrt{Var(X)}\)</span>.</p>
+<blockquote>
+<p>La covariance permet de répondre à la question : Est-ce que Y varie quand X varie (dépendance) ? Auquel cas, est ce que Y varie dans le même sens que X (quelle direction, définie par le signe de la relation) ?</p>
+</blockquote>
+<p>Si association positive : une observation i avec une valeur de xi supérieure à la moyenne de X devrait également avoir une valeur de yi supérieure à la moyenne de Y.</p>
+<p>Prenons le temps au 100mH comme X et le temps au 200m comme Y. Il faut bien définir la <strong>variable Réponse</strong> (i.e. <span class="math inline">\(Y\)</span>) ici car elle vous guidera durant les calculs.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Calculons la <span class="math inline">\(Cov(X, Y)\)</span></li>
+</ol>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="tests-statistiques-corrélations.html#cb136-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">dim</span>(df)[<span class="dv">1</span>]</span>
+<span id="cb136-2"><a href="tests-statistiques-corrélations.html#cb136-2" tabindex="-1"></a></span>
+<span id="cb136-3"><a href="tests-statistiques-corrélations.html#cb136-3" tabindex="-1"></a>x_center <span class="ot">&lt;-</span> df<span class="sc">$</span>X100m<span class="sc">-</span><span class="fu">mean</span>(df<span class="sc">$</span>X100m)</span>
+<span id="cb136-4"><a href="tests-statistiques-corrélations.html#cb136-4" tabindex="-1"></a>y_center <span class="ot">&lt;-</span> df<span class="sc">$</span>X200m<span class="sc">-</span><span class="fu">mean</span>(df<span class="sc">$</span>X200m)</span>
+<span id="cb136-5"><a href="tests-statistiques-corrélations.html#cb136-5" tabindex="-1"></a>  </span>
+<span id="cb136-6"><a href="tests-statistiques-corrélations.html#cb136-6" tabindex="-1"></a>Covariance <span class="ot">&lt;-</span> <span class="fu">sum</span>(x_center<span class="sc">*</span>y_center)<span class="sc">/</span>(n<span class="dv">-1</span>)</span></code></pre></div>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Calculons la <span class="math inline">\(\sqrt{Var(X)}\)</span> puis la <span class="math inline">\(\sqrt{Var(Y)}\)</span></li>
+</ol>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="tests-statistiques-corrélations.html#cb137-1" tabindex="-1"></a>var_x <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(x_center<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(n<span class="dv">-1</span>))</span>
+<span id="cb137-2"><a href="tests-statistiques-corrélations.html#cb137-2" tabindex="-1"></a>var_y <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(y_center<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(n<span class="dv">-1</span>))</span></code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Calculons le coefficient de correlation <span class="math inline">\(r_{X,Y}\)</span>.</li>
+</ol>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tests-statistiques-corrélations.html#cb138-1" tabindex="-1"></a>r <span class="ot">&lt;-</span> Covariance<span class="sc">/</span>(var_x<span class="sc">*</span>var_y)</span>
+<span id="cb138-2"><a href="tests-statistiques-corrélations.html#cb138-2" tabindex="-1"></a><span class="fu">print</span>(r)</span></code></pre></div>
+<pre><code>## [1] 0.2843454</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li><p>Que pouvons-nous dire de cette relation ? un <span class="math inline">\(r\)</span> de 0.28 vous semble t’il bien refléter la relation ?</p></li>
+<li><p>Refaire le calcul en enlevant l’individu rouge.</p></li>
+</ol>
+<p>Peu importe la méthode, un coefficient de corrélation se situe toujours entre -1 et 1 :</p>
+<p>-1 : forte relation linéaire négative.</p>
+<p>0 : pas de relation linéaire.</p>
+<p>+1 : forte relation linéaire positive.</p>
+</div>
+<div id="troisième-paramètre-r2" class="section level3 hasAnchor" number="5.2.3">
+<h3><span class="header-section-number">5.2.3</span> troisième paramètre : <span class="math inline">\(r^2\)</span><a href="tests-statistiques-corrélations.html#troisième-paramètre-r2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Le <span class="math inline">\(r^2\)</span> est le <strong>coefficient de détermination</strong>. Il mesure la variance expliquée par le modèle linéaire.</p>
+<p>Le <span class="math inline">\(r^2\)</span> est forcément compris entre 0 et 1. Plus le <span class="math inline">\(r^2\)</span> se rapproche de 1, meilleure est la dépendance entre <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span>.</p>
+<p>L’intérêt d’un modèle de régression linéaire réside dans sa capacité à expliquer une partie des variations de la variable Y par les variations de la variable X. Elle mesure l’explication d’une variable par une autre.</p>
+<p>Pour calculer le coefficient de détermination, il suffit de reprendre les annotations de l’ANOVA (ANalyse Of VAriance). Dans ce cas, nous avons <strong>SCT</strong> (Somme des Carrés Totale) traduit la variation totale de Y =</p>
+<p><strong>SCE</strong> (Somme des Carrés Expliquée) traduit la variation expliquée par le modèle + <strong>SCR</strong> (Somme des Carrés Résiduelle) traduit la variation inexpliquée par le modèle (c’est l’erreur du modèle (représenté par la droite), c’est à dire qu’il suffit de calculer la distance de chaque points avec le modèle (la droite)).</p>
+<p>On appelle coefficient de détermination la quantité suivante :</p>
+<p><span class="math inline">\(R^2=\frac{SCE}{SCT}\)</span> ou bien <span class="math inline">\(R^2=1-\frac{SCR}{SCT}\)</span></p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tests-statistiques-corrélations.html#cb140-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(df<span class="sc">$</span>X200m<span class="sc">~</span>df<span class="sc">$</span>X100m) <span class="do">## Nous ajustons un modèle linéaire où la variable réponse est le temps au 200m.</span></span>
+<span id="cb140-2"><a href="tests-statistiques-corrélations.html#cb140-2" tabindex="-1"></a>SCT <span class="ot">=</span> <span class="fu">sum</span>(y_center<span class="sc">^</span><span class="dv">2</span>) <span class="do">## Nous calculons la somme des carrés totale de la variable réponse Y.</span></span>
+<span id="cb140-3"><a href="tests-statistiques-corrélations.html#cb140-3" tabindex="-1"></a>SCE <span class="ot">=</span> <span class="fu">sum</span>(model<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>) <span class="do">## Puis la somme des carrés non expliquée de la variable réponse Y par X.</span></span>
+<span id="cb140-4"><a href="tests-statistiques-corrélations.html#cb140-4" tabindex="-1"></a></span>
+<span id="cb140-5"><a href="tests-statistiques-corrélations.html#cb140-5" tabindex="-1"></a>r_squared <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span>(SCE<span class="sc">/</span>SCT)</span>
+<span id="cb140-6"><a href="tests-statistiques-corrélations.html#cb140-6" tabindex="-1"></a><span class="fu">print</span>(r_squared)</span></code></pre></div>
+<pre><code>## [1] 0.08085229</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Que pouvons nous dire du coefficient de détermination ? Est-il élevé ?</li>
+</ol>
+<p>P.S. : On peut aussi calculer le <span class="math inline">\(r^2\)</span> juste en mettant au carré le coefficient de correlation <span class="math inline">\(r\)</span>. On retombe sur la même valeur.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="tests-statistiques-corrélations.html#cb142-1" tabindex="-1"></a>r<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 0.08085229</code></pre>
+<blockquote>
+<p>A retenir : l’objectif du modèle linéaire et de l’ensemble des modèles en général est de minimiser l’erreur et donc de minimiser la valeur des résidues associés au modèle (droite, polynôme du 2nd degrée, sinusoïdale, etc…).</p>
+</blockquote>
+</div>
+<div id="quatrième-paramètre-p-value" class="section level3 hasAnchor" number="5.2.4">
+<h3><span class="header-section-number">5.2.4</span> quatrième paramètre : <span class="math inline">\(p value\)</span><a href="tests-statistiques-corrélations.html#quatrième-paramètre-p-value" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Inférence : est-ce que le coefficient de corrélation r est différent de 0 ? La statistique pour tester <span class="math inline">\(H_0 : r = 0\)</span> est une statistique que nous avons déjà abordée : la statistique de student.</p>
+<p>Calcule de t (la statistique) à partir de r.</p>
+<p><span class="math display">\[S_t=\frac{r\sqrt{n-2}}{\sqrt{1-r^2}}\]</span></p>
+<p>Si vous avez compris comment fonctionne les statistiques de tests : l’idée est de comparer l’éloignement entre <span class="math inline">\(r=0\)</span> et <span class="math inline">\(\hat{r}\)</span>. Dans le calcul de la statistique plus vous avez un <span class="math inline">\(r\)</span> grand et plus la statistique sera différente de 0 (i.e. lorsque <span class="math inline">\(r=0\)</span>) et donc vous pourrez refuser <span class="math inline">\(H_0\)</span> et accepter <span class="math inline">\(H_1\)</span>.</p>
+</div>
+<div id="code-r" class="section level3 hasAnchor" number="5.2.5">
+<h3><span class="header-section-number">5.2.5</span> Code R<a href="tests-statistiques-corrélations.html#code-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Je vous joins maintenant les fonctions R qui vous permettent de calculer de manière plus rapide l’ensemble des paramètres</p>
+<p><strong>1) Via un modèle linéaire</strong></p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="tests-statistiques-corrélations.html#cb144-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(df<span class="sc">$</span>X200m<span class="sc">~</span>df<span class="sc">$</span>X100m)</span>
+<span id="cb144-2"><a href="tests-statistiques-corrélations.html#cb144-2" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = df$X200m ~ df$X100m)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.24480 -0.25603 -0.07956  0.39133  1.11427 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  20.0347     3.9153   5.117 0.000103 ***
+## df$X100m      0.3369     0.2839   1.186 0.252802    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.59 on 16 degrees of freedom
+## Multiple R-squared:  0.08085,    Adjusted R-squared:  0.02341 
+## F-statistic: 1.407 on 1 and 16 DF,  p-value: 0.2528</code></pre>
+<p><strong>2) Via la fonction de correlation</strong></p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="tests-statistiques-corrélations.html#cb146-1" tabindex="-1"></a><span class="fu">cor.test</span>(df<span class="sc">$</span>X200m,df<span class="sc">$</span>X100m, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  df$X200m and df$X100m
+## t = 1.1864, df = 16, p-value = 0.2528
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.2104643  0.6631771
+## sample estimates:
+##       cor 
+## 0.2843454</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li><p>Que pouvons nous dire ?</p></li>
+<li><p>Refaire l’analyse sans le point rouge ?</p></li>
+</ol>
+</div>
+</div>
+<div id="test-de-spearman" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Test de Spearman<a href="tests-statistiques-corrélations.html#test-de-spearman" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Pour le test de Spearman, c’est exactement la même chose sauf que la formule se base sur les rangs.</p>
+<p><span class="math display">\[ r_{X,Y} = \frac{Cov(Rang(X), Rang(Y))}{\sqrt{Var(Rang(X))}\sqrt{Var(Rang(Y))}}\]</span></p>
+<ol style="list-style-type: lower-alpha">
+<li>Dans notre exemple, faut-il utiliser le test de Spearman ou bien de Pearson ? Il faut tester la normalité et l’égalité des variances.</li>
+</ol>
+<p>Vous pourrez utiliser la méthode de Spearman en modifiant l’argument <code>method</code> comme suit <code>cor.test(X,Y, method="spearman")</code>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tests-statistiques-anova-et-kruskal-wallis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="clustering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/05_correlations.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["Applied statistics.pdf", "Applied statistics.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
