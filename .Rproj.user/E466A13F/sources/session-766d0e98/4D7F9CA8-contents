@@ -78,12 +78,14 @@ Dans cette étude les auteurs souhaitaient savoir si les SHN présentaient des m
 
 Autrement dit la variable "SHN" présente si les individus (observations) sont des Sportifs de Haut Niveau (TRUE) ou non (FALSE, i.e. non athlètes). La variable "Type" prend deux valeurs soit 1 soit 2, qui définit le type de microbiote intestinal que possède l'individu. Brievement, les individus ayant un microbiote de type 1 possèdent des espèces bactériennes similaires et différents de ceux du type 2. Inversement pour les microbiote de type 2.
 
---> Quelles sont les types des variables ?
+Les données peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/data/SHN-microbiote.csv)
+
+- Quelles sont les types des variables ?
 
 La première étape est de transformer la matrice en table de contingence (table à double entrée) où sont répertoriées des données de comptage entre deux variables qualitatives.
 
-```{r}
-df <- read.table("~/Dropbox/COURS/UBS/BIO1540/Fiches de cours/rawdata/SHN-microbiote.csv", sep=",", header=T, stringsAsFactors = T, encoding = 'latin1', row.names=1)
+```{r, warning = FALSE}
+df <- read.table("data/SHN-microbiote.csv", sep=",", header=T, stringsAsFactors = T, encoding = 'latin1', row.names=1)
 colnames(df)
 knitr::kable(table(df))
 ```

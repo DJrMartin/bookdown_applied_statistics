@@ -2,7 +2,7 @@
 
 Ce chapitre concerne cette fois ci les tests à utiliser lorsque 2 variables sont **quantitatives**.
 
-Nous illustrerons nos propos par un jeu de données caractérisant les résultats d'un heptathlon féminin. Le nombre d'athlètes s'élève à 18 ($n = 18$) et le nombre d'épreuve, logiquement à 8 ($p=8$). Le nom des lignes correspond au noms des athlètes. Vous pouvez télécharger les données [ici](data/heptathlon_2023.csv)
+Nous illustrerons nos propos par un jeu de données caractérisant les résultats d'un heptathlon féminin. Le nombre d'athlètes s'élève à 18 ($n = 18$) et le nombre d'épreuve, logiquement à 8 ($p=8$). Le nom des lignes correspond au noms des athlètes. Vous pouvez télécharger les données [ici](https://github.com/DJrMartin/bookdown_applied_statistics/data/heptathlon_2023.csv)
 
 ```{r}
 df <- read.table("data/heptathlon_2023.csv", sep=",", header=T, stringsAsFactors = T, row.names = 1)

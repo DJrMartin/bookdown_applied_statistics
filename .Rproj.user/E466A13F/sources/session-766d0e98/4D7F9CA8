@@ -3,7 +3,7 @@
     "path": "~/RProjects/Stat_vivant_ecologie/02_ChiSquared.Rmd",
     "project_path": "02_ChiSquared.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "89691364",
     "contents": "",
     "dirty": false,
     "created": 1756369842314.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "207,13",
-        "scrollLine": "58",
+        "cursorPosition": "86,17",
+        "scrollLine": "80",
         "docOutlineVisible": "1"
     },
     "folds": "",
-    "lastKnownWriteTime": 1756288264,
+    "lastKnownWriteTime": 1756372851,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1756288264,
+    "last_content_update": 1756372851612,
     "read_only": false,
     "read_only_alternatives": []
 }
