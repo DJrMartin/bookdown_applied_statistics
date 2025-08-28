@@ -75,7 +75,7 @@ df_quanti = data.frame(scale(df[,var.perf])) # On scale dans un data.frame les v
 
 (f) Importer la library *FactoMineR* et réaliser la PCA.
 
-```{r, fig.align='center'}
+```{r}
 library(FactoMineR)
 res.pca = PCA(df_quanti)
 ```
@@ -96,7 +96,7 @@ La dimension 1 résume environ 29% du jeu de données alors que le dimension 2 r
 
 Vous pouvez ainsi visualiser l'explication de chaque nouveau facteur/dimension (PC) du jeu de donnée en explorant les sorties du modèle comme suit :
 
-```{r, fig.align='center'}
+```{r}
 res.pca$eig
 ```
 

@@ -4,7 +4,7 @@ Les objectifs de ce chapitre sont de comprendre les outils qui permettent de tro
 
 (a) Que peut-on dire du graphique ci dessous ? 
 
-```{r, echo=FALSE, fig.align='center'}
+```{r}
 set.seed(1)
 X <- data.frame(ASAT = c(rnorm(30, mean=0, sd=1), rnorm(30, 4, 1)),
                 ALAT = c(rnorm(30, mean=0, sd=1), rnorm(30, 2, 1)))
@@ -48,7 +48,7 @@ L'algorithme du k-means se base sur plusieurs étapes : Vous pouvez retrouver un
 
 - Première étape (**INITIALISATION**): on prend au hazard un nombre de points égal au nombre de groupes que nous cherchons (ici $n_c = 2$). Nous allons prendre les points 24 et 4 (représenté en blue et jaune sur le graphique).
 
-```{r, fig.align='center'}
+```{r}
 plot(X, xlab="ASAT", ylab="ALAT", pch=16, col="firebrick")
 points(x=X[24,1], y=X[24,2], xlab="ASAT", ylab="ALAT", pch=16, col="cornflowerblue")
 points(x=X[4,1], y=X[4,2], xlab="ASAT", ylab="ALAT", pch=16, col="gold")
@@ -75,7 +75,7 @@ Dans ce graphique, les points pleins sont les individus sélectionnés lors de l
 
 - Troisième étape (**NOUVEAUX CENTROÏDES**) : Dans cette troisième étape il faut recalculer le centroïde de chaque cluster (bleu et jaune), c'est-à-dire les centres de gravité du nuage de points bleue et du nuage de points jaunes. Ce seront nos nouveaux points de départ pour recommencer la phase d'**ASSIGNATION**.
 
-```{r, fig.align='center'}
+```{r}
 ## NOUVEAUX CENTROÏDES
 centroide_blue <- colMeans(X[which(cluster==1),])
 centroide_jaune <- colMeans(X[which(cluster==2),])
@@ -92,7 +92,7 @@ legend("topleft", c("1ere itération", "2nd itération"), bty="n", pch= c(16, 15
 
 - Boucler ces deux dernières étapes (**ASSIGNATION** + **NOUVEAUX CENTROÏDES**) pour converger vers des clusters homogènes.
 
-```{r, fig.align='center'}
+```{r}
 d_n_blue <- as.matrix(dist(rbind(centroide_blue,X)))[-1,1] # Distance de l'ensemble des points au carré bleu.
 d_n_gold <- as.matrix(dist(rbind(centroide_jaune,X)))[-1,1] # Distance de l'ensemble des points au carré jaune.
 
@@ -118,7 +118,7 @@ legend("topleft", c("2nd itération", "3eme itération"), bty="n", pch= c(15,17)
 
 À la fin, il faut faire une dernière étape d'**ASSIGNATION** pour définir la classe des individus où les triangles sont les centroïdes respectives des deux groupes.
 
-```{r, fig.align='center'}
+```{r}
 ## ASSIGNATION FINALE
 d_n_blue <- as.matrix(dist(rbind(centroide_blue_2,X)))[-1,1] # Distance de l'ensemble des points au point bleu.
 d_n_gold <- as.matrix(dist(rbind(centroide_jaune_2,X)))[-1,1] # Distance de l'ensemble des points au point jaune.
@@ -203,7 +203,7 @@ X <- rbind(mvtnorm::rmvnorm(100, mean=c(0,1.5), sigma),
 ```
 
 
-```{r, fig.align='center'}
+```{r}
 layout(matrix(c(1,2), nrow=1))
 plot(X[,c(1,2)], xlab ="x", ylab="y", pch=16)
 plot(X[,c(1,2)], xlab ="x", ylab="y", col = rep(c("firebrick", "cornflowerblue", "purple"), each=100), pch=16)
@@ -238,7 +238,7 @@ legend("topright",paste("variance intra-classe", round(mean(var_intra), 3)), bty
 
 On calcule ensuite la variance intra-classe pour chaque nombre de clusters estimés (sur l'axe des ordonnées sur le graphique).
 
-```{r, fig.align='center'}
+```{r}
 K = 10
 variance_nc = NULL
 for(k in 1:K){
@@ -257,7 +257,7 @@ plot(1:10, variance_nc, type='l', xlab = "nb de classes", ylab="Inertie")
 
 > Attention, votre résultat dépend de l'initialisation des centroïdes : comme on les place aléatoirement, le résultat donné peut être différent quand on relance l'algorithme. Il est donc conseillé de relancer plusieurs fois l'algorithme pour sélectionner la partition dont l’inertie intra-classe sera la plus petite.
 
-```{r, fig.align='center', fig.height=4, fig.width=9}
+```{r}
 layout(matrix(c(1,2, 3), nrow=1))
 plot(X[,c(1,2)], xlab ="x", ylab="y", pch=16, main="Population totale")
 plot(X[,c(1,2)], xlab ="x", ylab="y", col = rep(c("firebrick", "cornflowerblue", "purple"), each=100), pch=16, main="Groupes reels")
