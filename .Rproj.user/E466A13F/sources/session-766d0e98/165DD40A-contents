@@ -1,16 +1,19 @@
 # Clustering
 
-Les objectifs de ce cours sont de comprendre les outils qui permettent de trouver des patterns d'individus via l'expression de leurs variables.
+Les objectifs de ce chapitre sont de comprendre les outils qui permettent de trouver des patterns d'individus via l'expression de leurs variables.
 
 (a) Que peut-on dire du graphique ci dessous ? 
 
 ```{r, echo=FALSE, fig.align='center'}
-X <- cbind(c(rnorm(30, mean=0, sd=1), rnorm(30, 4, 0.5)),
-      c(rnorm(30, mean=0, sd=1), rnorm(30, 2, 1)))
+set.seed(1)
+X <- data.frame(ASAT = c(rnorm(30, mean=0, sd=1), rnorm(30, 4, 1)),
+                ALAT = c(rnorm(30, mean=0, sd=1), rnorm(30, 2, 1)))
 plot(X, xlab="ASAT", ylab="ALAT", pch=16, col="firebrick")
 ```
 
 (b) Que pouvons nous remarquer ? Comment synthétiser l'information ?
+
+> Ici, nous avons simulé 30 individus avec une moyenne de 0 pour la variable ASAT et la variable ALAT, alors qu'un autre groupe de 30 individus possède une moyenne de 4 au ASAT et de 2 au ALAT. Pour rappel ces deux transaminases reflètent des lésions hépatiques.
 
 ## Généralités
 
@@ -20,28 +23,28 @@ Définition des termes :
 
 -   Non supervisée : dont on ne connait pas la réalité, on n'a pas d'information a priori.
 
-Autrement dit, la classification non supervisée (ou clustering) est la recherche d'un partition ou d'une répartitions des individus en classes homogènes ou catégories, de sorte à ce que celles-ci soient les plus distinctes possibles.
+Autrement dit, la **classification non supervisée** (ou **clustering**) est la recherche d'une partition ou d'une répartition des individus en classes homogènes, de sorte à ce que celles-ci soient les plus distinctes possibles.
 
 Que souhaitons nous estimer ?
 
-- L'appartenance à une classe pour chaque individu 
+- L'appartenance à une classe pour chaque individu.
 
-- Le nombre de classes
+- Le nombre de classes optimal.
 
-Dans ce cours, nous verrons 2 algorithmes qui permetternt de définir la classe des individus : la classification k-means et la Classification Hiérarichique Ascendante (HAC en anglais).
+Dans ce chapitre, nous verrons 2 algorithmes qui permettent de définir la classe des individus : la classification `k-means` et la Classification Hiérarchique Ascendante (`HAC` en anglais).
 
 ## K-means (ou algorithme des centres mobiles en français)
 
 ### Principe
-On demande à l'algorithme de nous donner un nombre $n_c$ de groupes attendus.
+On demande à l'algorithme de nous donner un nombre $n_c$ de groupes. C'est le nombre de groupe que l'on pourrait attendre. Dans un cas, nous pouvons faire l'hypothèse que la population peut se classer selon $n_c$ patterns mais dans d'autres cas, nous ne savons quelle nombre de groupes choisir.
 
 L’algorithme doit rendre : $n_c$ centres. A chaque point on associe le centre le plus proche, ce qui détermine les groupes, et des régions. 
 
-Si on reprend le graphique de départ et que l'on donne deux groupes, on peut les placer de manière intuitif sur le graph. Chaque point sera associé à un groupe en fonction de sa distance aux centroïdes.
+Si on reprend le graphique de départ et que l'on donne deux groupes, on peut les placer de manière intuitif sur le graph. Chaque point sera associé à un groupe en fonction de sa distance aux centroïdes des groupes.
 
 ### Algorithme du k-means (appartenance à une classe pour chaque individu)
 
-L'algorithme du k-means se base sur plusieurs étapes : *Vous pouvez retrouver un exemple sur le lien suivant https://rpubs.com/hasiegler/926806.*
+L'algorithme du k-means se base sur plusieurs étapes : Vous pouvez retrouver un exemple sur le [**lien suivant**](https://rpubs.com/hasiegler/926806).
 
 - Première étape (**INITIALISATION**): on prend au hazard un nombre de points égal au nombre de groupes que nous cherchons (ici $n_c = 2$). Nous allons prendre les points 24 et 4 (représenté en blue et jaune sur le graphique).
 
@@ -51,13 +54,11 @@ points(x=X[24,1], y=X[24,2], xlab="ASAT", ylab="ALAT", pch=16, col="cornflowerbl
 points(x=X[4,1], y=X[4,2], xlab="ASAT", ylab="ALAT", pch=16, col="gold")
 ```
 
-- Seconde étape (**ASSIGNATION**) : chaque point sera associé à l'un des points (bleus ou jaune) en fonction de leur distance par rapport à ce dernier.
+- Seconde étape (**ASSIGNATION**) : chaque point sera associé à l'un des points initialisés (bleus ou jaune) en fonction de leur distance par rapport à ce dernier.
 
 > Pour rappel, ici nous utiliserons la distance euclidienne dont la formule pour deux variable x et y est $d(M_1, M_2) = \sum{\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}}$ où $M_i$ correspond aux individus.
 
-- Troisième étape (**NOUVEAUX CENTROÏDES**) : Dans cette troisième étape il faut recalculer le centroïde de chaque cluster (bleu et jaune). Ce seront nos nouveaux points de départ pour recommencer la phase d'**ASSIGNATION**.
-
-```{r, fig.align='center'}
+```{r}
 ## ASSIGNATION
 d_n_blue <- as.matrix(dist(rbind(X[24,],X)))[-1,1] # Distance de l'ensemble des points au point bleu.
 d_n_gold <- as.matrix(dist(rbind(X[4,],X)))[-1,1] # Distance de l'ensemble des points au point jaune.
@@ -65,11 +66,16 @@ d_n_gold <- as.matrix(dist(rbind(X[4,],X)))[-1,1] # Distance de l'ensemble des p
 cluster <- apply(cbind(d_n_blue, d_n_gold),1,which.min) # phase d'assignation.
 cluster_col <- as.character(factor(cluster, c(1,2), c("cornflowerblue", "gold")))
 
-layout(matrix(c(1,2), nrow=1))
-plot(X, xlab="ASAT", ylab="ALAT", pch=1, col=cluster_col)
+plot(X, xlab = "ASAT", ylab = "ALAT", pch = 1, col = cluster_col, main = "Distances des points par rapport aux points initiaux")
 points(x=X[24,1], y=X[24,2], xlab="ASAT", ylab="ALAT", pch=16, col="cornflowerblue")
 points(x=X[4,1], y=X[4,2], xlab="ASAT", ylab="ALAT", pch=16, col="gold")
+```
 
+Dans ce graphique, les points pleins sont les individus sélectionnés lors de l'étape d'**INITIALISATION**, alors que les points vides sont les autres individus du jeu de données. La couleur de leur points sera en fonction de leur distance aux points pleins. Si l'individu se retrouve plus proche du points bleue alors il sera assigné à son groupe, et inversement pour les points du groupe jaune.
+
+- Troisième étape (**NOUVEAUX CENTROÏDES**) : Dans cette troisième étape il faut recalculer le centroïde de chaque cluster (bleu et jaune), c'est-à-dire les centres de gravité du nuage de points bleue et du nuage de points jaunes. Ce seront nos nouveaux points de départ pour recommencer la phase d'**ASSIGNATION**.
+
+```{r, fig.align='center'}
 ## NOUVEAUX CENTROÏDES
 centroide_blue <- colMeans(X[which(cluster==1),])
 centroide_jaune <- colMeans(X[which(cluster==2),])
@@ -79,8 +85,10 @@ points(x=X[24,1], y=X[24,2], xlab="ASAT", ylab="ALAT", pch=16, col="cornflowerbl
 points(x=X[4,1], y=X[4,2], xlab="ASAT", ylab="ALAT", pch=16, col="gold")
 points(centroide_blue[1], centroide_blue[2], xlab="ASAT", ylab="ALAT", pch=15, col="cornflowerblue")
 points(centroide_jaune[1], centroide_jaune[2], xlab="ASAT", ylab="ALAT", pch=15, col="gold")
-legend("topleft", c("1ere itération", "2nd itération"), bty="n", pch= c(16, 15))
+legend("topleft", c("1ere itération", "2nd itération"), bty="n", pch= c(16, 15), title = "Centres de gravité (nuage de points)")
 ```
+
+> Noter que les nouveaux centres de gravité ne sont plus associées à des individus en particulier.
 
 - Boucler ces deux dernières étapes (**ASSIGNATION** + **NOUVEAUX CENTROÏDES**) pour converger vers des clusters homogènes.
 
@@ -92,7 +100,7 @@ cluster <- apply(cbind(d_n_blue, d_n_gold),1,which.min) # phase d'assignation.
 cluster_col <- as.character(factor(cluster, c(1,2), c("cornflowerblue", "gold")))
 
 layout(matrix(c(1,2), nrow=1))
-plot(X, xlab="ASAT", ylab="ALAT", pch=1, col=cluster_col)
+plot(X, xlab="ASAT", ylab="ALAT", pch=1, col=cluster_col, main = "ASSIGNATION")
 points(centroide_blue[1], centroide_blue[2], xlab="ASAT", ylab="ALAT", pch=15, col="cornflowerblue")
 points(centroide_jaune[1], centroide_jaune[2], xlab="ASAT", ylab="ALAT", pch=15, col="gold")
 
@@ -100,7 +108,7 @@ points(centroide_jaune[1], centroide_jaune[2], xlab="ASAT", ylab="ALAT", pch=15,
 centroide_blue_2 <- colMeans(X[which(cluster==1),])
 centroide_jaune_2 <- colMeans(X[which(cluster==2),])
 
-plot(X, xlab="ASAT", ylab="ALAT", pch=1, col="firebrick")
+plot(X, xlab="ASAT", ylab="ALAT", pch=1, col="firebrick", main = "NOUVEAUX CENTROÏDES")
 points(centroide_blue[1], centroide_blue[2],pch=15, col="cornflowerblue")
 points(centroide_jaune[1], centroide_jaune[2],  pch=15, col="gold")
 points(centroide_blue_2[1], centroide_blue_2[2],pch=17, col="cornflowerblue")
@@ -108,7 +116,7 @@ points(centroide_jaune_2[1], centroide_jaune_2[2], pch=17, col="gold")
 legend("topleft", c("2nd itération", "3eme itération"), bty="n", pch= c(15,17))
 ```
 
-À la fin, il faut faire une dernière étape d'**ASSIGNATION** pour définir la classe des individus où le triangle est le centroïde des deux groupes.
+À la fin, il faut faire une dernière étape d'**ASSIGNATION** pour définir la classe des individus où les triangles sont les centroïdes respectives des deux groupes.
 
 ```{r, fig.align='center'}
 ## ASSIGNATION FINALE
@@ -122,20 +130,30 @@ points(centroide_blue_2[1], centroide_blue_2[2],pch=17, col="cornflowerblue")
 points(centroide_jaune_2[1], centroide_jaune_2[2], pch=17, col="gold")
 ```
 
-On peut aussi utiliser l'algorithme k-means directement sur R, en appelant la function *kmeans* du package *stats*.
+> On peut remarquer que l'algorithme converge bien vers les 2 groupes que l'on aurait pu imaginer en regardant le graphique au départ.
+
+On peut aussi utiliser l'algorithme k-means directement sur `R`, en appelant la function `kmeans` de la librairie `stats`.
 
 ```{r}
 res.kmeans <- kmeans(X, centers = 2, iter.max = 1, nstart = 1)
+# Utiliser le fonction help pour savoir à quoi corresponde les arguments de la fonction.
 res.kmeans
 ```
 
-Dans cet objet **res.kmeans**, on retrouve la moyenne des centroïdes ainsi que la classe des individus en utilisant les deux lignes de commandes suivantes.
+Dans l'objet `res.kmeans`, on retrouve :
+
+- les coordonnées des centroïdes en fonction des variables.
 
 ```{r}
 res.kmeans$centers
+```
+- la classe des individus.
+
+```{r}
 res.kmeans$cluster
 ```
 
+**On retrouve bien les 30 premiers individus dans un groupe et les 30 derniers dans un autre groupe. C'est exactement de cette manière que nous avons simulé nos données. L'algorithme est donc performant pour retrouver les patterns des individus.**
 
 ## Classification Hiérarchique Ascendante
 
@@ -149,15 +167,15 @@ Cet algorithme se base sur une distance entre les individus et sur une méthode 
 
 On parle de mesure de dissimilarités, c'est à dire à quel point les individus se ressemble ou bien s'éloigne en fonction du nombre de caractéristiques qu'ils ont en commun.
 
-Il existe plusieurs mesures de distance : Grover, Bray-Curtis, Euclidienne... etc.
+Il existe plusieurs mesures de dissimilarités : Grover, Bray-Curtis, Jaccard, etc. A noter que la distance euclidienne peut aussi être utilisée.
 
 ### Mesure d'agrégation
 
 Il en existe plusieurs, comme le saut minimum, la distance maximum, la moyenne ou encore la méthode de Ward. 
 
-Chaque méthode génère un résultat différent. Nous n'aborderons pas ici les détails de ces techniques, mais la méthode de Ward est souvent privilégiée. Cette méthode vise à minimiser l’inertie à l’intérieur des classes et à maximiser celle entre les classes pour obtenir des groupes aussi homogènes que possible.
+Chaque méthode génère un résultat différent. Nous n'aborderons pas ici les détails de ces techniques, mais la méthode de **Ward** est souvent privilégiée. Cette méthode vise à minimiser l’inertie à l’intérieur des classes et à maximiser celle entre les classes pour obtenir des groupes aussi homogènes que possible.
 
-La fonction principale pour calculer un dendrogramme est *hclust*, où l’on spécifie le critère d'agrégation avec l'option *method*. Dans notre cas, nous choisirons la méthode de Ward appliquée au carré des distances, en spécifiant *method = "ward.D2"*.
+La fonction principale pour calculer un dendrogramme est `hclust`, où l’on spécifie le critère d'agrégation avec l'option `method.` Dans notre cas, nous choisirons la méthode de `Ward` appliquée au carré des distances, en spécifiant `method = "ward.D2"`.
 
 ```{r}
 D <- dist(X) # Distance entre les individus.
@@ -168,9 +186,11 @@ groupe <- cutree(HAC, 2) # Assigner les groupes
 plot(X, xlab="ASAT", ylab="ALAT", pch=16, col=groupe)
 ```
 
+> L'arbre est construit du bas vers le haut. On remarque bien que 2 groupes se distinguent.
+
 ## Définir le nombre de classes optimales ?
 
-Dans certains cas, vous ne serez pas quel nombre de classes choisir. Nous allons définir deux approches possible vous permettant de prendre une décision et définir $n_c$. Dans cet exemple, j'ai simulé 300 individus en prenant le soin de simuler un jeu de données où les variables permettent de définir un nombre de trois groupes. L'objectif de cette partie de vérifier quel algorithme est le plus performant pour retrouver le nombre de groupe réel. 
+Dans certains cas, vous ne serez pas quel nombre de classes choisir. Nous allons définir deux approches possible vous permettant de prendre une décision et définir $n_c$ (nombre de classes). Dans cet exemple, j'ai simulé 300 individus en prenant le soin de simuler un jeu de données où les variables permettent de définir un nombre de trois groupes. L'objectif de cette partie de vérifier quel algorithme est le plus performant pour retrouver le nombre de groupe réel. 
 
 Je coloris les groupes que nous devons normalement retrouver.
 
@@ -189,9 +209,11 @@ plot(X[,c(1,2)], xlab ="x", ylab="y", pch=16)
 plot(X[,c(1,2)], xlab ="x", ylab="y", col = rep(c("firebrick", "cornflowerblue", "purple"), each=100), pch=16)
 ```
 
+Le problème que nous présentons ici est plus complexe que ceux utilisé précédement.
+
 ### Première approche : Variance totale et règle du coude
 
-Cette première approche est une apporche empirique basée sur votre observation. Par exemple, on fait le kmeans pour différents nombres de classes et on choisit le meilleur compromis entre la variance intra-classe et le nombre de classes.
+Cette première approche est une apporche empirique basée sur votre observation. Par exemple, on fait le `kmeans` pour différents nombres de classes et on choisit le meilleur compromis entre la variance intra-classe et le nombre de classes.
 
 On appelle inertie d'un nuage de points la moyenne des carrés des distances des $n$ points au centre de gravité, soit :
 
@@ -214,6 +236,7 @@ for(k in 1:K){
 legend("topright",paste("variance intra-classe", round(mean(var_intra), 3)), bty="n")
 ```
 
+On calcule ensuite la variance intra-classe pour chaque nombre de clusters estimés (sur l'axe des ordonnées sur le graphique).
 
 ```{r, fig.align='center'}
 K = 10
@@ -232,18 +255,20 @@ plot(1:10, variance_nc, type='l', xlab = "nb de classes", ylab="Inertie")
 
 (a) Quelle serait le nombre de classes adapté pour notre population ?
 
-> Attention, votre résultat dépend de l'initialisation des centroïdes : comme on les place aléatoirement, le résultat donné peut être différent quand on relance l'algorithme. Il est donc conseillé de relancer plusieurs fois l'algorithme pour sélectionner la partition dont l’inertie intraclasse sera la plus petite.
+> Attention, votre résultat dépend de l'initialisation des centroïdes : comme on les place aléatoirement, le résultat donné peut être différent quand on relance l'algorithme. Il est donc conseillé de relancer plusieurs fois l'algorithme pour sélectionner la partition dont l’inertie intra-classe sera la plus petite.
 
 ```{r, fig.align='center', fig.height=4, fig.width=9}
 layout(matrix(c(1,2, 3), nrow=1))
 plot(X[,c(1,2)], xlab ="x", ylab="y", pch=16, main="Population totale")
 plot(X[,c(1,2)], xlab ="x", ylab="y", col = rep(c("firebrick", "cornflowerblue", "purple"), each=100), pch=16, main="Groupes reels")
-plot(X[,c(1,2)], xlab ="x", ylab="y", col = kmeans(X, centers = 3)$cluster, pch=16, main="Groupes estimés")
+plot(X[,c(1,2)], xlab ="x", ylab="y", col = kmeans(X, centers = 3)$cluster, pch=16, main="Groupes estimés par le kmeans")
 ```
+
+(b) Refaire la même chose avec la seconde méthode vue dans ce chapitre ? Quelle est la meilleure méthode pour ces données simulées ?
 
 ### Seconde approche : coefficient de Silhouette.
 
-Coefficient de Silhouette : Évalue le degré de compacité et de séparation des grappes. En utilisant le coefficient de Silhouette, nous pouvons choisir une valeur optimale pour le nombre de groupes.
+*Coefficient de Silhouette* : Évalue le degré de compacité et de séparation des grappes. En utilisant le coefficient de Silhouette, nous pouvons choisir une valeur optimale pour le nombre de groupes.
 
 Pour chaque point, le coefficient de silhouette est calculé en soustrayant la distance moyenne avec les points de son propre groupe (cohésion) de la distance moyenne avec les points des groupes voisins (séparation). Si cette différence est négative, cela signifie que le point est plus proche des points du groupe voisin que de ceux de son propre groupe, indiquant un mauvais classement. En revanche, si la différence est positive, le point est mieux lié à son propre groupe qu'aux groupes voisins, signalant un bon classement.
 
@@ -256,4 +281,80 @@ Le coefficient (ou score) de silhouette se définit d'abord sur un point ${\text
 Le coefficient de silhouette du point ${\textstyle i}$ s'écrit alors : 
 
 $${\displaystyle s_{sil}(i)={\frac {b(i)-a(i)}{\max(a(i),b(i))}}}$$
+
+## Travaux pratiques
+
+Durée : 1h30
+
+Réinitialiser votre environnement.
+
+```{r}
+rm(list=ls()) 
+```
+
+Objectifs : Création de son propre algorithme de clustering de type `kmeans`.
+
+1) Simuler les données
+
+```{r}
+sigma <- matrix(0, ncol=2,nrow=2)
+diag(sigma) <- c(1,0.4)
+X <- rbind(mvtnorm::rmvnorm(30, mean=c(0,1.5), sigma),
+           mvtnorm::rmvnorm(30, mean=c(1,-2), sigma),
+           mvtnorm::rmvnorm(30, mean=c(0,0), sigma))
+```
+
+### Création de votre propre algorithme 
+
+Vous devrez vous aider des lignes de codes écrites dans ce chapitre pour :
+
+2) coder la phase d'INITIALISATION
+
+3) coder la phase d'ASSIGNEMENT
+
+4) calculer les nouveaux centres de gravités en fonction de la phase précédente.
+
+5) concaténer les trois functions dans une seule et même function.
+
+
+### Efficacité et comparaison de l'algorithme
+
+6) Modifier les moyennes des données simulées pour voir comment réagit votre algorithme.
+
+7) Est-il tout le temps efficace ?
+
+8) Ajouter des individus les données excentrées
+
+```{r}
+X = rbind(X,c(3,5))
+X = rbind(X,c(5,3))
+X = rbind(X,c(5,5))
+```
+
+9) Refaire le clustering, qu'observez-vous ?
+
+10) Tester l'algorithme HAC avec différentes distances ?
+
+### Clustering 
+
+11) Implémenter le jeu de données Morpho2.xlsx sur R que vous pouvez télécharger [**ICI**](https://github.com/DJrMartin/bookdown_applied_statistics/blob/main/data/TPs/morpho2.xlsx).
+
+Utiliser la library `readxl` et sa fonction `read.excel()`.
+
+12) Tester l'algorithme des kmeans sur les colonnes de 2:6.
+
+13) Combien de groupes choisir ?
+
+14) A quoi correspond la colonne 1 ? Manipuler l'information avec la fonction `substr()` ou bien `grep()` pour différencier les hommes des femmes.
+
+15) Interpréter les groupes avec les variables sexe et IMC. 
+
+16) Refaire la même chose avec l'algorithme HAC.
+
+17) Conclure.
+
+
+
+
+
 

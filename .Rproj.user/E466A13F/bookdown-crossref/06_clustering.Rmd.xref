@@ -9,4 +9,8 @@ h3:mesure-dagrégation Mesure d’agrégation
 h2:définir-le-nombre-de-classes-optimales Définir le nombre de classes optimales ?
 h3:première-approche-variance-totale-et-règle-du-coude Première approche : Variance totale et règle du coude
 h3:seconde-approche-coefficient-de-silhouette. Seconde approche : coefficient de Silhouette.
+h2:travaux-pratiques Travaux pratiques
+h3:création-de-votre-propre-algorithme Création de votre propre algorithme
+h3:efficacité-et-comparaison-de-lalgorithme Efficacité et comparaison de l’algorithme
+h3:clustering-1 Clustering
 

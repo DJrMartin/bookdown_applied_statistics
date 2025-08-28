@@ -32,7 +32,7 @@ explication-des-tests-statistiques
 généralités
 erreurs-liées-à-la-prise-de-décision-p-value
 test-statistique-pour-variables-qualitatives-chi2
-révision-test-du-χ²
+révisions
 qcm
 questions-ouvertes-définitions
 problème
@@ -50,7 +50,7 @@ généralités-1
 prérequis-pour-le-choix-du-test
 test-paramétrique-test-de-student
 test-non-paramétrique-test-de-wilcoxon-mann-whitney
-révisions-des-tests
+révisions-1
 rappel
 qcm-1
 questions-ouvertes-définitions-1
@@ -67,7 +67,7 @@ anova-à-effet-fixe-2-facteurs
 tests-statistiques-multiples.
 généralités-2
 applications
-révisions-des-tests-1
+révisions-2
 qcm-2
 questions-ouvertes-définitions-2
 problème-1
@@ -97,6 +97,10 @@ mesure-dagrégation
 définir-le-nombre-de-classes-optimales
 première-approche-variance-totale-et-règle-du-coude
 seconde-approche-coefficient-de-silhouette.
+travaux-pratiques-3
+création-de-votre-propre-algorithme
+efficacité-et-comparaison-de-lalgorithme
+clustering-1
 analyse-en-composantes-principales
 généralités-5
 etude-des-variables
@@ -106,3 +110,8 @@ interprétation
 graphique-des-individus
 graphique-des-variables-cercle-de-correlation-des-variables
 compréhension-des-axes
+travaux-pratiques-4
+préparation-des-données
+analyse-en-composantes-principales-1
+interprétation-des-axes
+interprétation-des-individus

@@ -78,7 +78,7 @@ Dans cette étude les auteurs souhaitaient savoir si les SHN présentaient des m
 
 Autrement dit la variable "SHN" présente si les individus (observations) sont des Sportifs de Haut Niveau (TRUE) ou non (FALSE, i.e. non athlètes). La variable "Type" prend deux valeurs soit 1 soit 2, qui définit le type de microbiote intestinal que possède l'individu. Brievement, les individus ayant un microbiote de type 1 possèdent des espèces bactériennes similaires et différents de ceux du type 2. Inversement pour les microbiote de type 2.
 
-Les données peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/data/SHN-microbiote.csv)
+Les données peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/blob/main/data/SHN-microbiote.csv).
 
 - Quelles sont les types des variables ?
 
@@ -206,7 +206,7 @@ print(chisq.test(df$SHN, df$Enterotype))
 
 **Conclusion** Que faut-il conclure ? Est-ce que la pratique du sport impacte le type de microbiote intestinal ? ou bien est-ce le type de microbiote intestinal qui permet de devenir un athlète de Haut Niveau ?
 
-## Révision test du χ²
+## Révisions
 
 ### QCM
 
@@ -397,6 +397,8 @@ On rejette H0 au seuil de 5 %, donc les deux médecins classent de manière sign
 ### Pokemons
 
 Appliquer l'ensemble des analyses du chapitre sur un jeu de données concernant les Pokemons provenant de https://www.data.gouv.fr/fr/datasets/jeu-de-donnees-sur-les-pokemons/. Je vous mets à disposition une table à double entrée où sont présentés deux variables : (1) Le pokémon possède 1 ou 2 types (Roche, Eau, Feu, Plantes, etc...) et (2) le pokémon possède une évolution (Oui ou Non).
+
+Les données (pour créer ce tableau à double entrée) peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/blob/main/data/pokemons.csv).
 
 | Evolution // nb de type | 1 type   |2 types  |
 | :-----------------------|:--------:|:-------:|

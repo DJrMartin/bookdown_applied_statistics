@@ -2,7 +2,11 @@
 
 ## Tests statistiques pour plusieurs groupes
 
-Pour ce cours nous prendrons un autre exemple concernant le potentiel de stockage du carbon au niveau du **sol** en fonction des types de climats/territoire. Importer les données avec le code suivant : 
+Pour ce cours nous prendrons un autre exemple concernant le potentiel de stockage du carbon au niveau du **sol** en fonction des types de climats/territoire. Ce travail a fait l'objet d'une publication scientifique dans le Journal *PNAS*. Vous pouvez lire le papier [**ici**](https://www.pnas.org/doi/10.1073/pnas.2111312119).
+
+Les données peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/blob/main/data/Carbon-Storage.rda).
+
+Importer les données avec le code suivant : 
 
 ```{r}
 load(file="data/Carbon-Storage.rda")
@@ -55,7 +59,7 @@ $H_0 : \hat{\theta}_1 =\hat{\theta}_2=\hat{\theta}_k$ contre au moins une des $\
 
 > Le test de Kruskall-Wallis fait une analyse de la variance non paramétrique. On l’utilise pour les petits échantillons ou quand l’hypothèse de normalité n’est pas vérifiée.
 
-La statistique de test est donnée par 
+La statistique de test est donnée par :
 
 $$S_{KW}=  \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_{i.}^2}{n_i}-3(n+1)$$
 
@@ -301,7 +305,7 @@ for(i in unique(df$Biome)[1:2]){
 
 (a) Entre quelles biomes observons nous des capacités de stockages différentes ?
 
-## Révisions des tests
+## Révisions
 
 ### QCM
 
@@ -455,7 +459,7 @@ rm(list=ls()) # Permet de supprimer les objects et fonctions enregister sur l'en
 
 Objectifs : explorer les conséquences de la microgravité (i.e. pas de pesanteur) sur le métabolisme du fer dans des Hematopoïetic Stem Cell en condition de différenciation cellulaire (HSC vers osteoblastes).
 
-Les données du TP peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/data/TPs/iron_metabolism_RNA_TP.csv)
+Les données du TP peuvent être téléchargées [**ici**](https://github.com/DJrMartin/bookdown_applied_statistics/blob/main/data/TPs/iron_metabolism_RNA_TP.csv)
 
 1) Importer les données
 

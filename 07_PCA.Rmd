@@ -1,6 +1,6 @@
 # Analyse en Composantes Principales
 
-Les objectifs de ce cours sont de comprendre les outils qui permettent d'explorer des données multivariées. 
+Les objectifs de ce chapitre sont de comprendre les outils qui permettent d'explorer des données multivariées. 
 
 ## Généralités
 
@@ -146,3 +146,47 @@ res.pca = PCA(df_quanti, quanti.sup = 8) # La variable supplémentaire est la va
 ```
 
 (d) Que peut-on dire de l'Axe 1 ?
+
+## Travaux pratiques
+
+```{r}
+rm(list=ls())
+```
+
+Durée : 1h30
+
+Ce TP vise à initier aux différentes phases de l’analyse en composantes principales : préparation des données, mise en oeuvre de l’ACP, réalisation des graphiques, interprétation.
+
+### Préparation des données
+
+1) Implémenter le jeu de données Morpho2.xlsx sur R que vous pouvez télécharger [**ICI**](https://github.com/DJrMartin/bookdown_applied_statistics/blob/main/data/TPs/morpho2.xlsx). Utiliser la library `readxl` et sa fonction `read.excel()`.
+
+2) Utiliser la fonction `head()` pour voir les premières lignes de la table.Quelles sont les variables de la table de données? Combien d’observations/individus ont été inclus ?
+
+3) La table contient des données manquantes. On peut le vérifier à l’aide de la commande `is.na()`. Quelles variables présentent des données manquantes ?
+
+4) A quoi correspond la colonne 1 ? 
+
+### Analyse en composantes principales
+
+5) Créer un tableau nommé X qui contient uniquement les données morphologiques.
+
+6) Centrer et réduire ce tableau à l’aide de la fonction `scale()`.
+
+7) Réaliser l’analyse en composantes principales avec l’aide de la fonction `PCA()` de la librarie `FactoMineR`.
+
+### Interprétation des axes
+
+8) Tracer un diagramme en barres pour montrer la décroissance des valeurs propres. Combien d’inertie est expliquée par les 2 premiers axes ? Combien d’axes doit-on conserver pour expliquer au moins 70% d’inertie ? Combien d’axes proposez vous de conserver pour la suite de l’analyse ? Pourquoi ?
+
+9) Tracer, pour les axes factoriels conservés, des diagrammes en barres pour illustrer leur composition (en fonction des variables d’origine). Quelles variables expliquent le mieux le premier axe factoriel ? Le second ?
+
+10) Réaliser l’analyse en composantes principales avec l’aide de la fonction `PCA()`, en ajoutant la variable sexe en variable qualitative supplémentaire, et la variable IMC en variable quantitative supplémentaire. 
+
+### Interprétation des individus
+
+11) D'après l'interprétation des axes. 
+Que dire des individus avec des coordonnées positives sur l'axe 1 et négative sur l'axe 2 ?
+
+
+
