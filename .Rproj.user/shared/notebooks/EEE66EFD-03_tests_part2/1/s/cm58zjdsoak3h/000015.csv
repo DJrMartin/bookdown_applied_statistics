@@ -1,0 +1,3 @@
+"0","# PLOT N°2"
+"0","plot(birds$altitude, birds$Medium.dependency+birds$High.Dependency, "
+"0","     xlab=""Altitude (mètres)"", ylab=""Abondance d'oiseaux\n(Richesse)"", main="""")"

@@ -1,0 +1,1 @@
+"0","legend(""topleft"", legend = c(round(sd(Etude), 0),round(sd(Colombie), 0)), fill=c(""firebrick"", ""cornflowerblue""), bty=""n"", cex=0.8, title = ""écart-types"")"

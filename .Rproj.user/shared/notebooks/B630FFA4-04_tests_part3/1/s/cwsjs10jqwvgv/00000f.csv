@@ -1,0 +1,1 @@
+"0","rm(list=ls()) # Permet de supprimer les objects et fonctions enregister sur l'environnement."

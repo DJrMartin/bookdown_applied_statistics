@@ -1,0 +1,21 @@
+---
+title: "Statistique appliquée aux sciences de l'environnement et du vivant"
+author: "David M. Carminati"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant.
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Statistique appliquée aux sciences de l'environnement et du vivant. {-}
+
+Ce livre R a pour objectif d'introduire les notions essentielles aux analyses statistiques appliquées aux sciences du vivant. Il a été co-construit après 3 années d'intervention, sur les UE biostatistiques, avec les étudiants de l'Université de Vannes (UBS).
+
+
+

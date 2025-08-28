@@ -1,0 +1,148 @@
+# Analyse en Composantes Principales
+
+Les objectifs de ce cours sont de comprendre les outils qui permettent d'explorer des données multivariées. 
+
+## Généralités
+
+L'objectif est de décrire sans à priori un tableau de données constitué exclusivement de variables quantitatives.
+
+L’ACP permet de déterminer les espaces de dimension inférieure à l’espace initial sur lesquels la projection du nuage de points initial soit la moins déformée possible, autrement dit celle qui conserve le plus d’information c’est-à-dire de variabilité.
+
+Le principe de l'ACP est de trouver un axe (la première composante principale), issu d'une combinaison linéaire des variables initiales, tel que la variance du nuage autour de cet axe soit maximale. Et de réitérer ce processus dans des directions orthogonales pour déterminer les composantes principales suivantes.
+
+Du point de vue des variables, l'ACP permet de conserver au mieux la structure de corrélation entre les variables initiales.
+
+### Etude des variables
+
+La PCA va rechercher les ressemblances entre les variables (on parle de liaisons). Vous avez déjà vu dans le cours une statistique qui permet de lier deux variables quantitatives entre elles : le coefficient de corrélation.
+
+Deux variables qui seront très liées auront un coefficient de corrélation proche de 1. 
+
+Ainsi nous allons visualiser la matrice de correlation (ou covariance) entre les variables pour savoir celles qui se rapprochent.
+
+> La PCA permet de classer les variables et les individus en fonction de leur similarité ou de leur dissimilarité.
+
+### Normalisation des individus : pré-requis
+
+La première étape pour étudier les variables et les individus est de **centrer** et **reduire** les données, à partir de cette formule : 
+
+$$ X_{ij} = \frac{X_{ij}-\hat{\mu}_j}{\hat{S}_j} $$
+
+où $\hat{\mu}_j$ est la moyenne et $\hat{S}_j$ est l'écart type de la variable $j$.
+
+La normalisation permet de centrer les données en 0 et de reduire l'écart type à 1.
+
+> La normalisation permet de comparer des données qui ne possèdent pas la même unité de mesure.
+
+## Réaliser la PCA sur R. 
+
+Nous réaliserons la PCA sur le jeu de données hepthatlon.csv
+
+(a) Importer les données.
+
+```{r}
+df <- read.table("data/heptathlon_2023.csv", sep=",", header=T, stringsAsFactors = T, row.names = 1)
+```
+
+> Les PC (Composantes Principales) résument l'information de la matrice $X_{ij}$ individus/variables.
+
+(b) Regarder le tableau. Que remarque t'on ? Supprimer les deux athlètes qui n'ont pas fini l'hepthatlon.
+
+```{r}
+na_athlete = which(is.na(df$Points)) # On sélectionne les athlètes ne possèdant pas de points.
+df = df[-na_athlete,] # On supprime les athlètes respectant la condition évoquée sur la dernière ligne.
+```
+
+(c) La PCA se réalise uniquement sur des variables quantitatives uniques qui caractérisent les individus. Ici, sélectionner uniquement les variables de performances (*On supprime les variables Pays et Points. Pays est une variable qualitative et Points est une variable construite par rapport à l'ensemble des variables de performance.*).
+
+```{r}
+var.perf = 3:9 # Les variables de performances vont de la colonne 3 à 9.
+```
+
+(d) La variable 800m est une variable de caractère. Il faut d'abord la transformer en variable quantitatif.
+
+```{r}
+print(paste("La première valeur de la variable 800m est conditionnée comme suit :",df$X800m[1]))
+df$X800m = as.numeric(paste0(as.numeric(substr(df$X800m, 1, 1))*60+as.numeric(substr(df$X800m, 3, 4)),".",substr(df$X800m, 6, 7))) # On transforme les données de 800m.
+print(paste("Après notre transformation, la première valeur de la variable 800m est conditionnée comme suit :",df$X800m[1]))
+```
+
+(e) Effectuer la normalisation via la fonction scale(). Expliquer le tableau normalisé.
+
+```{r}
+df_quanti = data.frame(scale(df[,var.perf])) # On scale dans un data.frame les variables sélectionnées.
+```
+
+(f) Importer la library *FactoMineR* et réaliser la PCA.
+
+```{r, fig.align='center'}
+library(FactoMineR)
+res.pca = PCA(df_quanti)
+```
+
+## Interprétation
+
+Cette partie interprétation doit être bien compris. Une PCA permet de visualiser l'inertie du nuage de points en fonction des liaisons entre ces variables. Les variables fortement liées vont orienter les individus selon un même axe. 
+
+> Autrement dit, la PCA permet d'explorer l'hétérogénéité du jeu de données et de réduire les variables en facteurs (Dimensions ou Composantes Principales ou Principal Component).
+
+### Graphique des individus
+
+Le graphique des individus est le premier graphique qui apparait lorsque l'on réalise une PCA. Il place les individus dans un nouvel espace de représentation en 2 dimensions, où sont représentés les deux premières Composantes (PC ou CP en français).
+
+Vous pouvez aussi représenter les composantes 3 et 4 et ainsi de suite. Il y a autant de composantes que de variables.
+
+La dimension 1 résume environ 29% du jeu de données alors que le dimension 2 résume environ 21% du jeu de données. 
+
+Vous pouvez ainsi visualiser l'explication de chaque nouveau facteur/dimension (PC) du jeu de donnée en explorant les sorties du modèle comme suit :
+
+```{r, fig.align='center'}
+res.pca$eig
+```
+
+**Si nous restons focalisés sur le graph des individus, nous pouvez dire par exemple que *Conte* possède des coordonnées positives sur l'axe 2 et négative sur l'axe 1. Elle s'oppose à *Posch* ou *Kalin*. *Conte* possède des résultats très dissimilaires à *Posch* ou *Kalin*, alors que *Posch* possède des résultats proches de *Kalin*.**
+
+### Graphique des variables (cercle de correlation des variables)
+
+**1) Lien entre les variables**
+
+La première chose que vous pouvez déduire des variables, ce sont leur lien, donc potentiellement leur correlation. 
+
+- Deux flêches opposées signifie que la correlation est proche de -1. 
+
+- Deux flêches qui vont dans la même direction signifie que les variables ont un coefficient de correlation proche de 1.
+
+Dans les deux cas, nous pouvons dire que le lien est fort. La PCA résume alors l'information de ces groupes de variables en un seul axe.
+
+- Lorsque deux variables possèdent un angle à 90° avec une autre variable alors leur lien (coef. de correlation) est proche de 0.
+
+(a) Combien de groupes de variables observons-nous ?
+
+(b.1) Expliquer le lien entre les variables 200m et Longueur. Les deux variables sont t'elle résumées selon un seul axe ? 
+
+(b.2) Expliquer le lien entre les variables 100mH et Poids Les deux variables sont t'elle résumées selon un seul axe ? 
+
+**2) Interprétation des axes**
+
+Il faut interpréter les axes en fonction du cercle des corrélations.
+
+**3) Lecture des individus**
+
+Nous allons lire maintenant le graphique des individus en fonction du graphique des variables. 
+
+> L'interprétation des individus se réalise grâce au cerle de correlation des variables.
+
+(c) Que dire des trois hepthatlètes *Conte*, *Posch* et *Kalin* ?
+
+### Compréhension des axes
+
+Vous pouvez aussi interpréter les axes en ajoutant des variables qualitatives ou quantitatives supplémentaires directement sur la fonction R de la PCA. Ces variables supplémentaires ne rentrent pas dans la construction des axes (PC).
+
+```{r}
+points = df$Points # On attribut les points des athlètes dans une nouvelle variable.
+df_quanti$points = points # On créé une nouvelle colonne à laquelle on attribut la variable points.
+
+res.pca = PCA(df_quanti, quanti.sup = 8) # La variable supplémentaire est la variable Points qui se situe à la 8ième colonne du tableau. 
+```
+
+(d) Que peut-on dire de l'Axe 1 ?

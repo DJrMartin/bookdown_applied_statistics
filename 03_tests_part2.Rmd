@@ -1,0 +1,541 @@
+# Tests statistiques (t. test et t. wilcoxon)
+
+**Les tests que nous verrons dans cette partie 2 seront à mettre en place lorsqu'une des deux variables sera qualitative et l'autre quantitative.**
+
+## Statistiques descriptives et visualisations
+
+L’ensemble des données de l'exemple ci-contre est issu d'un article paru dans *Ecology* (2023) intitulé *High sensitivity of tropical forest birds to deforestation at lower altitudes* par Mills SC et Collaborateurs (doi: 10.1002/ecy.3867).
+
+Il comprend des informations concernant le nombre d'espèces différentes observé sachant un paramètre de dépendence à la forêt. La survie des espèces d'oiseaux ont été classée comme étant moyennement dépendant de la forêt ("Medium.dependency") ou bien fortement dépendant ("High.Dependency"). Enfin ce jeu de donnée présente la variable de l'atlitude moyenne associée à l'observation de ces espèces. Ces deux variables quantitatives sont associées à des sites géographiques de la cordillère des Andes (plus précisement en Colombie). 
+
+> Vous avez la possibilité de sauvegarder et d'uploader des datas en utilisant la forme de stockage .RDATA ou .rda. La fonction de stockage est save() et celle de chargement des données load().
+
+```{r, warning=FALSE}
+load(file = "data/Birds_dataset.rda")
+knitr::kable(head(birds))
+```
+
+**Questions**
+
+(a) Quelle est la population d’intérêt ? 
+
+(b)  Comment pourrait-on répondre à la question suivante : Les sites échantillonnés sont-ils représentatifs de la Colombie en terme d'altitude ?
+
+**Centre/position de la distribution** Un graphique est utile pour nous aider à visualiser la forme d’une distribution. Nous pouvons aussi résumer les caractéristiques importantes d’une distribution numériquement. Les deux statistiques qui décrivent le centre ou l’emplacement d’une distribution pour une seule variable quantitative sont la moyenne et la médiane.
+
+La moyenne d’un échantillon de données $x_1, x_2,…, x_n$ et d'une variable $j$ (ici l'altitude) est définie par
+$$\hat{\mu}_j = \frac{1}{n} \sum_{i=1}^{n} x_{i}$$
+
+Ici l'échantillonnage des oiseaux s'est réalisé en moyenne à 2297 mètres d'altitude soit $\hat{\mu}_{altitude} = 2297$
+
+**Dispersion.** La variance et l’écart-type donnent des informations sur la dispersion d’un échantillon.
+
+```{r, fig.width=10, fig.height=4, fig.align='center', fig.cap="Figure 3 : Histogramme de l'Altitude."}
+# Représenter la variable d'altitude.
+hist(birds$altitude, col="lightblue", xlab="Altitude (mètres)",ylim=c(0,8),
+     ylab="Comptage", main="Histogramme de l'altitude des sites")
+
+# Représentation du paramètre de position.
+abline(v=mean(birds$altitude), col='red', lwd=2)
+abline(v=median(birds$altitude), col="blue", lwd=2)
+
+# Représentation du paramètre de dispersion.
+segments(x0 = mean(birds$altitude) - sd(birds$altitude),
+         x1 = mean(birds$altitude) + sd(birds$altitude),
+         y0 = 7.5, col="darkolivegreen", lwd=2)
+
+# On ajoute une légende pour comprendre notre graphique.
+legend("topleft", col=c("darkolivegreen","red","blue"), lty=1, legend = c("sd", "mean", "median"), 
+       lwd=2, bty="n")
+```
+
+Ces statistiques descriptives primaires permettent de décrire les observations. Dans le cas on nous représentons la moyenne avec plus ou moins 1 écart-type, nous engloberons environ 66% des observations. Dans le cas où nous aurions choisi de représenter la moyenne avec plus ou moins 2 écart-types, on engloberait environ 95% des observations. Enfin dans le cas où nous choisirions de représenter la moyenne avec plus ou moins 3 écart-types, on engloberait environ 99% des observations.
+
+Voici un code pour savoir le pourcentage des observations si situant entre la Moyenne et + ou - 2 écart types.
+```{r}
+ecart_type <- sd(birds$altitude) # définir l'écart-type
+
+condition_moins_ecartT <- which(birds$altitude < (mean(birds$altitude) + (2*ecart_type))) # renvoie l'ensemble des obsevrations pour lequel la condition suivant est respecté : obs INFÉRIEURE à la moyenne + ou - 2 SD.
+condition_plus_ecartT <- which(birds$altitude > (mean(birds$altitude) + (2*ecart_type))) # renvoie l'ensemble des obsevrations pour lequel la condition suivant est respecté : obs SUPÉRIEURE à la moyenne + ou - 2 SD.
+
+length(condition_moins_ecartT | condition_plus_ecartT) / # renvoie le nombre d'observation qui respecte les deux conditions précédentes.
+  length(birds$altitude) # diviser par le nombre total d'observations.
+```
+
+**Histogramme** Une représentation alternative pour afficher une distribution de données quantitatives est un histogramme. En regroupant les données sur l'altitude en intervalles de 500 mètres (1000 à 1500 mètres, 1500 à 2000 mètres et ainsi de suite), nous obtenons le tableau des fréquences, présenté ci-contre.
+
+```{r, fig.width=10, fig.height=4, fig.align='center', fig.cap="Figure 4 : Richesse en fonction de l'altitude."}
+layout(matrix(c(1,2), nrow=1))
+par(mar=c(5,5,2,2)) # Gérer les marges du plot.
+
+# PLOT N°1
+boxplot(birds$Medium.dependency,birds$High.Dependency, names = c("Moyenne", 'Élevée'), xlab='Niveau de dependance',
+        ylab="Richesse d'oiseaux (diversité)")
+# PLOT N°2
+plot(birds$altitude, birds$Medium.dependency+birds$High.Dependency, 
+     xlab="Altitude (mètres)", ylab="Abondance d'oiseaux\n(Richesse)", main="")
+```
+
+Ainsi, pour un échantillon $x_1, x_2,…, x_n$ et une variable $j$ (ici l'altitude), l’histogramme est défini par
+
+$$\hat{f}(x) = \frac{1}{n} \sum_{i=1}^{n} 1_{[x-h/2, x+h/2[}(x_{i})$$
+où h est la largeur de bande et $1_A(x)$ est la fonction indicatrice (ie elle vaut 1 si $x \in A$ et 0
+sinon).
+
+(d) La dependance à la présence de forêt influence t'elle la diversité des groupes d'oiseaux ?
+
+(e) Répresentez le nombre d'espèces en fonction de l'altitude ? Que peut-on dire ? Y-a t'il un effet de l'altitude sur le nombre d'espèces.
+
+(f) La dependance à la présence de forêt influence t'elle la diversité des groupes d'oiseaux observée avec l'altitude ? Autrement dit, la décroissance liée à l'altitude est-elle plus importante dans l'un des deux groupes ?
+
+```{r, fig.width=6, fig.height=4, fig.align='center', fig.cap="Figure 5 : Richesse en fonction de l'altitude et de leur dépendence à la forêt."}
+par(mar=c(5,5,2,2)) # Gérer les marges du plot.
+# Il faut d'abord normaliser les données pour pouvoir les comparer entre elles
+# Plusieurs normalisation existe, ici nous normaliserons les données par rapport à leur maximum.
+max.norm.M <- birds$Medium.dependency/max(birds$Medium.dependency)
+max.norm.H <- birds$High.Dependency/max(birds$High.Dependency)
+
+plot(birds$altitude, max.norm.M, xlab="Altitude (mètres)", ylab="Abondance d'oiseaux\n(Richesse)", 
+     main="", pch =15, col="darkgreen", ylim=range(c(max.norm.M,max.norm.H)))
+points(birds$altitude, max.norm.H, pch=16, col="gold")
+# Ajouter la légende.
+legend("bottomleft", legend = c("Moyenne", "Élevée"), title="Niveau de Dépendance", pch=c(15,16), col=c("darkgreen", "gold"), bty="n")
+```
+
+> Quelles normalisations choisir pour comparer des données est un concept très important. Néanmoins il n'existe pas de recettes magiques. Tout dépend de l'analyse que vous souhaitez réaliser.
+
+## Test Statistique pour variables quantitatives (Paramétriques / Non paramétriques)
+
+### Généralités
+
+> Un test statistique (ou test d’hypothèses) utilise des données d’un échantillon pour décider entre deux hypothèses concernant une population en contrôlant le risque de se tromper.
+
+Deux hypothèses : (1) L'altitude des sites/forêt d'echantillonnage sont similaires aux sites/forêts de la Colombie ou bien (2) l'altitude des sites/forêt d'echantillonnage sont différents aux sites/forêts de la Colombie (auxquels cas les conclusions de l'étude ne pourrait être généralisées sur l'ensemble de la colombie).
+
+**Hypothèse nulle $H_0$**, l’hypothèse correspondant au cas où il n’y pas de différence. On dit que l’effet de la variable qualitative (Sites de l'étude / Sites de la Colombie) est nulle et on note :
+
+$$H_0 : \mu_E = \hat{\mu}_P$$
+$\mu_E$ et $\hat{\mu}_C$ sont respectivement l'altitude des sites échantillonés (dans l'étude) et l'altitude de l'ensemble des forêts/sites de la Colombie.
+
+**Hypothèse alternative $H_1$**, dans l’hypothèse alternative, on indique que la variable qualitative (Sites de l'étude / Sites de la Colombie) est dépendante à une altitude d'échantillonnage. 
+
+$$H_1 : \mu_E \ne \hat{\mu}_P$$
+Le problème consiste donc à décider entre les deux hypothèses : $H_0 : \hat{\mu}_M = \hat{\mu}_H$ contre $H_1 : \hat{\mu}_M \ne \hat{\mu}_H$.
+
+### Prérequis pour le choix du test
+
+Les tests statistiques sont nombreux et vous devrez faire un choix par rapport aux natures des données sur lesquelles vous voulez tester des hypothèses. Les deux propriétés à vérifier avant de se lancer dans la réalisation d'un test sont (1) la normalité et (2) l'égalité des variances. 
+
+Pour la suite de l'exemple, notre objectif est de comparer les altitudes entre les sites de l'étude (variable $X$) et ceux de la Colombie (variable $Y$).
+
+**1) Normalités** 
+
+Vous avez deux possibilités pour vérifier que votre échantillon est normal (i.e. qu'il suit une loi normale). Pour rappel, une loi normale est une distribution de probabilité qui dépend de  2 paramètres : une moyenne (qui décrit la position) et la variance (qui décrit la variabilité autour de la moyenne). Généralement, dans la nature, un grand nombre de processus sont gaussiens (taille, poids, bio-marqueurs, QI, etc...). 
+
+> La vérification du test de normalité permet de savoir si vous réaliserez un test statitistique basé sur des paramètres (i.e. position et dispersion) ou bien sur autres choses que des paramètres estimée $\hat{\theta}$ de l'échantillon.
+
+La normalité doit être validée de deux manières : visuellement et à l'aide d'un test statitistique. 
+
+> Rq : si la taille de l'échantillon est grande (typiquement supérieure à 30), on peut supposer que la normalité est respectée. Attention certaines données sont très spécifiques et ne vérifie pas ce constat (i.e., données de comptage issues d'écosystème environnementaux).
+
+```{r, fig.width=10, fig.height=4, fig.align='center', fig.cap="Figure 6 : Lois normales."}
+layout(matrix(c(1:4), nrow=1, byrow = T))
+Etude <- birds$altitude
+Colombie <- c(rnorm(250, 2000, 700))
+
+hist(Etude, main="Fonction de densité (Etude, X)", xlab="altitude")
+qqnorm(Etude)
+qqline(Etude)
+
+hist(Colombie, main="Fonction de densité (Colombie, Y)", xlab="altitude")
+qqnorm(Colombie)
+qqline(Colombie)
+```
+
+(a) Quelles sont les hypothèses du test de normalité (i.e. définir $H_0$, $H_1$) ?
+
+(b) Est-ce que les 2 variables vous semblent normales ? 
+
+En pratigue, on peut utiliser un test pour vérifier si les variables sont normales ou non. Dans le cadre de ce cours, nous utiliserons le test de Shapiro-Wilk. 
+
+```{r}
+shapiro.test(Etude)
+shapiro.test(Colombie)
+```
+
+(d) Pour quelle(s) variable(s) accepte t'on $H_O$ ? Pour quelle(s) variable(s) rejetons-nous $H_0$ ?
+
+**2) Analyse des variances**
+
+Dans un deuxième temps, il nous est nécessaire de vérifier si les échantillons possèdent une variance similaire. De la même manière, définissez quelles sont les hypothèses du test de la variance (i.e. définir $H_0$, $H_1$) entre $E$ et $P$ ?
+
+(a) De la même manière que pour la normalité, vous pouvez visualiser les données pour voir rendre compte de leur variance ? Vous pouvez aussi estimer leur paramètre de dispersion, si les valeurs sont proches il y a des chances pour que l'on accepte $H_0$ (i.e. pas de différence de variance entre les deux variables).
+
+```{r, fig.width=5, fig.height=4, fig.align='center', fig.cap="Figure 7 : Étude des variances (paramètre de dispersion)."}
+boxplot(Etude, Colombie, names = c("Etude (E)", "Colombie (P)"), ylab="Altitude", 
+        xlab="Echantillon versus Population", col=c("firebrick", "cornflowerblue"))
+legend("topleft", legend = c(round(sd(Etude), 0),round(sd(Colombie), 0)), fill=c("firebrick", "cornflowerblue"), bty="n", cex=0.8, title = "écart-types")
+```
+
+Le test de *Fisher-Snedecor* est un test paramétrique qui permet de comparer les variances de deux échantillons indépendants. Pour plus de 2 échantillons, on utilise le test de *Bartlett.* 
+
+```{r}
+var.test(Etude, Colombie)
+```
+
+Nous pouvons faire les hypothèses selon lesquels la variable *Altitude* suit une loi normale dans les deux groupes (étude et Population) et avec des variances égales. 
+
+### Test paramétrique (test de Student)
+
+On s'intéresse naturellement à l'écart entre les moyennes et on veut savoir si cet écart est loin ou non de 0. Et la variabilité de l'échantillon, mesurée par l'écart-type a bien sûr un impact sur la façon dont on considère le "loin de 0". C'est pour cette raison que l'on doit en tenir compte.
+
+> Comme pour l'ensemble des tests statistiques, la première étape est de calculer une statistique (ici $T$, la statistique de test T de Student) et de savoir si la probabilité liée à la statitique est rare ou commune **sous H0**. Suivant la rareté de l'évenement, on pourra prendre une décision sur l'hypothèse à choisir. 
+
+**1) Test de Student (variances égales)** 
+
+Si les variances sont égales entre les variables $X$ et $Y$ et qu'elles suivent des lois normales alors nous utiliserons un test de Student avec l'option variance égale. Nous allons d'abord le calculer à la main pour comprendre comment il fonctionne, voici la formule de la statistique $T$ : 
+
+$$ T = \frac{\hat{\mu}_{X}-\hat{\mu}_{Y}}{\sqrt{\frac{S^2_P}{n_X}+\frac{S^2_P}{n_Y}}}$$
+où $S^2_P$ est l'estimation combinée de la variance (pooled variance) et se calcule comme suit : 
+
+$$S^2_P = \frac{(n_X−1)S_X^2+(n_Y−1)S_Y^2}{n_X+n_Y-2} $$
+où S correspond à la variance de $X$ ou de $Y$.
+
+(a) Calculer la statistique $T$ pour la variable *Altitude* dans les deux groupes (Sites de l'étude et Sites de la Colombie) ? 
+
+```{r}
+n_x <- length(Etude) # on enregistre le nombre d'observations dans X
+n_y <- length(Colombie) # on enregistre le nombre d'observations dans Y
+## On calcul les variances
+var_x <- var(Etude) # on enregistre la variance de X
+var_y <- var(Colombie) # on enregistre la variance de Y
+## On calcul les moyennes
+mu_x <- mean(Etude)
+mu_y <- mean(Colombie)
+## On calcul la variance poolée
+S2_P <- ((n_x-1)*var_x + (n_y-1)*var_y)/(n_x+n_y-2)
+
+## On peut finalement calculer la Statistique T
+S_T = (mu_x-mu_y) / sqrt(S2_P/(n_x-1) + S2_P/(n_y-1))
+print(S_T)
+```
+
+tte statistique suit une loi de Student à $n$ degrés de liberté qui nous informera sur la rareté de la différence sous $H_0$ (sa probabilité d'observation selon une loi de student ou loi de Gauss si n est grand). Cette probabilité sera égal à sa p value.
+
+```{r, fig.align='center', warning=F}
+loi_de_student <- rt(500, 270)
+hist(loi_de_student, main="Densité d'une loi de Student", xlab="") # On construit une loi de student pour replacer notre statistique de T et calculer sa probabilité (i.e. sa rareté). 
+abline(v=S_T)
+text(x=S_T+0.25,y=50 , "Statistique T\nde notre test", adj=0, xpd="NA")
+```
+
+Pour rappel une probabilité est comprise entre 0 et 1. Il faut calculer l'aire des histogrammes qui sont supérieures à notre statistique de T que nous avons représentée par une **ligne noire**.
+
+```{r}
+length(which(loi_de_student>S_T))/500
+## On peut aussi calculer la probabilité d'observer la statistique T calculée directement avec la fonction de probabilité. 
+1-pt(S_T ,270)
+```
+
+(b) La probabilité d'observer cette différence de moyenne est-elle rare ? 
+
+(c) Quelle est la p value ? 
+
+(d) Quelle conclusion pouvez vous faire à partir de ces résultats ? Quelle est la probabilité d'erreur associée à votre prise de décision ?
+
+> Plus rapidement, vous pouvez calculer la statistique T et sa p value associée avec la fonction t.test() sur R en ajoutant bien l'argument *var.equal = T*.
+
+```{r}
+t.test(Etude, Colombie, var.equal = T)
+```
+
+(e) Pourquoi observons-nous une différence dans la p.value du test R et de celui que nous avons calculé à la mains ? 
+
+**2) Test de Student (variances inégales)** 
+
+Dans le cas où les variances ne sont pas égales, vous pouvez utilisez la même fonction dans R en utilisant l'argument *var.egal = F*. Attention, les variables doivent toujours être des variables normales. 
+
+> Quelle est la conclusion de l'étude des oiseaux par rapport à la qualité d'échantillonnage de l'étude des oiseaux ? Pour rappel, $H_0$ l'altitude des sites d'échantillonage est représentatif des sites/forêts en Colombie.
+
+**3) Test de Student (Apparié)** 
+
+Dans le cas, on les observations/individus serait les mêmes dans les deux groupes. Par exemple, un même groupe de patient que l'on suit au cours du temps, il faudrait ajouter l'argument *paired = T* dans la fonction de *t.test(X, Y, paired = T)*
+
+### Test non paramétrique (test de Wilcoxon-Mann-Whitney)
+
+Si la variable d'intérêt ne suit pas une loi normale, i.e. qu'on ne peut se baser sur la moyenne et l'écart type pour calculer une statistique de test, il faut alors changer d'approche et calculer une statistique de test non paramétrique. Nous en verrons une pendant l'UE BIO1540 et une seconde pendant l'UE MTH1640.
+
+Dans cette UE, nous allons voir le Test de Wilcoxon. Il permet de comparer permet de comparer les positions de 2 échantillons $X = \{x_1,··· ,x_n\}$ et $Y = \{y_1,··· ,y_m\}$.
+
+$H_0 : \hat{\theta}_x=\hat{\theta}_y$ contre $H_1 : \hat{\theta}_x \neq \hat{\theta}_y$y 
+
+où $\hat{\theta}$ est par exemple l'estimation de la médiane.
+
+- Il ne requiert pas d’hypothèse sur la distribution dont sont issues les données.
+
+- En pratique on regroupe les 2 échantillons en un seul $z = \{X,Y\}$ et on attribue un rang à chacune des observations de $z: z_{(1)} ≤ z_{(2)} ≤ ··· ≤ z_{(n+m)}$
+
+La statistique de test de Wilcoxon est 
+
+$$S_w = \frac{n_x(n_x+1)}{2}-R_x$$
+où $R_X$ est la somme des rangs qui viennent du groupe $X$. Globalement, la statistique de ce test évalue l'éloignement de la distribution des rangs d'une variable par rapport à une distribution des rangs alternés parfaitement entre les $X$ et les $Y$.
+
+Prenons comme exemple un jeu de données simulées de la diversité d'oiseaux dans les forêts Alpestres françaises. Nous souhaitons savoir quelles sont les forêts qui possèdent une diversité d'oiseaux plus importante ?
+
+(a) Quels sont les hypothèses ?
+
+(b) Visualiser les données.
+
+(c) Calculer la statistique $S_w$.
+
+```{r}
+Colombian_birds <- (birds$Medium.dependency+birds$High.Dependency)+rnorm(22,0, 1)
+French_birds <- c(rnorm(10, 200, 50),rnorm(10, 250, 10))
+
+df <- data.frame(Pays = c(rep("Colombie", length(Colombian_birds)),rep("France", length(French_birds))) ,
+           diversity = c(Colombian_birds, French_birds))
+
+R_x <- sum(rank(df$diversity)[which(df$Pays=="France")]) # On récupère la somme des rangs associées au oiseaux de la France. 
+
+paste('la statistique du test de wilcoxon est de : w = ',22*20+((20*(20+1))/2)-R_x)
+```
+
+De la même manière que pour les autres tests statistiques, la statistique calculée nous permet de savoir si l'évènement est rare sous $H_0$ auquel cas sa probabilité (p value) d'être observée sera faible.
+
+On peut vérifier la statistique de test avec la fonction wilcox.test() sur R.
+
+```{r}
+wilcox.test(diversity~Pays, data=df)
+```
+
+(d) Quelle décision prendrez-vous ?
+
+**Test de Wilcoxon (Apparié)** 
+
+Dans le cas, on les observations/individus serait les mêmes dans les deux groupes. Par exemple, un même groupe de patient que l'on suit au cours du temps, il faudrait ajouter l'argument *paired = T* dans la fonction de *wilcox.test(X, Y, paired = T)*.
+
+> A retenir : les tests statistiques présentés nous donne une probabilité que les différences dans nos données sont rares ou communes. La prise de décision dépend de vous et des erreurs que vous êtes prêts à faire.
+
+## Révisions des tests
+
+### Rappel
+
+- La statistique du **T.TEST** : 
+
+\[
+T = \frac{\hat{\mu}_{X}-\hat{\mu}_{Y}}{\sqrt{\frac{S^2_P}{n_X}+\frac{S^2_P}{n_Y}}}
+\]
+où $S^2_P$
+\[
+S^2_P = \frac{(n_X−1)S_X^2+(n_Y−1)S_Y^2}{n_X+n_Y-2}
+\]
+
+- La statistique de test du **Wilcoxon** : dépend du nombre d’individus dans chaque groupe et de la somme des rangs pour l'un des groupes.  
+
+\[
+S_w = \frac{n_1 \,(n_1 + 1)}{2} - R_1
+\]
+
+---
+
+### QCM
+
+**1. Le T test (ou test de Student) se réalise lorsque les deux variables sont quantitatives.**  
+- [ ] Vrai  
+- [ ] Faux  
+
+<details>
+<summary>Afficher la réponse</summary>
+❌ Faux
+</details>
+
+---
+
+**2. Le test de Wilcoxon est un test qui se base sur un paramètre de dispersion.**  
+- [ ] Vrai  
+- [ ] Faux  
+
+<details>
+<summary>Afficher la réponse</summary>
+❌ Faux
+</details>
+
+---
+
+**3. Le T Test se base uniquement sur un paramètre de position.**  
+- [ ] Vrai  
+- [ ] Faux  
+
+<details>
+<summary>Afficher la réponse</summary>
+❌ Faux
+</details>
+
+---
+
+**4. L’hypothèse nulle du Shapiro-Wilk est : la variable ne suit pas une loi normale.**  
+- [ ] Vrai  
+- [ ] Faux  
+
+<details>
+<summary>Afficher la réponse</summary>
+❌ Faux (H0 : la variable suit une loi normale)
+</details>
+
+---
+
+### Questions ouvertes (définitions)
+
+**Donnez la définition d’un test paramétrique.**  
+<details>
+<summary>Afficher la réponse</summary>
+Un test paramétrique se base sur des paramètres estimés (exemple : moyenne, variance).
+</details>
+
+---
+
+**Donnez la définition d’un test non-paramétrique.**  
+<details>
+<summary>Afficher la réponse</summary>
+Un test non paramétrique ne se base pas sur des paramètres estimés.  
+Il peut se baser sur des rangs, des signes ou des distributions.
+</details>
+
+---
+
+**Sur quels éléments le test du Wilcoxon se base-t-il ?**  
+<details>
+<summary>Afficher la réponse</summary>
+Le test de Wilcoxon se base sur des rangs.  
+Sa statistique de test compare la somme des rangs théoriques sous $H_0$ avec la somme des rangs observée.
+</details>
+
+---
+
+**Sur quels éléments le test de T se base-t-il ?**  
+<details>
+<summary>Afficher la réponse</summary>
+Le test de T se base sur les paramètres de position (moyenne) et de dispersion (variance).  
+La statistique de test :  
+\[
+T = \frac{\bar{x}_1 - \bar{x}_2}{s_p}
+\]  
+où \( s_p \) est la variance poolée.  
+</details>
+
+---
+
+**Quels sont les tests préalables à réaliser avant de choisir si l’on applique un test paramétrique ou non paramétrique ?**  
+<details>
+<summary>Afficher la réponse</summary>
+- Vérification de la normalité des variables intra-groupe.  
+- Vérification de l’égalité des variances entre les deux groupes.
+</details>
+
+---
+
+**Donner l’hypothèse nulle lorsque vous testez l’égalité des variances.**  
+<details>
+<summary>Afficher la réponse</summary>
+H0 : Les deux groupes possède une variable $x$ avec une variance identique.
+</details>
+
+---
+
+### Exercices
+
+#### Exercice 1
+
+Le boxplot exprime une variable quantitative en fonction d’une variable qualitative.  
+Le **groupe 1** et le **groupe 2** sont deux groupes distincts.  
+
+```{r, fig.width = 3, fig.height = 4}
+set.seed(1)
+boxplot(rnorm(10), rnorm(10, 0.5))
+```
+
+**Questions :**  
+
+1. Dans cet exemple nous allons supposer que les variables sont normales et que les variances sont égales. Quel test devez-vous appliquer ? 
+
+2. Définir H0.  
+
+La moyenne du groupe 1 est de 0 et la moyenne du groupe 2 est de 0.6.
+La racine carrée de la somme des variances poolées divisée par le nombre d’individu dans chaque groupe est de 0.3.
+
+3. Calculer la statistique de test.  
+
+4. La p-value est de 0.04. Conclure.  
+
+<details>
+<summary>Afficher la réponse</summary>
+
+- Test : **T.test (Student)**  
+- H0 : Les deux groupes possèdent une moyenne identique.  
+- Statistique :  
+\[
+T = \frac{0 - 0.6}{0.3333} = -1.8
+\]  
+- Conclusion : p = 0.04 → on rejette H0 au seuil de 5 %.  
+Les groupes ont des moyennes significativement différentes, avec un risque d’erreur de 4 %.  
+</details>
+
+---
+
+#### Exercice 2
+
+On représente les valeurs individuelles sur l’axe des ordonnées, avec deux groupes colorés (1 point = 1 individu). La variable d'un des groupes n’est pas normale, alors que les sont variances sont proches.  
+
+```{r, fig.width=3, fig.height=4}
+set.seed(1)
+df = data.frame(Group = rep(c(2,1), each = 5), value = c(rnorm(5), rnorm(5, 01.1)))
+plot(df$Group, df$value, xlab="", ylab="")
+```
+
+
+**Questions :**  
+
+1. Quel test appliquer ?  
+
+2. Définir H1.  
+
+3. Calculer la statistique de test à partir de la somme des rangs.  
+
+4. La p-value est de 0.095. Conclure.  
+
+<details>
+<summary>Afficher la réponse</summary>
+
+- Test : **Wilcoxon**  
+- H1 : Les deux groupes possèdent une distribution des rangs différente.  
+- Calcul :  
+
+$$S_w = \frac{n_1 \,(n_1 + 1)}{2} - R_1$$
+$$R_1 = (1+2+3+5+8) = 19$$
+Soit vous compter sur le graphique à quelles positions sont les différents points, soit vous pouvez aussi vérifier avec la ligne de code suivante : 
+
+```{r}
+rank(df$value)[which(df$Group==1)]
+paste("la somme des rangs pour le groupe 1 est de", sum(rank(df$value)[which(df$Group==1)]))
+```
+
+\[
+S_w = \frac{5 \,(5 + 1)}{2} - 19
+\]  
+\[
+S_w = 15 - 19 = -4
+\]  
+
+On peut aussi vérifier avec la ligne de code. On voit bien que la statistique de test 
+
+```{r}
+wilcox.test(df$value~df$Group)
+```
+> Dans R, la statistique de test est la valeur absolue du test donc POSITIVE, mais il réalise le même calcul que nous. R trouve -4 comme nous mais propose sa valeur absolue |-4| = 4.
+
+- Conclusion : p = 0.095 → on **accepte H0** (pas de différence significative), mais résultat limite (proche du seuil).  
+
+
+
+</details>
+

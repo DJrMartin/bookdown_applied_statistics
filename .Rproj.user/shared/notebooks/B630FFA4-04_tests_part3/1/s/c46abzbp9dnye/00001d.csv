@@ -1,0 +1,3 @@
+"0",""
+"0","plot(x=as.numeric(df$Biome), y=log(df$Current), ylim=ylim, xlim=c(0.5, 3.5),"
+"0","     ylab=""Carbon Storage"", axes=F, xlab="""", main=""Variance intragroupe (SCR)"")"

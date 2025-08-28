@@ -1,0 +1,4 @@
+"0","SHN_NA <- c(sum(df$SHN==TRUE),sum(df$SHN==FALSE)) ## (1) Faire la somme des SHN et NA, peu importe le type de microbiote intestinal et (2) l'enregister dans un nouvel objet R."
+"0",""
+"0","par(mar=c(0,0,0,0)) # Permet de conditionner les marges du plot."
+"0","pie(SHN_NA, labels = c(""SHN"", ""NA""), col=c(""firebrick"",""cornflowerblue"")) ## Utiliser la fonction pie."

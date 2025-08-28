@@ -1,0 +1,26 @@
+{
+    "id": "42FEE1DA",
+    "path": "~/RProjects/Stat_vivant_ecologie/05_correlations.Rmd",
+    "project_path": "05_correlations.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1756307976872.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "74,0",
+        "scrollLine": "72"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1756369907,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1756369907510,
+    "read_only": false,
+    "read_only_alternatives": []
+}

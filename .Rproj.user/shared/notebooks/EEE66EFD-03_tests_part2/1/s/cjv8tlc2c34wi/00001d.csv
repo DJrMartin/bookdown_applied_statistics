@@ -1,0 +1,1 @@
+"0","abline(v=median(birds$altitude), col=""blue"", lwd=2)"

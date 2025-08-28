@@ -1,0 +1,2 @@
+"0","boxplot(Etude, Colombie, names = c(""Etude (E)"", ""Colombie (P)""), ylab=""Altitude"", "
+"0","        xlab=""Echantillon versus Population"", col=c(""firebrick"", ""cornflowerblue""))"

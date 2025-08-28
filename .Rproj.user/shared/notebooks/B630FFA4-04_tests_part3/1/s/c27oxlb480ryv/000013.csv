@@ -1,0 +1,4 @@
+"0","for(biome in unique(df$Biome)){"
+"0","  points(x=as.numeric(unique(df$Biome))[cnt],y=mean(log(df$Current[which(df$Biome==biome)])), pch=16, cex=1, col=""red"")"
+"0","  cnt=cnt+1"
+"0","}"

@@ -1,0 +1,259 @@
+# Clustering
+
+Les objectifs de ce cours sont de comprendre les outils qui permettent de trouver des patterns d'individus via l'expression de leurs variables.
+
+(a) Que peut-on dire du graphique ci dessous ? 
+
+```{r, echo=FALSE, fig.align='center'}
+X <- cbind(c(rnorm(30, mean=0, sd=1), rnorm(30, 4, 0.5)),
+      c(rnorm(30, mean=0, sd=1), rnorm(30, 2, 1)))
+plot(X, xlab="ASAT", ylab="ALAT", pch=16, col="firebrick")
+```
+
+(b) Que pouvons nous remarquer ? Comment synthétiser l'information ?
+
+## Généralités
+
+Définition des termes :
+
+-   Classification : Regrouper des individus en groupes ou classes d'individus proches.
+
+-   Non supervisée : dont on ne connait pas la réalité, on n'a pas d'information a priori.
+
+Autrement dit, la classification non supervisée (ou clustering) est la recherche d'un partition ou d'une répartitions des individus en classes homogènes ou catégories, de sorte à ce que celles-ci soient les plus distinctes possibles.
+
+Que souhaitons nous estimer ?
+
+- L'appartenance à une classe pour chaque individu 
+
+- Le nombre de classes
+
+Dans ce cours, nous verrons 2 algorithmes qui permetternt de définir la classe des individus : la classification k-means et la Classification Hiérarichique Ascendante (HAC en anglais).
+
+## K-means (ou algorithme des centres mobiles en français)
+
+### Principe
+On demande à l'algorithme de nous donner un nombre $n_c$ de groupes attendus.
+
+L’algorithme doit rendre : $n_c$ centres. A chaque point on associe le centre le plus proche, ce qui détermine les groupes, et des régions. 
+
+Si on reprend le graphique de départ et que l'on donne deux groupes, on peut les placer de manière intuitif sur le graph. Chaque point sera associé à un groupe en fonction de sa distance aux centroïdes.
+
+### Algorithme du k-means (appartenance à une classe pour chaque individu)
+
+L'algorithme du k-means se base sur plusieurs étapes : *Vous pouvez retrouver un exemple sur le lien suivant https://rpubs.com/hasiegler/926806.*
+
+- Première étape (**INITIALISATION**): on prend au hazard un nombre de points égal au nombre de groupes que nous cherchons (ici $n_c = 2$). Nous allons prendre les points 24 et 4 (représenté en blue et jaune sur le graphique).
+
+```{r, fig.align='center'}
+plot(X, xlab="ASAT", ylab="ALAT", pch=16, col="firebrick")
+points(x=X[24,1], y=X[24,2], xlab="ASAT", ylab="ALAT", pch=16, col="cornflowerblue")
+points(x=X[4,1], y=X[4,2], xlab="ASAT", ylab="ALAT", pch=16, col="gold")
+```
+
+- Seconde étape (**ASSIGNATION**) : chaque point sera associé à l'un des points (bleus ou jaune) en fonction de leur distance par rapport à ce dernier.
+
+> Pour rappel, ici nous utiliserons la distance euclidienne dont la formule pour deux variable x et y est $d(M_1, M_2) = \sum{\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}}$ où $M_i$ correspond aux individus.
+
+- Troisième étape (**NOUVEAUX CENTROÏDES**) : Dans cette troisième étape il faut recalculer le centroïde de chaque cluster (bleu et jaune). Ce seront nos nouveaux points de départ pour recommencer la phase d'**ASSIGNATION**.
+
+```{r, fig.align='center'}
+## ASSIGNATION
+d_n_blue <- as.matrix(dist(rbind(X[24,],X)))[-1,1] # Distance de l'ensemble des points au point bleu.
+d_n_gold <- as.matrix(dist(rbind(X[4,],X)))[-1,1] # Distance de l'ensemble des points au point jaune.
+
+cluster <- apply(cbind(d_n_blue, d_n_gold),1,which.min) # phase d'assignation.
+cluster_col <- as.character(factor(cluster, c(1,2), c("cornflowerblue", "gold")))
+
+layout(matrix(c(1,2), nrow=1))
+plot(X, xlab="ASAT", ylab="ALAT", pch=1, col=cluster_col)
+points(x=X[24,1], y=X[24,2], xlab="ASAT", ylab="ALAT", pch=16, col="cornflowerblue")
+points(x=X[4,1], y=X[4,2], xlab="ASAT", ylab="ALAT", pch=16, col="gold")
+
+## NOUVEAUX CENTROÏDES
+centroide_blue <- colMeans(X[which(cluster==1),])
+centroide_jaune <- colMeans(X[which(cluster==2),])
+
+plot(X, xlab="ASAT", ylab="ALAT", pch=1, col="firebrick")
+points(x=X[24,1], y=X[24,2], xlab="ASAT", ylab="ALAT", pch=16, col="cornflowerblue")
+points(x=X[4,1], y=X[4,2], xlab="ASAT", ylab="ALAT", pch=16, col="gold")
+points(centroide_blue[1], centroide_blue[2], xlab="ASAT", ylab="ALAT", pch=15, col="cornflowerblue")
+points(centroide_jaune[1], centroide_jaune[2], xlab="ASAT", ylab="ALAT", pch=15, col="gold")
+legend("topleft", c("1ere itération", "2nd itération"), bty="n", pch= c(16, 15))
+```
+
+- Boucler ces deux dernières étapes (**ASSIGNATION** + **NOUVEAUX CENTROÏDES**) pour converger vers des clusters homogènes.
+
+```{r, fig.align='center'}
+d_n_blue <- as.matrix(dist(rbind(centroide_blue,X)))[-1,1] # Distance de l'ensemble des points au carré bleu.
+d_n_gold <- as.matrix(dist(rbind(centroide_jaune,X)))[-1,1] # Distance de l'ensemble des points au carré jaune.
+
+cluster <- apply(cbind(d_n_blue, d_n_gold),1,which.min) # phase d'assignation.
+cluster_col <- as.character(factor(cluster, c(1,2), c("cornflowerblue", "gold")))
+
+layout(matrix(c(1,2), nrow=1))
+plot(X, xlab="ASAT", ylab="ALAT", pch=1, col=cluster_col)
+points(centroide_blue[1], centroide_blue[2], xlab="ASAT", ylab="ALAT", pch=15, col="cornflowerblue")
+points(centroide_jaune[1], centroide_jaune[2], xlab="ASAT", ylab="ALAT", pch=15, col="gold")
+
+## NOUVEAUX CENTROÏDES
+centroide_blue_2 <- colMeans(X[which(cluster==1),])
+centroide_jaune_2 <- colMeans(X[which(cluster==2),])
+
+plot(X, xlab="ASAT", ylab="ALAT", pch=1, col="firebrick")
+points(centroide_blue[1], centroide_blue[2],pch=15, col="cornflowerblue")
+points(centroide_jaune[1], centroide_jaune[2],  pch=15, col="gold")
+points(centroide_blue_2[1], centroide_blue_2[2],pch=17, col="cornflowerblue")
+points(centroide_jaune_2[1], centroide_jaune_2[2], pch=17, col="gold")
+legend("topleft", c("2nd itération", "3eme itération"), bty="n", pch= c(15,17))
+```
+
+À la fin, il faut faire une dernière étape d'**ASSIGNATION** pour définir la classe des individus où le triangle est le centroïde des deux groupes.
+
+```{r, fig.align='center'}
+## ASSIGNATION FINALE
+d_n_blue <- as.matrix(dist(rbind(centroide_blue_2,X)))[-1,1] # Distance de l'ensemble des points au point bleu.
+d_n_gold <- as.matrix(dist(rbind(centroide_jaune_2,X)))[-1,1] # Distance de l'ensemble des points au point jaune.
+
+cluster <- apply(cbind(d_n_blue, d_n_gold),1,which.min) # phase d'assignation.
+cluster_col <- as.character(factor(cluster, c(1,2), c("cornflowerblue", "gold")))
+plot(X, xlab="ASAT", ylab="ALAT", pch=1, col=cluster_col)
+points(centroide_blue_2[1], centroide_blue_2[2],pch=17, col="cornflowerblue")
+points(centroide_jaune_2[1], centroide_jaune_2[2], pch=17, col="gold")
+```
+
+On peut aussi utiliser l'algorithme k-means directement sur R, en appelant la function *kmeans* du package *stats*.
+
+```{r}
+res.kmeans <- kmeans(X, centers = 2, iter.max = 1, nstart = 1)
+res.kmeans
+```
+
+Dans cet objet **res.kmeans**, on retrouve la moyenne des centroïdes ainsi que la classe des individus en utilisant les deux lignes de commandes suivantes.
+
+```{r}
+res.kmeans$centers
+res.kmeans$cluster
+```
+
+
+## Classification Hiérarchique Ascendante
+
+La classification hiérarchique ascendante est basée sur un algorithme glouton. Au départ chaque individu forme une classe à lui seul. A chaque étape, les deux classes les plus proches sont agglomérées (**critère local**), pour finir avec une classe unique qui regroupe tous les individus.
+
+L’arbre obtenu est coupé a posteriori de façon à obtenir un bon compromis entre le nombre de classes et la variance intra-classe (**critère global**).
+
+Cet algorithme se base sur une distance entre les individus et sur une méthode d'agglomération. 
+
+### Mesure d'éloignement entre les individus
+
+On parle de mesure de dissimilarités, c'est à dire à quel point les individus se ressemble ou bien s'éloigne en fonction du nombre de caractéristiques qu'ils ont en commun.
+
+Il existe plusieurs mesures de distance : Grover, Bray-Curtis, Euclidienne... etc.
+
+### Mesure d'agrégation
+
+Il en existe plusieurs, comme le saut minimum, la distance maximum, la moyenne ou encore la méthode de Ward. 
+
+Chaque méthode génère un résultat différent. Nous n'aborderons pas ici les détails de ces techniques, mais la méthode de Ward est souvent privilégiée. Cette méthode vise à minimiser l’inertie à l’intérieur des classes et à maximiser celle entre les classes pour obtenir des groupes aussi homogènes que possible.
+
+La fonction principale pour calculer un dendrogramme est *hclust*, où l’on spécifie le critère d'agrégation avec l'option *method*. Dans notre cas, nous choisirons la méthode de Ward appliquée au carré des distances, en spécifiant *method = "ward.D2"*.
+
+```{r}
+D <- dist(X) # Distance entre les individus.
+HAC <- hclust(D, method = "ward.D") # Méthode d'agglomération.
+layout(matrix(c(1,2), nrow=1))
+plot(HAC)
+groupe <- cutree(HAC, 2) # Assigner les groupes
+plot(X, xlab="ASAT", ylab="ALAT", pch=16, col=groupe)
+```
+
+## Définir le nombre de classes optimales ?
+
+Dans certains cas, vous ne serez pas quel nombre de classes choisir. Nous allons définir deux approches possible vous permettant de prendre une décision et définir $n_c$. Dans cet exemple, j'ai simulé 300 individus en prenant le soin de simuler un jeu de données où les variables permettent de définir un nombre de trois groupes. L'objectif de cette partie de vérifier quel algorithme est le plus performant pour retrouver le nombre de groupe réel. 
+
+Je coloris les groupes que nous devons normalement retrouver.
+
+```{r, echo = FALSE}
+sigma <- matrix(0, ncol=2,nrow=2)
+diag(sigma) <- c(1,0.4)
+X <- rbind(mvtnorm::rmvnorm(100, mean=c(0,1.5), sigma),
+           mvtnorm::rmvnorm(100, mean=c(1,-2), sigma),
+           mvtnorm::rmvnorm(100, mean=c(-1,0), sigma))
+```
+
+
+```{r, fig.align='center'}
+layout(matrix(c(1,2), nrow=1))
+plot(X[,c(1,2)], xlab ="x", ylab="y", pch=16)
+plot(X[,c(1,2)], xlab ="x", ylab="y", col = rep(c("firebrick", "cornflowerblue", "purple"), each=100), pch=16)
+```
+
+### Première approche : Variance totale et règle du coude
+
+Cette première approche est une apporche empirique basée sur votre observation. Par exemple, on fait le kmeans pour différents nombres de classes et on choisit le meilleur compromis entre la variance intra-classe et le nombre de classes.
+
+On appelle inertie d'un nuage de points la moyenne des carrés des distances des $n$ points au centre de gravité, soit :
+
+$$ I_G (N) = \frac{1}{n} \sum{d(G, x_i)^2}$$
+Par exemple pour 2 classes, la variance intra-classe se calcule de cette manière : 
+
+```{r}
+var_intra = NULL
+K = 2
+res.class <- kmeans(X, centers = K)
+
+plot(X, col=res.class$cluster, xlab="x",ylab="y" )
+points(res.class$centers,pch=16, col=1:10)
+
+for(k in 1:K){
+  var_intra <- c(var_intra, mean(as.matrix(dist(rbind(res.class$centers[k,],
+                                                      X[which(res.class$cluster==k),])))[-1,1]))
+  }
+
+legend("topright",paste("variance intra-classe", round(mean(var_intra), 3)), bty="n")
+```
+
+
+```{r, fig.align='center'}
+K = 10
+variance_nc = NULL
+for(k in 1:K){
+  res.class <- kmeans(X, centers = k)
+  var_intra = NULL
+  for(j in 1:k){
+    var_intra <- c(var_intra, mean(as.matrix(dist(rbind(res.class$centers[j,],
+                                                        X[which(res.class$cluster==j),])))[-1,1]))
+  }
+  variance_nc <- c(variance_nc, mean(var_intra))
+}
+plot(1:10, variance_nc, type='l', xlab = "nb de classes", ylab="Inertie")
+```
+
+(a) Quelle serait le nombre de classes adapté pour notre population ?
+
+> Attention, votre résultat dépend de l'initialisation des centroïdes : comme on les place aléatoirement, le résultat donné peut être différent quand on relance l'algorithme. Il est donc conseillé de relancer plusieurs fois l'algorithme pour sélectionner la partition dont l’inertie intraclasse sera la plus petite.
+
+```{r, fig.align='center', fig.height=4, fig.width=9}
+layout(matrix(c(1,2, 3), nrow=1))
+plot(X[,c(1,2)], xlab ="x", ylab="y", pch=16, main="Population totale")
+plot(X[,c(1,2)], xlab ="x", ylab="y", col = rep(c("firebrick", "cornflowerblue", "purple"), each=100), pch=16, main="Groupes reels")
+plot(X[,c(1,2)], xlab ="x", ylab="y", col = kmeans(X, centers = 3)$cluster, pch=16, main="Groupes estimés")
+```
+
+### Seconde approche : coefficient de Silhouette.
+
+Coefficient de Silhouette : Évalue le degré de compacité et de séparation des grappes. En utilisant le coefficient de Silhouette, nous pouvons choisir une valeur optimale pour le nombre de groupes.
+
+Pour chaque point, le coefficient de silhouette est calculé en soustrayant la distance moyenne avec les points de son propre groupe (cohésion) de la distance moyenne avec les points des groupes voisins (séparation). Si cette différence est négative, cela signifie que le point est plus proche des points du groupe voisin que de ceux de son propre groupe, indiquant un mauvais classement. En revanche, si la différence est positive, le point est mieux lié à son propre groupe qu'aux groupes voisins, signalant un bon classement.
+
+Le coefficient de silhouette global est la moyenne des coefficients de silhouette de tous les points. Le coefficient de Silhouette est compris entre -1 et 1 ; plus il est grand, mieux c’est.
+
+L'ensemble des points appartenant à un groupe ${\textstyle k}$ est alors donné par ${\textstyle I_{k}=\{i\in [\![1,N]\!]/\ C(i)=k\}}$.
+
+Le coefficient (ou score) de silhouette se définit d'abord sur un point ${\textstyle i}$ dont le groupe est ${\textstyle k=C(i)}$. Il se base sur la distance moyenne du point à son groupe : ${\textstyle a(i)={\frac {1}{\vert I_{k}\vert -1}}\sum _{j\in I_{k},j\neq i}d(x^{i},x^{j})}$ et la distance moyenne du point à son groupe voisin ${\textstyle b(i)=\min _{k'\neq k}{\frac {1}{\vert I_{k'}\vert }}\sum _{i'\in I_{k'}}d(x^{i},x^{i'})}$. 
+
+Le coefficient de silhouette du point ${\textstyle i}$ s'écrit alors : 
+
+$${\displaystyle s_{sil}(i)={\frac {b(i)-a(i)}{\max(a(i),b(i))}}}$$
+

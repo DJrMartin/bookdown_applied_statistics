@@ -1,0 +1,2 @@
+"0",""
+"0","plot(x=1, y=1, col=""white"", ylim=ylim, ylab=""Carbon Storage"", axes=F, xlab="""", main=""Variance intergroupe (SCE)"")"

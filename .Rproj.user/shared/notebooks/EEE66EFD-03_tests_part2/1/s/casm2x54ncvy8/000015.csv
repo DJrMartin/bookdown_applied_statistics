@@ -1,0 +1,2 @@
+"0","loi_de_student <- rt(500, 270)"
+"0","hist(loi_de_student, main=""Densité d'une loi de Student"", xlab="""") # On construit une loi de student pour replacer notre statistique de T et calculer sa probabilité (i.e. sa rareté). "

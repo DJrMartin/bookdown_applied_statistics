@@ -1,0 +1,8 @@
+"0","par(mar=c(5,5,2,2)) # Gérer les marges du plot."
+"0","# Il faut d'abord normaliser les données pour pouvoir les comparer entre elles"
+"0","# Plusieurs normalisation existe, ici nous normaliserons les données par rapport à leur maximum."
+"0","max.norm.M <- birds$Medium.dependency/max(birds$Medium.dependency)"
+"0","max.norm.H <- birds$High.Dependency/max(birds$High.Dependency)"
+"0",""
+"0","plot(birds$altitude, max.norm.M, xlab=""Altitude (mètres)"", ylab=""Abondance d'oiseaux\n(Richesse)"", "
+"0","     main="""", pch =15, col=""darkgreen"", ylim=range(c(max.norm.M,max.norm.H)))"

@@ -1,0 +1,2 @@
+"0","load(file = ""data/Birds_dataset.rda"")"
+"0","knitr::kable(head(birds))"

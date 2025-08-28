@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter :3 Tests statistiques (t. test et t. wilcoxon) | Statistique appliquée aux sciences de l’environnement et du vivant</title>
+  <meta name="description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter :3 Tests statistiques (t. test et t. wilcoxon) | Statistique appliquée aux sciences de l’environnement et du vivant" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter :3 Tests statistiques (t. test et t. wilcoxon) | Statistique appliquée aux sciences de l’environnement et du vivant" />
+  
+  <meta name="twitter:description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  
+
+<meta name="author" content="David M. Carminati" />
+
+
+<meta name="date" content="2025-08-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="test-statistique-chi2.html"/>
+<link rel="next" href="tests-statistiques-anova-et-kruskal-wallis.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistiques appliquées aux sciences du vivant</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Statistique appliquée aux sciences de l’environnement et du vivant.</a></li>
+<li class="chapter" data-level="1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html"><i class="fa fa-check"></i><b>1</b> Introduction au langage de programmation <code>R</code></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#rstudio-et-ide."><i class="fa fa-check"></i><b>1.1</b> Rstudio et IDE.</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-pré-requis"><i class="fa fa-check"></i><b>1.2</b> Les pré-requis</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-objects"><i class="fa fa-check"></i><b>1.2.1</b> Les objects</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-fonctions"><i class="fa fa-check"></i><b>1.2.2</b> Les fonctions</a></li>
+<li class="chapter" data-level="1.2.3" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-data-frames"><i class="fa fa-check"></i><b>1.2.3</b> Les data-frames</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-boucles"><i class="fa fa-check"></i><b>1.3</b> Les boucles</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-fonctions-version-intermédiaire"><i class="fa fa-check"></i><b>1.4</b> Les fonctions (version intermédiaire)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html"><i class="fa fa-check"></i><b>2</b> Test statistique (<span class="math inline">\(\chi^2\)</span>)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#observationexpériencecausalité-quelques-mots-de-vocabulaire"><i class="fa fa-check"></i><b>2.1</b> Observation/Expérience/causalité (quelques mots de vocabulaire)</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#échantillonspopulations"><i class="fa fa-check"></i><b>2.1.1</b> Échantillons/populations</a></li>
+<li class="chapter" data-level="2.1.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#donnéesindividuvariables"><i class="fa fa-check"></i><b>2.1.2</b> Données/individu/variables</a></li>
+<li class="chapter" data-level="2.1.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#méthodologie-danalyse"><i class="fa fa-check"></i><b>2.1.3</b> Méthodologie d’analyse</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#test-statistique-avec-2-variables-qualitatives."><i class="fa fa-check"></i><b>2.2</b> Test statistique avec 2 variables qualitatives.</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#statistiques-descriptives-et-visualisations"><i class="fa fa-check"></i><b>2.2.1</b> Statistiques descriptives et visualisations</a></li>
+<li class="chapter" data-level="2.2.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#explication-des-tests-statistiques"><i class="fa fa-check"></i><b>2.2.2</b> Explication des Tests Statistiques</a></li>
+<li class="chapter" data-level="2.2.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#test-statistique-pour-variables-qualitatives-chi2"><i class="fa fa-check"></i><b>2.2.3</b> Test Statistique pour variables qualitatives (<span class="math inline">\(\chi^2\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#révision-test-du-χ²"><i class="fa fa-check"></i><b>2.3</b> Révision test du χ²</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#qcm"><i class="fa fa-check"></i><b>2.3.1</b> QCM</a></li>
+<li class="chapter" data-level="2.3.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#questions-ouvertes-définitions"><i class="fa fa-check"></i><b>2.3.2</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="2.3.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#problème"><i class="fa fa-check"></i><b>2.3.3</b> Problème</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#travaux-pratiques"><i class="fa fa-check"></i><b>2.4</b> Travaux Pratiques</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#pokemons"><i class="fa fa-check"></i><b>2.4.1</b> Pokemons</a></li>
+<li class="chapter" data-level="2.4.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#travaux-pratiques-1"><i class="fa fa-check"></i><b>2.4.2</b> Travaux Pratiques</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html"><i class="fa fa-check"></i><b>3</b> Tests statistiques (t. test et t. wilcoxon)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#statistiques-descriptives-et-visualisations-1"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives et visualisations</a></li>
+<li class="chapter" data-level="3.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-statistique-pour-variables-quantitatives-paramétriques-non-paramétriques"><i class="fa fa-check"></i><b>3.2</b> Test Statistique pour variables quantitatives (Paramétriques / Non paramétriques)</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#généralités-1"><i class="fa fa-check"></i><b>3.2.1</b> Généralités</a></li>
+<li class="chapter" data-level="3.2.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#prérequis-pour-le-choix-du-test"><i class="fa fa-check"></i><b>3.2.2</b> Prérequis pour le choix du test</a></li>
+<li class="chapter" data-level="3.2.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-paramétrique-test-de-student"><i class="fa fa-check"></i><b>3.2.3</b> Test paramétrique (test de Student)</a></li>
+<li class="chapter" data-level="3.2.4" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-non-paramétrique-test-de-wilcoxon-mann-whitney"><i class="fa fa-check"></i><b>3.2.4</b> Test non paramétrique (test de Wilcoxon-Mann-Whitney)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#révisions-des-tests"><i class="fa fa-check"></i><b>3.3</b> Révisions des tests</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#rappel"><i class="fa fa-check"></i><b>3.3.1</b> Rappel</a></li>
+<li class="chapter" data-level="3.3.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#qcm-1"><i class="fa fa-check"></i><b>3.3.2</b> QCM</a></li>
+<li class="chapter" data-level="3.3.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#questions-ouvertes-définitions-1"><i class="fa fa-check"></i><b>3.3.3</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="3.3.4" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#exercices-1"><i class="fa fa-check"></i><b>3.3.4</b> Exercices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html"><i class="fa fa-check"></i><b>4</b> Tests statistiques (ANOVA et Kruskal Wallis)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques-pour-plusieurs-groupes"><i class="fa fa-check"></i><b>4.1</b> Tests statistiques pour plusieurs groupes</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#test-non-paramétrique-kruskall-wallis"><i class="fa fa-check"></i><b>4.1.1</b> Test non paramétrique (<strong>Kruskall-Wallis</strong>)</a></li>
+<li class="chapter" data-level="4.1.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#test-paramétrique-anova"><i class="fa fa-check"></i><b>4.1.2</b> Test paramétrique (<strong>ANOVA</strong>)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques-multiples."><i class="fa fa-check"></i><b>4.2</b> Tests statistiques Multiples.</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#généralités-2"><i class="fa fa-check"></i><b>4.2.1</b> Généralités</a></li>
+<li class="chapter" data-level="4.2.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#applications"><i class="fa fa-check"></i><b>4.2.2</b> Applications</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#révisions-des-tests-1"><i class="fa fa-check"></i><b>4.3</b> Révisions des tests</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#qcm-2"><i class="fa fa-check"></i><b>4.3.1</b> QCM</a></li>
+<li class="chapter" data-level="4.3.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#questions-ouvertes-définitions-2"><i class="fa fa-check"></i><b>4.3.2</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="4.3.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#problème-1"><i class="fa fa-check"></i><b>4.3.3</b> Problème</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#travaux-pratiques-2"><i class="fa fa-check"></i><b>4.4</b> Travaux pratiques</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#statistiques-descriptives-du-metabolisme-du-fer"><i class="fa fa-check"></i><b>4.4.1</b> Statistiques descriptives du metabolisme du fer</a></li>
+<li class="chapter" data-level="4.4.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques"><i class="fa fa-check"></i><b>4.4.2</b> Tests Statistiques</a></li>
+<li class="chapter" data-level="4.4.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#modelisation-à-2-facteurs"><i class="fa fa-check"></i><b>4.4.3</b> Modelisation à 2 facteurs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html"><i class="fa fa-check"></i><b>5</b> Tests statistiques (Corrélations)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#tests-dindépendance-entre-2-variables-quantitatives."><i class="fa fa-check"></i><b>5.1</b> Tests d’indépendance entre 2 variables <strong>quantitatives</strong>.</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#généralités-3"><i class="fa fa-check"></i><b>5.1.1</b> Généralités</a></li>
+<li class="chapter" data-level="5.1.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#conditions"><i class="fa fa-check"></i><b>5.1.2</b> Conditions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#paramètres-des-tests-de-correlation-exemple-avec-la-méthode-de-pearson"><i class="fa fa-check"></i><b>5.2</b> Paramètres des tests de correlation : Exemple avec la méthode de Pearson</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#premier-paramètre-a-coefficient-linéaire"><i class="fa fa-check"></i><b>5.2.1</b> Premier paramètre : <span class="math inline">\(a\)</span>, coefficient linéaire</a></li>
+<li class="chapter" data-level="5.2.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#second-paramètre-r"><i class="fa fa-check"></i><b>5.2.2</b> Second paramètre : <span class="math inline">\(r\)</span></a></li>
+<li class="chapter" data-level="5.2.3" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#troisième-paramètre-r2"><i class="fa fa-check"></i><b>5.2.3</b> troisième paramètre : <span class="math inline">\(r^2\)</span></a></li>
+<li class="chapter" data-level="5.2.4" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#quatrième-paramètre-p-value"><i class="fa fa-check"></i><b>5.2.4</b> quatrième paramètre : <span class="math inline">\(p value\)</span></a></li>
+<li class="chapter" data-level="5.2.5" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#code-r"><i class="fa fa-check"></i><b>5.2.5</b> Code R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#test-de-spearman"><i class="fa fa-check"></i><b>5.3</b> Test de Spearman</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>6</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="clustering.html"><a href="clustering.html#généralités-4"><i class="fa fa-check"></i><b>6.1</b> Généralités</a></li>
+<li class="chapter" data-level="6.2" data-path="clustering.html"><a href="clustering.html#k-means-ou-algorithme-des-centres-mobiles-en-français"><i class="fa fa-check"></i><b>6.2</b> K-means (ou algorithme des centres mobiles en français)</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="clustering.html"><a href="clustering.html#principe"><i class="fa fa-check"></i><b>6.2.1</b> Principe</a></li>
+<li class="chapter" data-level="6.2.2" data-path="clustering.html"><a href="clustering.html#algorithme-du-k-means-appartenance-à-une-classe-pour-chaque-individu"><i class="fa fa-check"></i><b>6.2.2</b> Algorithme du k-means (appartenance à une classe pour chaque individu)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="clustering.html"><a href="clustering.html#classification-hiérarchique-ascendante"><i class="fa fa-check"></i><b>6.3</b> Classification Hiérarchique Ascendante</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="clustering.html"><a href="clustering.html#mesure-déloignement-entre-les-individus"><i class="fa fa-check"></i><b>6.3.1</b> Mesure d’éloignement entre les individus</a></li>
+<li class="chapter" data-level="6.3.2" data-path="clustering.html"><a href="clustering.html#mesure-dagrégation"><i class="fa fa-check"></i><b>6.3.2</b> Mesure d’agrégation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="clustering.html"><a href="clustering.html#définir-le-nombre-de-classes-optimales"><i class="fa fa-check"></i><b>6.4</b> Définir le nombre de classes optimales ?</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="clustering.html"><a href="clustering.html#première-approche-variance-totale-et-règle-du-coude"><i class="fa fa-check"></i><b>6.4.1</b> Première approche : Variance totale et règle du coude</a></li>
+<li class="chapter" data-level="6.4.2" data-path="clustering.html"><a href="clustering.html#seconde-approche-coefficient-de-silhouette."><i class="fa fa-check"></i><b>6.4.2</b> Seconde approche : coefficient de Silhouette.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html"><i class="fa fa-check"></i><b>7</b> Analyse en Composantes Principales</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#généralités-5"><i class="fa fa-check"></i><b>7.1</b> Généralités</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#etude-des-variables"><i class="fa fa-check"></i><b>7.1.1</b> Etude des variables</a></li>
+<li class="chapter" data-level="7.1.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#normalisation-des-individus-pré-requis"><i class="fa fa-check"></i><b>7.1.2</b> Normalisation des individus : pré-requis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#réaliser-la-pca-sur-r."><i class="fa fa-check"></i><b>7.2</b> Réaliser la PCA sur R.</a></li>
+<li class="chapter" data-level="7.3" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#interprétation"><i class="fa fa-check"></i><b>7.3</b> Interprétation</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#graphique-des-individus"><i class="fa fa-check"></i><b>7.3.1</b> Graphique des individus</a></li>
+<li class="chapter" data-level="7.3.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#graphique-des-variables-cercle-de-correlation-des-variables"><i class="fa fa-check"></i><b>7.3.2</b> Graphique des variables (cercle de correlation des variables)</a></li>
+<li class="chapter" data-level="7.3.3" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#compréhension-des-axes"><i class="fa fa-check"></i><b>7.3.3</b> Compréhension des axes</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistique appliquée aux sciences de l’environnement et du vivant</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tests-statistiques-t.-test-et-t.-wilcoxon" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter :3</span> Tests statistiques (t. test et t. wilcoxon)<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#tests-statistiques-t.-test-et-t.-wilcoxon" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Les tests que nous verrons dans cette partie 2 seront à mettre en place lorsqu’une des deux variables sera qualitative et l’autre quantitative.</strong></p>
+<div id="statistiques-descriptives-et-visualisations-1" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Statistiques descriptives et visualisations<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#statistiques-descriptives-et-visualisations-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>L’ensemble des données de l’exemple ci-contre est issu d’un article paru dans <em>Ecology</em> (2023) intitulé <em>High sensitivity of tropical forest birds to deforestation at lower altitudes</em> par Mills SC et Collaborateurs (doi: 10.1002/ecy.3867).</p>
+<p>Il comprend des informations concernant le nombre d’espèces différentes observé sachant un paramètre de dépendence à la forêt. La survie des espèces d’oiseaux ont été classée comme étant moyennement dépendant de la forêt (“Medium.dependency”) ou bien fortement dépendant (“High.Dependency”). Enfin ce jeu de donnée présente la variable de l’atlitude moyenne associée à l’observation de ces espèces. Ces deux variables quantitatives sont associées à des sites géographiques de la cordillère des Andes (plus précisement en Colombie).</p>
+<blockquote>
+<p>Vous avez la possibilité de sauvegarder et d’uploader des datas en utilisant la forme de stockage .RDATA ou .rda. La fonction de stockage est save() et celle de chargement des données load().</p>
+</blockquote>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb62-1" tabindex="-1"></a><span class="fu">load</span>(<span class="at">file =</span> <span class="st">&quot;data/Birds_dataset.rda&quot;</span>)</span>
+<span id="cb62-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb62-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(birds))</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Medium.dependency</th>
+<th align="right">High.Dependency</th>
+<th align="right">altitude</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Arcabuco Togui</td>
+<td align="right">142</td>
+<td align="right">100</td>
+<td align="right">2450.499</td>
+</tr>
+<tr class="even">
+<td align="left">Asiria Belen</td>
+<td align="right">138</td>
+<td align="right">95</td>
+<td align="right">2893.601</td>
+</tr>
+<tr class="odd">
+<td align="left">Chingaza</td>
+<td align="right">127</td>
+<td align="right">85</td>
+<td align="right">3384.290</td>
+</tr>
+<tr class="even">
+<td align="left">Chiquaque</td>
+<td align="right">142</td>
+<td align="right">100</td>
+<td align="right">2259.778</td>
+</tr>
+<tr class="odd">
+<td align="left">El Secreto</td>
+<td align="right">142</td>
+<td align="right">100</td>
+<td align="right">2320.463</td>
+</tr>
+<tr class="even">
+<td align="left">El Taladro</td>
+<td align="right">142</td>
+<td align="right">100</td>
+<td align="right">2517.790</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Questions</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Quelle est la population d’intérêt ?</p></li>
+<li><p>Comment pourrait-on répondre à la question suivante : Les sites échantillonnés sont-ils représentatifs de la Colombie en terme d’altitude ?</p></li>
+</ol>
+<p><strong>Centre/position de la distribution</strong> Un graphique est utile pour nous aider à visualiser la forme d’une distribution. Nous pouvons aussi résumer les caractéristiques importantes d’une distribution numériquement. Les deux statistiques qui décrivent le centre ou l’emplacement d’une distribution pour une seule variable quantitative sont la moyenne et la médiane.</p>
+<p>La moyenne d’un échantillon de données <span class="math inline">\(x_1, x_2,…, x_n\)</span> et d’une variable <span class="math inline">\(j\)</span> (ici l’altitude) est définie par
+<span class="math display">\[\hat{\mu}_j = \frac{1}{n} \sum_{i=1}^{n} x_{i}\]</span></p>
+<p>Ici l’échantillonnage des oiseaux s’est réalisé en moyenne à 2297 mètres d’altitude soit <span class="math inline">\(\hat{\mu}_{altitude} = 2297\)</span></p>
+<p><strong>Dispersion.</strong> La variance et l’écart-type donnent des informations sur la dispersion d’un échantillon.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-1" tabindex="-1"></a><span class="co"># Représenter la variable d&#39;altitude.</span></span>
+<span id="cb63-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-2" tabindex="-1"></a><span class="fu">hist</span>(birds<span class="sc">$</span>altitude, <span class="at">col=</span><span class="st">&quot;lightblue&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Altitude (mètres)&quot;</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8</span>),</span>
+<span id="cb63-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-3" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Comptage&quot;</span>, <span class="at">main=</span><span class="st">&quot;Histogramme de l&#39;altitude des sites&quot;</span>)</span>
+<span id="cb63-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-4" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-5" tabindex="-1"></a><span class="co"># Représentation du paramètre de position.</span></span>
+<span id="cb63-6"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">mean</span>(birds<span class="sc">$</span>altitude), <span class="at">col=</span><span class="st">&#39;red&#39;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb63-7"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-7" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">median</span>(birds<span class="sc">$</span>altitude), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb63-8"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-8" tabindex="-1"></a></span>
+<span id="cb63-9"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-9" tabindex="-1"></a><span class="co"># Représentation du paramètre de dispersion.</span></span>
+<span id="cb63-10"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-10" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0 =</span> <span class="fu">mean</span>(birds<span class="sc">$</span>altitude) <span class="sc">-</span> <span class="fu">sd</span>(birds<span class="sc">$</span>altitude),</span>
+<span id="cb63-11"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-11" tabindex="-1"></a>         <span class="at">x1 =</span> <span class="fu">mean</span>(birds<span class="sc">$</span>altitude) <span class="sc">+</span> <span class="fu">sd</span>(birds<span class="sc">$</span>altitude),</span>
+<span id="cb63-12"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-12" tabindex="-1"></a>         <span class="at">y0 =</span> <span class="fl">7.5</span>, <span class="at">col=</span><span class="st">&quot;darkolivegreen&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb63-13"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-13" tabindex="-1"></a></span>
+<span id="cb63-14"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-14" tabindex="-1"></a><span class="co"># On ajoute une légende pour comprendre notre graphique.</span></span>
+<span id="cb63-15"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-15" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;darkolivegreen&quot;</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>), <span class="at">lty=</span><span class="dv">1</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;sd&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;median&quot;</span>), </span>
+<span id="cb63-16"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb63-16" tabindex="-1"></a>       <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-30"></span>
+<img src="_main_files/figure-html/unnamed-chunk-30-1.png" alt="Figure 3 : Histogramme de l'Altitude." width="960" />
+<p class="caption">
+Figure 3.1: Figure 3 : Histogramme de l’Altitude.
+</p>
+</div>
+<p>Ces statistiques descriptives primaires permettent de décrire les observations. Dans le cas on nous représentons la moyenne avec plus ou moins 1 écart-type, nous engloberons environ 66% des observations. Dans le cas où nous aurions choisi de représenter la moyenne avec plus ou moins 2 écart-types, on engloberait environ 95% des observations. Enfin dans le cas où nous choisirions de représenter la moyenne avec plus ou moins 3 écart-types, on engloberait environ 99% des observations.</p>
+<p>Voici un code pour savoir le pourcentage des observations si situant entre la Moyenne et + ou - 2 écart types.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb64-1" tabindex="-1"></a>ecart_type <span class="ot">&lt;-</span> <span class="fu">sd</span>(birds<span class="sc">$</span>altitude) <span class="co"># définir l&#39;écart-type</span></span>
+<span id="cb64-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb64-2" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb64-3" tabindex="-1"></a>condition_moins_ecartT <span class="ot">&lt;-</span> <span class="fu">which</span>(birds<span class="sc">$</span>altitude <span class="sc">&lt;</span> (<span class="fu">mean</span>(birds<span class="sc">$</span>altitude) <span class="sc">+</span> (<span class="dv">2</span><span class="sc">*</span>ecart_type))) <span class="co"># renvoie l&#39;ensemble des obsevrations pour lequel la condition suivant est respecté : obs INFÉRIEURE à la moyenne + ou - 2 SD.</span></span>
+<span id="cb64-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb64-4" tabindex="-1"></a>condition_plus_ecartT <span class="ot">&lt;-</span> <span class="fu">which</span>(birds<span class="sc">$</span>altitude <span class="sc">&gt;</span> (<span class="fu">mean</span>(birds<span class="sc">$</span>altitude) <span class="sc">+</span> (<span class="dv">2</span><span class="sc">*</span>ecart_type))) <span class="co"># renvoie l&#39;ensemble des obsevrations pour lequel la condition suivant est respecté : obs SUPÉRIEURE à la moyenne + ou - 2 SD.</span></span>
+<span id="cb64-5"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb64-5" tabindex="-1"></a></span>
+<span id="cb64-6"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb64-6" tabindex="-1"></a><span class="fu">length</span>(condition_moins_ecartT <span class="sc">|</span> condition_plus_ecartT) <span class="sc">/</span> <span class="co"># renvoie le nombre d&#39;observation qui respecte les deux conditions précédentes.</span></span>
+<span id="cb64-7"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb64-7" tabindex="-1"></a>  <span class="fu">length</span>(birds<span class="sc">$</span>altitude) <span class="co"># diviser par le nombre total d&#39;observations.</span></span></code></pre></div>
+<pre><code>## [1] 0.9545455</code></pre>
+<p><strong>Histogramme</strong> Une représentation alternative pour afficher une distribution de données quantitatives est un histogramme. En regroupant les données sur l’altitude en intervalles de 500 mètres (1000 à 1500 mètres, 1500 à 2000 mètres et ainsi de suite), nous obtenons le tableau des fréquences, présenté ci-contre.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">1</span>))</span>
+<span id="cb66-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># Gérer les marges du plot.</span></span>
+<span id="cb66-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-3" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-4" tabindex="-1"></a><span class="co"># PLOT N°1</span></span>
+<span id="cb66-5"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-5" tabindex="-1"></a><span class="fu">boxplot</span>(birds<span class="sc">$</span>Medium.dependency,birds<span class="sc">$</span>High.Dependency, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">&quot;Moyenne&quot;</span>, <span class="st">&#39;Élevée&#39;</span>), <span class="at">xlab=</span><span class="st">&#39;Niveau de dependance&#39;</span>,</span>
+<span id="cb66-6"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-6" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">&quot;Richesse d&#39;oiseaux (diversité)&quot;</span>)</span>
+<span id="cb66-7"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-7" tabindex="-1"></a><span class="co"># PLOT N°2</span></span>
+<span id="cb66-8"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-8" tabindex="-1"></a><span class="fu">plot</span>(birds<span class="sc">$</span>altitude, birds<span class="sc">$</span>Medium.dependency<span class="sc">+</span>birds<span class="sc">$</span>High.Dependency, </span>
+<span id="cb66-9"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb66-9" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Altitude (mètres)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Abondance d&#39;oiseaux</span><span class="sc">\n</span><span class="st">(Richesse)&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-32"></span>
+<img src="_main_files/figure-html/unnamed-chunk-32-1.png" alt="Figure 4 : Richesse en fonction de l'altitude." width="960" />
+<p class="caption">
+Figure 3.2: Figure 4 : Richesse en fonction de l’altitude.
+</p>
+</div>
+<p>Ainsi, pour un échantillon <span class="math inline">\(x_1, x_2,…, x_n\)</span> et une variable <span class="math inline">\(j\)</span> (ici l’altitude), l’histogramme est défini par</p>
+<p><span class="math display">\[\hat{f}(x) = \frac{1}{n} \sum_{i=1}^{n} 1_{[x-h/2, x+h/2[}(x_{i})\]</span>
+où h est la largeur de bande et <span class="math inline">\(1_A(x)\)</span> est la fonction indicatrice (ie elle vaut 1 si <span class="math inline">\(x \in A\)</span> et 0
+sinon).</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li><p>La dependance à la présence de forêt influence t’elle la diversité des groupes d’oiseaux ?</p></li>
+<li><p>Répresentez le nombre d’espèces en fonction de l’altitude ? Que peut-on dire ? Y-a t’il un effet de l’altitude sur le nombre d’espèces.</p></li>
+<li><p>La dependance à la présence de forêt influence t’elle la diversité des groupes d’oiseaux observée avec l’altitude ? Autrement dit, la décroissance liée à l’altitude est-elle plus importante dans l’un des deux groupes ?</p></li>
+</ol>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># Gérer les marges du plot.</span></span>
+<span id="cb67-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-2" tabindex="-1"></a><span class="co"># Il faut d&#39;abord normaliser les données pour pouvoir les comparer entre elles</span></span>
+<span id="cb67-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-3" tabindex="-1"></a><span class="co"># Plusieurs normalisation existe, ici nous normaliserons les données par rapport à leur maximum.</span></span>
+<span id="cb67-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-4" tabindex="-1"></a>max.norm.M <span class="ot">&lt;-</span> birds<span class="sc">$</span>Medium.dependency<span class="sc">/</span><span class="fu">max</span>(birds<span class="sc">$</span>Medium.dependency)</span>
+<span id="cb67-5"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-5" tabindex="-1"></a>max.norm.H <span class="ot">&lt;-</span> birds<span class="sc">$</span>High.Dependency<span class="sc">/</span><span class="fu">max</span>(birds<span class="sc">$</span>High.Dependency)</span>
+<span id="cb67-6"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-6" tabindex="-1"></a></span>
+<span id="cb67-7"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-7" tabindex="-1"></a><span class="fu">plot</span>(birds<span class="sc">$</span>altitude, max.norm.M, <span class="at">xlab=</span><span class="st">&quot;Altitude (mètres)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Abondance d&#39;oiseaux</span><span class="sc">\n</span><span class="st">(Richesse)&quot;</span>, </span>
+<span id="cb67-8"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-8" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">pch =</span><span class="dv">15</span>, <span class="at">col=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="at">ylim=</span><span class="fu">range</span>(<span class="fu">c</span>(max.norm.M,max.norm.H)))</span>
+<span id="cb67-9"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-9" tabindex="-1"></a><span class="fu">points</span>(birds<span class="sc">$</span>altitude, max.norm.H, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;gold&quot;</span>)</span>
+<span id="cb67-10"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-10" tabindex="-1"></a><span class="co"># Ajouter la légende.</span></span>
+<span id="cb67-11"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb67-11" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Moyenne&quot;</span>, <span class="st">&quot;Élevée&quot;</span>), <span class="at">title=</span><span class="st">&quot;Niveau de Dépendance&quot;</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">16</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;darkgreen&quot;</span>, <span class="st">&quot;gold&quot;</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-33"></span>
+<img src="_main_files/figure-html/unnamed-chunk-33-1.png" alt="Figure 5 : Richesse en fonction de l'altitude et de leur dépendence à la forêt." width="576" />
+<p class="caption">
+Figure 3.3: Figure 5 : Richesse en fonction de l’altitude et de leur dépendence à la forêt.
+</p>
+</div>
+<blockquote>
+<p>Quelles normalisations choisir pour comparer des données est un concept très important. Néanmoins il n’existe pas de recettes magiques. Tout dépend de l’analyse que vous souhaitez réaliser.</p>
+</blockquote>
+</div>
+<div id="test-statistique-pour-variables-quantitatives-paramétriques-non-paramétriques" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Test Statistique pour variables quantitatives (Paramétriques / Non paramétriques)<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-statistique-pour-variables-quantitatives-paramétriques-non-paramétriques" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="généralités-1" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Généralités<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#généralités-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote>
+<p>Un test statistique (ou test d’hypothèses) utilise des données d’un échantillon pour décider entre deux hypothèses concernant une population en contrôlant le risque de se tromper.</p>
+</blockquote>
+<p>Deux hypothèses : (1) L’altitude des sites/forêt d’echantillonnage sont similaires aux sites/forêts de la Colombie ou bien (2) l’altitude des sites/forêt d’echantillonnage sont différents aux sites/forêts de la Colombie (auxquels cas les conclusions de l’étude ne pourrait être généralisées sur l’ensemble de la colombie).</p>
+<p><strong>Hypothèse nulle <span class="math inline">\(H_0\)</span></strong>, l’hypothèse correspondant au cas où il n’y pas de différence. On dit que l’effet de la variable qualitative (Sites de l’étude / Sites de la Colombie) est nulle et on note :</p>
+<p><span class="math display">\[H_0 : \mu_E = \hat{\mu}_P\]</span>
+<span class="math inline">\(\mu_E\)</span> et <span class="math inline">\(\hat{\mu}_C\)</span> sont respectivement l’altitude des sites échantillonés (dans l’étude) et l’altitude de l’ensemble des forêts/sites de la Colombie.</p>
+<p><strong>Hypothèse alternative <span class="math inline">\(H_1\)</span></strong>, dans l’hypothèse alternative, on indique que la variable qualitative (Sites de l’étude / Sites de la Colombie) est dépendante à une altitude d’échantillonnage.</p>
+<p><span class="math display">\[H_1 : \mu_E \ne \hat{\mu}_P\]</span>
+Le problème consiste donc à décider entre les deux hypothèses : <span class="math inline">\(H_0 : \hat{\mu}_M = \hat{\mu}_H\)</span> contre <span class="math inline">\(H_1 : \hat{\mu}_M \ne \hat{\mu}_H\)</span>.</p>
+</div>
+<div id="prérequis-pour-le-choix-du-test" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Prérequis pour le choix du test<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#prérequis-pour-le-choix-du-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Les tests statistiques sont nombreux et vous devrez faire un choix par rapport aux natures des données sur lesquelles vous voulez tester des hypothèses. Les deux propriétés à vérifier avant de se lancer dans la réalisation d’un test sont (1) la normalité et (2) l’égalité des variances.</p>
+<p>Pour la suite de l’exemple, notre objectif est de comparer les altitudes entre les sites de l’étude (variable <span class="math inline">\(X\)</span>) et ceux de la Colombie (variable <span class="math inline">\(Y\)</span>).</p>
+<p><strong>1) Normalités</strong></p>
+<p>Vous avez deux possibilités pour vérifier que votre échantillon est normal (i.e. qu’il suit une loi normale). Pour rappel, une loi normale est une distribution de probabilité qui dépend de 2 paramètres : une moyenne (qui décrit la position) et la variance (qui décrit la variabilité autour de la moyenne). Généralement, dans la nature, un grand nombre de processus sont gaussiens (taille, poids, bio-marqueurs, QI, etc…).</p>
+<blockquote>
+<p>La vérification du test de normalité permet de savoir si vous réaliserez un test statitistique basé sur des paramètres (i.e. position et dispersion) ou bien sur autres choses que des paramètres estimée <span class="math inline">\(\hat{\theta}\)</span> de l’échantillon.</p>
+</blockquote>
+<p>La normalité doit être validée de deux manières : visuellement et à l’aide d’un test statitistique.</p>
+<blockquote>
+<p>Rq : si la taille de l’échantillon est grande (typiquement supérieure à 30), on peut supposer que la normalité est respectée. Attention certaines données sont très spécifiques et ne vérifie pas ce constat (i.e., données de comptage issues d’écosystème environnementaux).</p>
+</blockquote>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">nrow=</span><span class="dv">1</span>, <span class="at">byrow =</span> T))</span>
+<span id="cb68-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-2" tabindex="-1"></a>Etude <span class="ot">&lt;-</span> birds<span class="sc">$</span>altitude</span>
+<span id="cb68-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-3" tabindex="-1"></a>Colombie <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">250</span>, <span class="dv">2000</span>, <span class="dv">700</span>))</span>
+<span id="cb68-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-4" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-5" tabindex="-1"></a><span class="fu">hist</span>(Etude, <span class="at">main=</span><span class="st">&quot;Fonction de densité (Etude, X)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;altitude&quot;</span>)</span>
+<span id="cb68-6"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-6" tabindex="-1"></a><span class="fu">qqnorm</span>(Etude)</span>
+<span id="cb68-7"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-7" tabindex="-1"></a><span class="fu">qqline</span>(Etude)</span>
+<span id="cb68-8"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-8" tabindex="-1"></a></span>
+<span id="cb68-9"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-9" tabindex="-1"></a><span class="fu">hist</span>(Colombie, <span class="at">main=</span><span class="st">&quot;Fonction de densité (Colombie, Y)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;altitude&quot;</span>)</span>
+<span id="cb68-10"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-10" tabindex="-1"></a><span class="fu">qqnorm</span>(Colombie)</span>
+<span id="cb68-11"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb68-11" tabindex="-1"></a><span class="fu">qqline</span>(Colombie)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-34"></span>
+<img src="_main_files/figure-html/unnamed-chunk-34-1.png" alt="Figure 6 : Lois normales." width="960" />
+<p class="caption">
+Figure 3.4: Figure 6 : Lois normales.
+</p>
+</div>
+<ol style="list-style-type: lower-alpha">
+<li><p>Quelles sont les hypothèses du test de normalité (i.e. définir <span class="math inline">\(H_0\)</span>, <span class="math inline">\(H_1\)</span>) ?</p></li>
+<li><p>Est-ce que les 2 variables vous semblent normales ?</p></li>
+</ol>
+<p>En pratigue, on peut utiliser un test pour vérifier si les variables sont normales ou non. Dans le cadre de ce cours, nous utiliserons le test de Shapiro-Wilk.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb69-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(Etude)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  Etude
+## W = 0.97695, p-value = 0.8623</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb71-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(Colombie)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  Colombie
+## W = 0.99491, p-value = 0.573</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Pour quelle(s) variable(s) accepte t’on <span class="math inline">\(H_O\)</span> ? Pour quelle(s) variable(s) rejetons-nous <span class="math inline">\(H_0\)</span> ?</li>
+</ol>
+<p><strong>2) Analyse des variances</strong></p>
+<p>Dans un deuxième temps, il nous est nécessaire de vérifier si les échantillons possèdent une variance similaire. De la même manière, définissez quelles sont les hypothèses du test de la variance (i.e. définir <span class="math inline">\(H_0\)</span>, <span class="math inline">\(H_1\)</span>) entre <span class="math inline">\(E\)</span> et <span class="math inline">\(P\)</span> ?</p>
+<ol style="list-style-type: lower-alpha">
+<li>De la même manière que pour la normalité, vous pouvez visualiser les données pour voir rendre compte de leur variance ? Vous pouvez aussi estimer leur paramètre de dispersion, si les valeurs sont proches il y a des chances pour que l’on accepte <span class="math inline">\(H_0\)</span> (i.e. pas de différence de variance entre les deux variables).</li>
+</ol>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb73-1" tabindex="-1"></a><span class="fu">boxplot</span>(Etude, Colombie, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">&quot;Etude (E)&quot;</span>, <span class="st">&quot;Colombie (P)&quot;</span>), <span class="at">ylab=</span><span class="st">&quot;Altitude&quot;</span>, </span>
+<span id="cb73-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb73-2" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Echantillon versus Population&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;cornflowerblue&quot;</span>))</span>
+<span id="cb73-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb73-3" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">sd</span>(Etude), <span class="dv">0</span>),<span class="fu">round</span>(<span class="fu">sd</span>(Colombie), <span class="dv">0</span>)), <span class="at">fill=</span><span class="fu">c</span>(<span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;cornflowerblue&quot;</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">title =</span> <span class="st">&quot;écart-types&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-36"></span>
+<img src="_main_files/figure-html/unnamed-chunk-36-1.png" alt="Figure 7 : Étude des variances (paramètre de dispersion)." width="480" />
+<p class="caption">
+Figure 3.5: Figure 7 : Étude des variances (paramètre de dispersion).
+</p>
+</div>
+<p>Le test de <em>Fisher-Snedecor</em> est un test paramétrique qui permet de comparer les variances de deux échantillons indépendants. Pour plus de 2 échantillons, on utilise le test de <em>Bartlett.</em></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb74-1" tabindex="-1"></a><span class="fu">var.test</span>(Etude, Colombie)</span></code></pre></div>
+<pre><code>## 
+##  F test to compare two variances
+## 
+## data:  Etude and Colombie
+## F = 0.86002, num df = 21, denom df = 249, p-value = 0.7136
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.4926687 1.7866287
+## sample estimates:
+## ratio of variances 
+##          0.8600242</code></pre>
+<p>Nous pouvons faire les hypothèses selon lesquels la variable <em>Altitude</em> suit une loi normale dans les deux groupes (étude et Population) et avec des variances égales.</p>
+</div>
+<div id="test-paramétrique-test-de-student" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Test paramétrique (test de Student)<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-paramétrique-test-de-student" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>On s’intéresse naturellement à l’écart entre les moyennes et on veut savoir si cet écart est loin ou non de 0. Et la variabilité de l’échantillon, mesurée par l’écart-type a bien sûr un impact sur la façon dont on considère le “loin de 0”. C’est pour cette raison que l’on doit en tenir compte.</p>
+<blockquote>
+<p>Comme pour l’ensemble des tests statistiques, la première étape est de calculer une statistique (ici <span class="math inline">\(T\)</span>, la statistique de test T de Student) et de savoir si la probabilité liée à la statitique est rare ou commune <strong>sous H0</strong>. Suivant la rareté de l’évenement, on pourra prendre une décision sur l’hypothèse à choisir.</p>
+</blockquote>
+<p><strong>1) Test de Student (variances égales)</strong></p>
+<p>Si les variances sont égales entre les variables <span class="math inline">\(X\)</span> et <span class="math inline">\(Y\)</span> et qu’elles suivent des lois normales alors nous utiliserons un test de Student avec l’option variance égale. Nous allons d’abord le calculer à la main pour comprendre comment il fonctionne, voici la formule de la statistique <span class="math inline">\(T\)</span> :</p>
+<p><span class="math display">\[ T = \frac{\hat{\mu}_{X}-\hat{\mu}_{Y}}{\sqrt{\frac{S^2_P}{n_X}+\frac{S^2_P}{n_Y}}}\]</span>
+où <span class="math inline">\(S^2_P\)</span> est l’estimation combinée de la variance (pooled variance) et se calcule comme suit :</p>
+<p><span class="math display">\[S^2_P = \frac{(n_X−1)S_X^2+(n_Y−1)S_Y^2}{n_X+n_Y-2} \]</span>
+où S correspond à la variance de <span class="math inline">\(X\)</span> ou de <span class="math inline">\(Y\)</span>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Calculer la statistique <span class="math inline">\(T\)</span> pour la variable <em>Altitude</em> dans les deux groupes (Sites de l’étude et Sites de la Colombie) ?</li>
+</ol>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-1" tabindex="-1"></a>n_x <span class="ot">&lt;-</span> <span class="fu">length</span>(Etude) <span class="co"># on enregistre le nombre d&#39;observations dans X</span></span>
+<span id="cb76-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-2" tabindex="-1"></a>n_y <span class="ot">&lt;-</span> <span class="fu">length</span>(Colombie) <span class="co"># on enregistre le nombre d&#39;observations dans Y</span></span>
+<span id="cb76-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-3" tabindex="-1"></a><span class="do">## On calcul les variances</span></span>
+<span id="cb76-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-4" tabindex="-1"></a>var_x <span class="ot">&lt;-</span> <span class="fu">var</span>(Etude) <span class="co"># on enregistre la variance de X</span></span>
+<span id="cb76-5"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-5" tabindex="-1"></a>var_y <span class="ot">&lt;-</span> <span class="fu">var</span>(Colombie) <span class="co"># on enregistre la variance de Y</span></span>
+<span id="cb76-6"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-6" tabindex="-1"></a><span class="do">## On calcul les moyennes</span></span>
+<span id="cb76-7"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-7" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="fu">mean</span>(Etude)</span>
+<span id="cb76-8"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-8" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(Colombie)</span>
+<span id="cb76-9"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-9" tabindex="-1"></a><span class="do">## On calcul la variance poolée</span></span>
+<span id="cb76-10"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-10" tabindex="-1"></a>S2_P <span class="ot">&lt;-</span> ((n_x<span class="dv">-1</span>)<span class="sc">*</span>var_x <span class="sc">+</span> (n_y<span class="dv">-1</span>)<span class="sc">*</span>var_y)<span class="sc">/</span>(n_x<span class="sc">+</span>n_y<span class="dv">-2</span>)</span>
+<span id="cb76-11"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-11" tabindex="-1"></a></span>
+<span id="cb76-12"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-12" tabindex="-1"></a><span class="do">## On peut finalement calculer la Statistique T</span></span>
+<span id="cb76-13"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-13" tabindex="-1"></a>S_T <span class="ot">=</span> (mu_x<span class="sc">-</span>mu_y) <span class="sc">/</span> <span class="fu">sqrt</span>(S2_P<span class="sc">/</span>(n_x<span class="dv">-1</span>) <span class="sc">+</span> S2_P<span class="sc">/</span>(n_y<span class="dv">-1</span>))</span>
+<span id="cb76-14"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb76-14" tabindex="-1"></a><span class="fu">print</span>(S_T)</span></code></pre></div>
+<pre><code>## [1] 1.774692</code></pre>
+<p>tte statistique suit une loi de Student à <span class="math inline">\(n\)</span> degrés de liberté qui nous informera sur la rareté de la différence sous <span class="math inline">\(H_0\)</span> (sa probabilité d’observation selon une loi de student ou loi de Gauss si n est grand). Cette probabilité sera égal à sa p value.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb78-1" tabindex="-1"></a>loi_de_student <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">500</span>, <span class="dv">270</span>)</span>
+<span id="cb78-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb78-2" tabindex="-1"></a><span class="fu">hist</span>(loi_de_student, <span class="at">main=</span><span class="st">&quot;Densité d&#39;une loi de Student&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>) <span class="co"># On construit une loi de student pour replacer notre statistique de T et calculer sa probabilité (i.e. sa rareté). </span></span>
+<span id="cb78-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb78-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>S_T)</span>
+<span id="cb78-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb78-4" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>S_T<span class="fl">+0.25</span>,<span class="at">y=</span><span class="dv">50</span> , <span class="st">&quot;Statistique T</span><span class="sc">\n</span><span class="st">de notre test&quot;</span>, <span class="at">adj=</span><span class="dv">0</span>, <span class="at">xpd=</span><span class="st">&quot;NA&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Pour rappel une probabilité est comprise entre 0 et 1. Il faut calculer l’aire des histogrammes qui sont supérieures à notre statistique de T que nous avons représentée par une <strong>ligne noire</strong>.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb79-1" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">which</span>(loi_de_student<span class="sc">&gt;</span>S_T))<span class="sc">/</span><span class="dv">500</span></span></code></pre></div>
+<pre><code>## [1] 0.024</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb81-1" tabindex="-1"></a><span class="do">## On peut aussi calculer la probabilité d&#39;observer la statistique T calculée directement avec la fonction de probabilité. </span></span>
+<span id="cb81-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb81-2" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(S_T ,<span class="dv">270</span>)</span></code></pre></div>
+<pre><code>## [1] 0.0385377</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>La probabilité d’observer cette différence de moyenne est-elle rare ?</p></li>
+<li><p>Quelle est la p value ?</p></li>
+<li><p>Quelle conclusion pouvez vous faire à partir de ces résultats ? Quelle est la probabilité d’erreur associée à votre prise de décision ?</p></li>
+</ol>
+<blockquote>
+<p>Plus rapidement, vous pouvez calculer la statistique T et sa p value associée avec la fonction t.test() sur R en ajoutant bien l’argument <em>var.equal = T</em>.</p>
+</blockquote>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb83-1" tabindex="-1"></a><span class="fu">t.test</span>(Etude, Colombie, <span class="at">var.equal =</span> T)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  Etude and Colombie
+## t = 1.8134, df = 270, p-value = 0.07088
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -25.37686 617.65760
+## sample estimates:
+## mean of x mean of y 
+##  2296.509  2000.368</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Pourquoi observons-nous une différence dans la p.value du test R et de celui que nous avons calculé à la mains ?</li>
+</ol>
+<p><strong>2) Test de Student (variances inégales)</strong></p>
+<p>Dans le cas où les variances ne sont pas égales, vous pouvez utilisez la même fonction dans R en utilisant l’argument <em>var.egal = F</em>. Attention, les variables doivent toujours être des variables normales.</p>
+<blockquote>
+<p>Quelle est la conclusion de l’étude des oiseaux par rapport à la qualité d’échantillonnage de l’étude des oiseaux ? Pour rappel, <span class="math inline">\(H_0\)</span> l’altitude des sites d’échantillonage est représentatif des sites/forêts en Colombie.</p>
+</blockquote>
+<p><strong>3) Test de Student (Apparié)</strong></p>
+<p>Dans le cas, on les observations/individus serait les mêmes dans les deux groupes. Par exemple, un même groupe de patient que l’on suit au cours du temps, il faudrait ajouter l’argument <em>paired = T</em> dans la fonction de <em>t.test(X, Y, paired = T)</em></p>
+</div>
+<div id="test-non-paramétrique-test-de-wilcoxon-mann-whitney" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Test non paramétrique (test de Wilcoxon-Mann-Whitney)<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-non-paramétrique-test-de-wilcoxon-mann-whitney" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Si la variable d’intérêt ne suit pas une loi normale, i.e. qu’on ne peut se baser sur la moyenne et l’écart type pour calculer une statistique de test, il faut alors changer d’approche et calculer une statistique de test non paramétrique. Nous en verrons une pendant l’UE BIO1540 et une seconde pendant l’UE MTH1640.</p>
+<p>Dans cette UE, nous allons voir le Test de Wilcoxon. Il permet de comparer permet de comparer les positions de 2 échantillons <span class="math inline">\(X = \{x_1,··· ,x_n\}\)</span> et <span class="math inline">\(Y = \{y_1,··· ,y_m\}\)</span>.</p>
+<p><span class="math inline">\(H_0 : \hat{\theta}_x=\hat{\theta}_y\)</span> contre <span class="math inline">\(H_1 : \hat{\theta}_x \neq \hat{\theta}_y\)</span>y</p>
+<p>où <span class="math inline">\(\hat{\theta}\)</span> est par exemple l’estimation de la médiane.</p>
+<ul>
+<li><p>Il ne requiert pas d’hypothèse sur la distribution dont sont issues les données.</p></li>
+<li><p>En pratique on regroupe les 2 échantillons en un seul <span class="math inline">\(z = \{X,Y\}\)</span> et on attribue un rang à chacune des observations de <span class="math inline">\(z: z_{(1)} ≤ z_{(2)} ≤ ··· ≤ z_{(n+m)}\)</span></p></li>
+</ul>
+<p>La statistique de test de Wilcoxon est</p>
+<p><span class="math display">\[S_w = \frac{n_x(n_x+1)}{2}-R_x\]</span>
+où <span class="math inline">\(R_X\)</span> est la somme des rangs qui viennent du groupe <span class="math inline">\(X\)</span>. Globalement, la statistique de ce test évalue l’éloignement de la distribution des rangs d’une variable par rapport à une distribution des rangs alternés parfaitement entre les <span class="math inline">\(X\)</span> et les <span class="math inline">\(Y\)</span>.</p>
+<p>Prenons comme exemple un jeu de données simulées de la diversité d’oiseaux dans les forêts Alpestres françaises. Nous souhaitons savoir quelles sont les forêts qui possèdent une diversité d’oiseaux plus importante ?</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Quels sont les hypothèses ?</p></li>
+<li><p>Visualiser les données.</p></li>
+<li><p>Calculer la statistique <span class="math inline">\(S_w\)</span>.</p></li>
+</ol>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-1" tabindex="-1"></a>Colombian_birds <span class="ot">&lt;-</span> (birds<span class="sc">$</span>Medium.dependency<span class="sc">+</span>birds<span class="sc">$</span>High.Dependency)<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">22</span>,<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb85-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-2" tabindex="-1"></a>French_birds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">200</span>, <span class="dv">50</span>),<span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">250</span>, <span class="dv">10</span>))</span>
+<span id="cb85-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-3" tabindex="-1"></a></span>
+<span id="cb85-4"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Pays =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Colombie&quot;</span>, <span class="fu">length</span>(Colombian_birds)),<span class="fu">rep</span>(<span class="st">&quot;France&quot;</span>, <span class="fu">length</span>(French_birds))) ,</span>
+<span id="cb85-5"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-5" tabindex="-1"></a>           <span class="at">diversity =</span> <span class="fu">c</span>(Colombian_birds, French_birds))</span>
+<span id="cb85-6"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-6" tabindex="-1"></a></span>
+<span id="cb85-7"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-7" tabindex="-1"></a>R_x <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">rank</span>(df<span class="sc">$</span>diversity)[<span class="fu">which</span>(df<span class="sc">$</span>Pays<span class="sc">==</span><span class="st">&quot;France&quot;</span>)]) <span class="co"># On récupère la somme des rangs associées au oiseaux de la France. </span></span>
+<span id="cb85-8"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-8" tabindex="-1"></a></span>
+<span id="cb85-9"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb85-9" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&#39;la statistique du test de wilcoxon est de : w = &#39;</span>,<span class="dv">22</span><span class="sc">*</span><span class="dv">20</span><span class="sc">+</span>((<span class="dv">20</span><span class="sc">*</span>(<span class="dv">20</span><span class="sc">+</span><span class="dv">1</span>))<span class="sc">/</span><span class="dv">2</span>)<span class="sc">-</span>R_x)</span></code></pre></div>
+<pre><code>## [1] &quot;la statistique du test de wilcoxon est de : w =  201&quot;</code></pre>
+<p>De la même manière que pour les autres tests statistiques, la statistique calculée nous permet de savoir si l’évènement est rare sous <span class="math inline">\(H_0\)</span> auquel cas sa probabilité (p value) d’être observée sera faible.</p>
+<p>On peut vérifier la statistique de test avec la fonction wilcox.test() sur R.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb87-1" tabindex="-1"></a><span class="fu">wilcox.test</span>(diversity<span class="sc">~</span>Pays, <span class="at">data=</span>df)</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum exact test
+## 
+## data:  diversity by Pays
+## W = 201, p-value = 0.6447
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Quelle décision prendrez-vous ?</li>
+</ol>
+<p><strong>Test de Wilcoxon (Apparié)</strong></p>
+<p>Dans le cas, on les observations/individus serait les mêmes dans les deux groupes. Par exemple, un même groupe de patient que l’on suit au cours du temps, il faudrait ajouter l’argument <em>paired = T</em> dans la fonction de <em>wilcox.test(X, Y, paired = T)</em>.</p>
+<blockquote>
+<p>A retenir : les tests statistiques présentés nous donne une probabilité que les différences dans nos données sont rares ou communes. La prise de décision dépend de vous et des erreurs que vous êtes prêts à faire.</p>
+</blockquote>
+</div>
+</div>
+<div id="révisions-des-tests" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Révisions des tests<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#révisions-des-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="rappel" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Rappel<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#rappel" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>La statistique du <strong>T.TEST</strong> :</li>
+</ul>
+<p><span class="math display">\[
+T = \frac{\hat{\mu}_{X}-\hat{\mu}_{Y}}{\sqrt{\frac{S^2_P}{n_X}+\frac{S^2_P}{n_Y}}}
+\]</span>
+où <span class="math inline">\(S^2_P\)</span>
+<span class="math display">\[
+S^2_P = \frac{(n_X−1)S_X^2+(n_Y−1)S_Y^2}{n_X+n_Y-2}
+\]</span></p>
+<ul>
+<li>La statistique de test du <strong>Wilcoxon</strong> : dépend du nombre d’individus dans chaque groupe et de la somme des rangs pour l’un des groupes.</li>
+</ul>
+<p><span class="math display">\[
+S_w = \frac{n_1 \,(n_1 + 1)}{2} - R_1
+\]</span></p>
+<hr />
+</div>
+<div id="qcm-1" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> QCM<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#qcm-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>1. Le T test (ou test de Student) se réalise lorsque les deux variables sont quantitatives.</strong><br />
+- [ ] Vrai<br />
+- [ ] Faux</p>
+<details>
+<summary>
+Afficher la réponse
+</summary>
+❌ Faux
+</details>
+<hr />
+<p><strong>2. Le test de Wilcoxon est un test qui se base sur un paramètre de dispersion.</strong><br />
+- [ ] Vrai<br />
+- [ ] Faux</p>
+<details>
+<summary>
+Afficher la réponse
+</summary>
+❌ Faux
+</details>
+<hr />
+<p><strong>3. Le T Test se base uniquement sur un paramètre de position.</strong><br />
+- [ ] Vrai<br />
+- [ ] Faux</p>
+<details>
+<summary>
+Afficher la réponse
+</summary>
+❌ Faux
+</details>
+<hr />
+<p><strong>4. L’hypothèse nulle du Shapiro-Wilk est : la variable ne suit pas une loi normale.</strong><br />
+- [ ] Vrai<br />
+- [ ] Faux</p>
+<details>
+<summary>
+Afficher la réponse
+</summary>
+❌ Faux (H0 : la variable suit une loi normale)
+</details>
+<hr />
+</div>
+<div id="questions-ouvertes-définitions-1" class="section level3 hasAnchor" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Questions ouvertes (définitions)<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#questions-ouvertes-définitions-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<strong>Donnez la définition d’un test paramétrique.</strong><br />
+
+<details>
+<summary>
+Afficher la réponse
+</summary>
+Un test paramétrique se base sur des paramètres estimés (exemple : moyenne, variance).
+</details>
+<hr />
+<strong>Donnez la définition d’un test non-paramétrique.</strong><br />
+
+<details>
+<summary>
+Afficher la réponse
+</summary>
+Un test non paramétrique ne se base pas sur des paramètres estimés.<br />
+Il peut se baser sur des rangs, des signes ou des distributions.
+</details>
+<hr />
+<strong>Sur quels éléments le test du Wilcoxon se base-t-il ?</strong><br />
+
+<details>
+<summary>
+Afficher la réponse
+</summary>
+Le test de Wilcoxon se base sur des rangs.<br />
+Sa statistique de test compare la somme des rangs théoriques sous <span class="math inline">\(H_0\)</span> avec la somme des rangs observée.
+</details>
+<hr />
+<strong>Sur quels éléments le test de T se base-t-il ?</strong><br />
+
+<details>
+<summary>
+Afficher la réponse
+</summary>
+Le test de T se base sur les paramètres de position (moyenne) et de dispersion (variance).<br />
+La statistique de test :<br />
+<span class="math display">\[
+T = \frac{\bar{x}_1 - \bar{x}_2}{s_p}
+\]</span><br />
+où <span class="math inline">\(s_p\)</span> est la variance poolée.
+</details>
+<hr />
+<strong>Quels sont les tests préalables à réaliser avant de choisir si l’on applique un test paramétrique ou non paramétrique ?</strong><br />
+
+<details>
+<summary>
+Afficher la réponse
+</summary>
+<ul>
+<li>Vérification de la normalité des variables intra-groupe.<br />
+</li>
+<li>Vérification de l’égalité des variances entre les deux groupes.</li>
+</ul>
+</details>
+<hr />
+<strong>Donner l’hypothèse nulle lorsque vous testez l’égalité des variances.</strong><br />
+
+<details>
+<summary>
+Afficher la réponse
+</summary>
+H0 : Les deux groupes possède une variable <span class="math inline">\(x\)</span> avec une variance identique.
+</details>
+<hr />
+</div>
+<div id="exercices-1" class="section level3 hasAnchor" number="3.3.4">
+<h3><span class="header-section-number">3.3.4</span> Exercices<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#exercices-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="exercice-1" class="section level4 hasAnchor" number="3.3.4.1">
+<h4><span class="header-section-number">3.3.4.1</span> Exercice 1<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#exercice-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Le boxplot exprime une variable quantitative en fonction d’une variable qualitative.<br />
+Le <strong>groupe 1</strong> et le <strong>groupe 2</strong> sont deux groupes distincts.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb89-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb89-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb89-2" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-44-1.png" width="288" /></p>
+<p><strong>Questions :</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Dans cet exemple nous allons supposer que les variables sont normales et que les variances sont égales. Quel test devez-vous appliquer ?</p></li>
+<li><p>Définir H0.</p></li>
+</ol>
+<p>La moyenne du groupe 1 est de 0 et la moyenne du groupe 2 est de 0.6.
+La racine carrée de la somme des variances poolées divisée par le nombre d’individu dans chaque groupe est de 0.3.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Calculer la statistique de test.</p></li>
+<li><p>La p-value est de 0.04. Conclure.</p></li>
+</ol>
+<details>
+<summary>
+Afficher la réponse
+</summary>
+<ul>
+<li>Test : <strong>T.test (Student)</strong><br />
+</li>
+<li>H0 : Les deux groupes possèdent une moyenne identique.<br />
+</li>
+<li>Statistique :<br />
+<span class="math display">\[
+T = \frac{0 - 0.6}{0.3333} = -1.8
+\]</span><br />
+</li>
+<li>Conclusion : p = 0.04 → on rejette H0 au seuil de 5 %.<br />
+Les groupes ont des moyennes significativement différentes, avec un risque d’erreur de 4 %.<br />
+</li>
+</ul>
+</details>
+<hr />
+</div>
+<div id="exercice-2" class="section level4 hasAnchor" number="3.3.4.2">
+<h4><span class="header-section-number">3.3.4.2</span> Exercice 2<a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#exercice-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>On représente les valeurs individuelles sur l’axe des ordonnées, avec deux groupes colorés (1 point = 1 individu). La variable d’un des groupes n’est pas normale, alors que les sont variances sont proches.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb90-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb90-2"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb90-2" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">Group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">each =</span> <span class="dv">5</span>), <span class="at">value =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">5</span>), <span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="fl">01.1</span>)))</span>
+<span id="cb90-3"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb90-3" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>Group, df<span class="sc">$</span>value, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-45-1.png" width="288" /></p>
+<p><strong>Questions :</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Quel test appliquer ?</p></li>
+<li><p>Définir H1.</p></li>
+<li><p>Calculer la statistique de test à partir de la somme des rangs.</p></li>
+<li><p>La p-value est de 0.095. Conclure.</p></li>
+</ol>
+<details>
+<summary>
+Afficher la réponse
+</summary>
+<ul>
+<li>Test : <strong>Wilcoxon</strong><br />
+</li>
+<li>H1 : Les deux groupes possèdent une distribution des rangs différente.<br />
+</li>
+<li>Calcul :</li>
+</ul>
+<p><span class="math display">\[S_w = \frac{n_1 \,(n_1 + 1)}{2} - R_1\]</span>
+<span class="math display">\[R_1 = (1+2+3+5+8) = 19\]</span>
+Soit vous compter sur le graphique à quelles positions sont les différents points, soit vous pouvez aussi vérifier avec la ligne de code suivante :</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb91-1" tabindex="-1"></a><span class="fu">rank</span>(df<span class="sc">$</span>value)[<span class="fu">which</span>(df<span class="sc">$</span>Group<span class="sc">==</span><span class="dv">1</span>)]</span></code></pre></div>
+<pre><code>## [1]  4  7 10  9  6</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb93-1" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;la somme des rangs pour le groupe 1 est de&quot;</span>, <span class="fu">sum</span>(<span class="fu">rank</span>(df<span class="sc">$</span>value)[<span class="fu">which</span>(df<span class="sc">$</span>Group<span class="sc">==</span><span class="dv">1</span>)]))</span></code></pre></div>
+<pre><code>## [1] &quot;la somme des rangs pour le groupe 1 est de 36&quot;</code></pre>
+<p><span class="math display">\[
+S_w = \frac{5 \,(5 + 1)}{2} - 19
+\]</span><br />
+<span class="math display">\[
+S_w = 15 - 19 = -4
+\]</span></p>
+<p>On peut aussi vérifier avec la ligne de code. On voit bien que la statistique de test</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#cb95-1" tabindex="-1"></a><span class="fu">wilcox.test</span>(df<span class="sc">$</span>value<span class="sc">~</span>df<span class="sc">$</span>Group)</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum exact test
+## 
+## data:  df$value by df$Group
+## W = 21, p-value = 0.09524
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<blockquote>
+<p>Dans R, la statistique de test est la valeur absolue du test donc POSITIVE, mais il réalise le même calcul que nous. R trouve -4 comme nous mais propose sa valeur absolue |-4| = 4.</p>
+</blockquote>
+<ul>
+<li>Conclusion : p = 0.095 → on <strong>accepte H0</strong> (pas de différence significative), mais résultat limite (proche du seuil).</li>
+</ul>
+</details>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="test-statistique-chi2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tests-statistiques-anova-et-kruskal-wallis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/03_tests_part2.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

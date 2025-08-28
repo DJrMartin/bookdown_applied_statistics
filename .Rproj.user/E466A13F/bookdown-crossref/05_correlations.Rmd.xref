@@ -1,0 +1,12 @@
+h1:tests-statistiques-corrélations Tests statistiques (Corrélations)
+h2:tests-dindépendance-entre-2-variables-quantitatives. Tests d’indépendance entre 2 variables .
+h3:généralités Généralités
+h3:conditions Conditions
+h2:paramètres-des-tests-de-correlation-exemple-avec-la-méthode-de-pearson Paramètres des tests de correlation : Exemple avec la méthode de Pearson
+h3:premier-paramètre-a-coefficient-linéaire Premier paramètre : , coefficient linéaire
+h3:second-paramètre-r Second paramètre : 
+h3:troisième-paramètre-r2 troisième paramètre : 
+h3:quatrième-paramètre-p-value quatrième paramètre : 
+h3:code-r Code R
+h2:test-de-spearman Test de Spearman
+

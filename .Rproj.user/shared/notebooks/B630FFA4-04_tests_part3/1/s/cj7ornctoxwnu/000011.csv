@@ -1,0 +1,4 @@
+"0","w <- which(Carbon_storage$Biome==""Subtropical""|Carbon_storage$Biome==""Polar""|Carbon_storage$Biome==""Boreal"")"
+"0","df <- data.frame(""Biome""= Carbon_storage$Biome,""Current""=Carbon_storage$Current)[w,]"
+"0","df = droplevels.data.frame(df)"
+"0","boxplot(Current~Biome, df, outline=F, col=c(""darkgreen"", ""tomato"", ""gold""))"

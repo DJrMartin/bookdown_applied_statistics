@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter :1 Introduction au langage de programmation R | Statistique appliquée aux sciences de l’environnement et du vivant</title>
+  <meta name="description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter :1 Introduction au langage de programmation R | Statistique appliquée aux sciences de l’environnement et du vivant" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter :1 Introduction au langage de programmation R | Statistique appliquée aux sciences de l’environnement et du vivant" />
+  
+  <meta name="twitter:description" content="Ce livre est à destination des étudiants qui veulent approfondir leur connaissance en statistique appliquée aux sciences du vivant." />
+  
+
+<meta name="author" content="David M. Carminati" />
+
+
+<meta name="date" content="2025-08-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="test-statistique-chi2.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistiques appliquées aux sciences du vivant</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Statistique appliquée aux sciences de l’environnement et du vivant.</a></li>
+<li class="chapter" data-level="1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html"><i class="fa fa-check"></i><b>1</b> Introduction au langage de programmation <code>R</code></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#rstudio-et-ide."><i class="fa fa-check"></i><b>1.1</b> Rstudio et IDE.</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-pré-requis"><i class="fa fa-check"></i><b>1.2</b> Les pré-requis</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-objects"><i class="fa fa-check"></i><b>1.2.1</b> Les objects</a></li>
+<li class="chapter" data-level="1.2.2" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-fonctions"><i class="fa fa-check"></i><b>1.2.2</b> Les fonctions</a></li>
+<li class="chapter" data-level="1.2.3" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-data-frames"><i class="fa fa-check"></i><b>1.2.3</b> Les data-frames</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-boucles"><i class="fa fa-check"></i><b>1.3</b> Les boucles</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-au-langage-de-programmation-r.html"><a href="introduction-au-langage-de-programmation-r.html#les-fonctions-version-intermédiaire"><i class="fa fa-check"></i><b>1.4</b> Les fonctions (version intermédiaire)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html"><i class="fa fa-check"></i><b>2</b> Test statistique (<span class="math inline">\(\chi^2\)</span>)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#observationexpériencecausalité-quelques-mots-de-vocabulaire"><i class="fa fa-check"></i><b>2.1</b> Observation/Expérience/causalité (quelques mots de vocabulaire)</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#échantillonspopulations"><i class="fa fa-check"></i><b>2.1.1</b> Échantillons/populations</a></li>
+<li class="chapter" data-level="2.1.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#donnéesindividuvariables"><i class="fa fa-check"></i><b>2.1.2</b> Données/individu/variables</a></li>
+<li class="chapter" data-level="2.1.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#méthodologie-danalyse"><i class="fa fa-check"></i><b>2.1.3</b> Méthodologie d’analyse</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#test-statistique-avec-2-variables-qualitatives."><i class="fa fa-check"></i><b>2.2</b> Test statistique avec 2 variables qualitatives.</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#statistiques-descriptives-et-visualisations"><i class="fa fa-check"></i><b>2.2.1</b> Statistiques descriptives et visualisations</a></li>
+<li class="chapter" data-level="2.2.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#explication-des-tests-statistiques"><i class="fa fa-check"></i><b>2.2.2</b> Explication des Tests Statistiques</a></li>
+<li class="chapter" data-level="2.2.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#test-statistique-pour-variables-qualitatives-chi2"><i class="fa fa-check"></i><b>2.2.3</b> Test Statistique pour variables qualitatives (<span class="math inline">\(\chi^2\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#révision-test-du-χ²"><i class="fa fa-check"></i><b>2.3</b> Révision test du χ²</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#qcm"><i class="fa fa-check"></i><b>2.3.1</b> QCM</a></li>
+<li class="chapter" data-level="2.3.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#questions-ouvertes-définitions"><i class="fa fa-check"></i><b>2.3.2</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="2.3.3" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#problème"><i class="fa fa-check"></i><b>2.3.3</b> Problème</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#travaux-pratiques"><i class="fa fa-check"></i><b>2.4</b> Travaux Pratiques</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#pokemons"><i class="fa fa-check"></i><b>2.4.1</b> Pokemons</a></li>
+<li class="chapter" data-level="2.4.2" data-path="test-statistique-chi2.html"><a href="test-statistique-chi2.html#travaux-pratiques-1"><i class="fa fa-check"></i><b>2.4.2</b> Travaux Pratiques</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html"><i class="fa fa-check"></i><b>3</b> Tests statistiques (t. test et t. wilcoxon)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#statistiques-descriptives-et-visualisations-1"><i class="fa fa-check"></i><b>3.1</b> Statistiques descriptives et visualisations</a></li>
+<li class="chapter" data-level="3.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-statistique-pour-variables-quantitatives-paramétriques-non-paramétriques"><i class="fa fa-check"></i><b>3.2</b> Test Statistique pour variables quantitatives (Paramétriques / Non paramétriques)</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#généralités-1"><i class="fa fa-check"></i><b>3.2.1</b> Généralités</a></li>
+<li class="chapter" data-level="3.2.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#prérequis-pour-le-choix-du-test"><i class="fa fa-check"></i><b>3.2.2</b> Prérequis pour le choix du test</a></li>
+<li class="chapter" data-level="3.2.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-paramétrique-test-de-student"><i class="fa fa-check"></i><b>3.2.3</b> Test paramétrique (test de Student)</a></li>
+<li class="chapter" data-level="3.2.4" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#test-non-paramétrique-test-de-wilcoxon-mann-whitney"><i class="fa fa-check"></i><b>3.2.4</b> Test non paramétrique (test de Wilcoxon-Mann-Whitney)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#révisions-des-tests"><i class="fa fa-check"></i><b>3.3</b> Révisions des tests</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#rappel"><i class="fa fa-check"></i><b>3.3.1</b> Rappel</a></li>
+<li class="chapter" data-level="3.3.2" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#qcm-1"><i class="fa fa-check"></i><b>3.3.2</b> QCM</a></li>
+<li class="chapter" data-level="3.3.3" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#questions-ouvertes-définitions-1"><i class="fa fa-check"></i><b>3.3.3</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="3.3.4" data-path="tests-statistiques-t.-test-et-t.-wilcoxon.html"><a href="tests-statistiques-t.-test-et-t.-wilcoxon.html#exercices-1"><i class="fa fa-check"></i><b>3.3.4</b> Exercices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html"><i class="fa fa-check"></i><b>4</b> Tests statistiques (ANOVA et Kruskal Wallis)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques-pour-plusieurs-groupes"><i class="fa fa-check"></i><b>4.1</b> Tests statistiques pour plusieurs groupes</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#test-non-paramétrique-kruskall-wallis"><i class="fa fa-check"></i><b>4.1.1</b> Test non paramétrique (<strong>Kruskall-Wallis</strong>)</a></li>
+<li class="chapter" data-level="4.1.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#test-paramétrique-anova"><i class="fa fa-check"></i><b>4.1.2</b> Test paramétrique (<strong>ANOVA</strong>)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques-multiples."><i class="fa fa-check"></i><b>4.2</b> Tests statistiques Multiples.</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#généralités-2"><i class="fa fa-check"></i><b>4.2.1</b> Généralités</a></li>
+<li class="chapter" data-level="4.2.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#applications"><i class="fa fa-check"></i><b>4.2.2</b> Applications</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#révisions-des-tests-1"><i class="fa fa-check"></i><b>4.3</b> Révisions des tests</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#qcm-2"><i class="fa fa-check"></i><b>4.3.1</b> QCM</a></li>
+<li class="chapter" data-level="4.3.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#questions-ouvertes-définitions-2"><i class="fa fa-check"></i><b>4.3.2</b> Questions ouvertes (définitions)</a></li>
+<li class="chapter" data-level="4.3.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#problème-1"><i class="fa fa-check"></i><b>4.3.3</b> Problème</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#travaux-pratiques-2"><i class="fa fa-check"></i><b>4.4</b> Travaux pratiques</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#statistiques-descriptives-du-metabolisme-du-fer"><i class="fa fa-check"></i><b>4.4.1</b> Statistiques descriptives du metabolisme du fer</a></li>
+<li class="chapter" data-level="4.4.2" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#tests-statistiques"><i class="fa fa-check"></i><b>4.4.2</b> Tests Statistiques</a></li>
+<li class="chapter" data-level="4.4.3" data-path="tests-statistiques-anova-et-kruskal-wallis.html"><a href="tests-statistiques-anova-et-kruskal-wallis.html#modelisation-à-2-facteurs"><i class="fa fa-check"></i><b>4.4.3</b> Modelisation à 2 facteurs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html"><i class="fa fa-check"></i><b>5</b> Tests statistiques (Corrélations)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#tests-dindépendance-entre-2-variables-quantitatives."><i class="fa fa-check"></i><b>5.1</b> Tests d’indépendance entre 2 variables <strong>quantitatives</strong>.</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#généralités-3"><i class="fa fa-check"></i><b>5.1.1</b> Généralités</a></li>
+<li class="chapter" data-level="5.1.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#conditions"><i class="fa fa-check"></i><b>5.1.2</b> Conditions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#paramètres-des-tests-de-correlation-exemple-avec-la-méthode-de-pearson"><i class="fa fa-check"></i><b>5.2</b> Paramètres des tests de correlation : Exemple avec la méthode de Pearson</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#premier-paramètre-a-coefficient-linéaire"><i class="fa fa-check"></i><b>5.2.1</b> Premier paramètre : <span class="math inline">\(a\)</span>, coefficient linéaire</a></li>
+<li class="chapter" data-level="5.2.2" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#second-paramètre-r"><i class="fa fa-check"></i><b>5.2.2</b> Second paramètre : <span class="math inline">\(r\)</span></a></li>
+<li class="chapter" data-level="5.2.3" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#troisième-paramètre-r2"><i class="fa fa-check"></i><b>5.2.3</b> troisième paramètre : <span class="math inline">\(r^2\)</span></a></li>
+<li class="chapter" data-level="5.2.4" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#quatrième-paramètre-p-value"><i class="fa fa-check"></i><b>5.2.4</b> quatrième paramètre : <span class="math inline">\(p value\)</span></a></li>
+<li class="chapter" data-level="5.2.5" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#code-r"><i class="fa fa-check"></i><b>5.2.5</b> Code R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="tests-statistiques-corrélations.html"><a href="tests-statistiques-corrélations.html#test-de-spearman"><i class="fa fa-check"></i><b>5.3</b> Test de Spearman</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>6</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="clustering.html"><a href="clustering.html#généralités-4"><i class="fa fa-check"></i><b>6.1</b> Généralités</a></li>
+<li class="chapter" data-level="6.2" data-path="clustering.html"><a href="clustering.html#k-means-ou-algorithme-des-centres-mobiles-en-français"><i class="fa fa-check"></i><b>6.2</b> K-means (ou algorithme des centres mobiles en français)</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="clustering.html"><a href="clustering.html#principe"><i class="fa fa-check"></i><b>6.2.1</b> Principe</a></li>
+<li class="chapter" data-level="6.2.2" data-path="clustering.html"><a href="clustering.html#algorithme-du-k-means-appartenance-à-une-classe-pour-chaque-individu"><i class="fa fa-check"></i><b>6.2.2</b> Algorithme du k-means (appartenance à une classe pour chaque individu)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="clustering.html"><a href="clustering.html#classification-hiérarchique-ascendante"><i class="fa fa-check"></i><b>6.3</b> Classification Hiérarchique Ascendante</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="clustering.html"><a href="clustering.html#mesure-déloignement-entre-les-individus"><i class="fa fa-check"></i><b>6.3.1</b> Mesure d’éloignement entre les individus</a></li>
+<li class="chapter" data-level="6.3.2" data-path="clustering.html"><a href="clustering.html#mesure-dagrégation"><i class="fa fa-check"></i><b>6.3.2</b> Mesure d’agrégation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="clustering.html"><a href="clustering.html#définir-le-nombre-de-classes-optimales"><i class="fa fa-check"></i><b>6.4</b> Définir le nombre de classes optimales ?</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="clustering.html"><a href="clustering.html#première-approche-variance-totale-et-règle-du-coude"><i class="fa fa-check"></i><b>6.4.1</b> Première approche : Variance totale et règle du coude</a></li>
+<li class="chapter" data-level="6.4.2" data-path="clustering.html"><a href="clustering.html#seconde-approche-coefficient-de-silhouette."><i class="fa fa-check"></i><b>6.4.2</b> Seconde approche : coefficient de Silhouette.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html"><i class="fa fa-check"></i><b>7</b> Analyse en Composantes Principales</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#généralités-5"><i class="fa fa-check"></i><b>7.1</b> Généralités</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#etude-des-variables"><i class="fa fa-check"></i><b>7.1.1</b> Etude des variables</a></li>
+<li class="chapter" data-level="7.1.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#normalisation-des-individus-pré-requis"><i class="fa fa-check"></i><b>7.1.2</b> Normalisation des individus : pré-requis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#réaliser-la-pca-sur-r."><i class="fa fa-check"></i><b>7.2</b> Réaliser la PCA sur R.</a></li>
+<li class="chapter" data-level="7.3" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#interprétation"><i class="fa fa-check"></i><b>7.3</b> Interprétation</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#graphique-des-individus"><i class="fa fa-check"></i><b>7.3.1</b> Graphique des individus</a></li>
+<li class="chapter" data-level="7.3.2" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#graphique-des-variables-cercle-de-correlation-des-variables"><i class="fa fa-check"></i><b>7.3.2</b> Graphique des variables (cercle de correlation des variables)</a></li>
+<li class="chapter" data-level="7.3.3" data-path="analyse-en-composantes-principales.html"><a href="analyse-en-composantes-principales.html#compréhension-des-axes"><i class="fa fa-check"></i><b>7.3.3</b> Compréhension des axes</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistique appliquée aux sciences de l’environnement et du vivant</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction-au-langage-de-programmation-r" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter :1</span> Introduction au langage de programmation <code>R</code><a href="introduction-au-langage-de-programmation-r.html#introduction-au-langage-de-programmation-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>L’objectif de ce premier cours magistral est de reprendre les bases concernant <code>R</code> et d’être capable :</p>
+<ul>
+<li><p>De comprendre comment se structure le langage de programmation <code>R</code>.</p></li>
+<li><p>D’aller chercher les informations au sein des jeux de données.</p></li>
+<li><p>De visualiser les informations des jeux de données.</p></li>
+</ul>
+<p>Je vous joins ici une vidéo qui résume l’ensemble des fonctions nécessaires pour traiter des données écologiques/biologiques/environnementals. <a href="https://www.youtube.com/watch?v=dQe3Z7hRG1s" class="uri">https://www.youtube.com/watch?v=dQe3Z7hRG1s</a></p>
+<div id="rstudio-et-ide." class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Rstudio et IDE.<a href="introduction-au-langage-de-programmation-r.html#rstudio-et-ide." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Le langage de programmation <code>R</code> est un langage spécifique adapté aux statistiques/mathématiques permettant de faire des calculs et visualiser des résultats à travers une fenêtre graphique. C’est le langage préferentiel des biologistes/physiologistes et cliniciens que ce soit dans les secteurs privés (start up, biotech.) ou plublique (recherche, université, collectivité).</p>
+<p>On peut l’utiliser sous 2 formes. La console R sans IDE (integrated development environment), qui ne comprend qu’une fenêtre (i.e. la console) où l’on peut écrire des lignes de commandes et une forme avec IDE. Nous travaillerons exclusivement avec la forme IDE. L’IDE le plus connue de <code>R</code> est <strong>RStudio</strong> et il comprend 4 fénêtres :</p>
+<ul>
+<li><p>un script.</p></li>
+<li><p>une fenêtre listant l’environnement (objet, matrice, fonction)</p></li>
+<li><p>une fenêtre graphique/aide.</p></li>
+<li><p>la console de commande.</p></li>
+</ul>
+<p>Bien évidemment, vous pouvez modifier ces fenètres et leur agencement.</p>
+<hr />
+</div>
+<div id="les-pré-requis" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Les pré-requis<a href="introduction-au-langage-de-programmation-r.html#les-pré-requis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="les-objects" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Les objects<a href="introduction-au-langage-de-programmation-r.html#les-objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Le second point clé dans la compréhension de R, ce sont les <strong>objets</strong>. La plus part des éléments de votre environnement seront des objets. Ils peuvent prendre la forme d’une suite de nombre, d’une phrase, d’une matrice, d’un tableau… Lorsque vous donnez délibérement une valeur, une forme à votre objet, il s’enregistre automatiquement dans votre environnement R, votre espace de travail actuel. Un objet possède une longueur et/ou une dimension particulière. De plus, on peut appliquer des opérations ou des fonctions à ces objets.</p>
+<p>Un objet possède un type de donnée (data.frame, numeric, character, factor, matrix, function, …). Vous pouvez savoir de quel type il s’agit en utilisant la fonction <code>class()</code> ou <code>mode()</code>.</p>
+<p>Vous pourrez donc appliquer des opérations à des objets de type numeric. Il est important de voir ces suites de nombres comme des matrices numériques. Dans ce contexte, les opérations mathématiques que vous allez réaliser se feront pour chacunes des entités de la matrice.</p>
+<p><span class="math display">\[
+a =  
+\left\{\begin{array}{lr}
+        1\\
+        2\\
+        \dots\\
+        10
+        \end{array}\right\}
+\]</span> Premier exemple (on applique un carré à la première suite de nombre) :</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction-au-langage-de-programmation-r.html#cb1-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb1-2"><a href="introduction-au-langage-de-programmation-r.html#cb1-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> a<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-3"><a href="introduction-au-langage-de-programmation-r.html#cb1-3" tabindex="-1"></a><span class="fu">print</span>(a)</span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction-au-langage-de-programmation-r.html#cb3-1" tabindex="-1"></a><span class="fu">print</span>(b)</span></code></pre></div>
+<pre><code>##  [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
+<p>Donc le carré est appliqué en ligne pour chacun des nombres.</p>
+<p>Deuxième exemple (on additionne deux suites de nombre de longueur identique, ici la vecteur <span class="math inline">\(a\)</span>) :</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="introduction-au-langage-de-programmation-r.html#cb5-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb5-2"><a href="introduction-au-langage-de-programmation-r.html#cb5-2" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Première suite de nombre =&quot;</span>);<span class="fu">print</span>(a)</span></code></pre></div>
+<pre><code>## [1] &quot;Première suite de nombre =&quot;</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="introduction-au-langage-de-programmation-r.html#cb8-1" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Addition de la suite avec elle même  =&quot;</span>);<span class="fu">print</span>(a<span class="sc">+</span>a)</span></code></pre></div>
+<pre><code>## [1] &quot;Addition de la suite avec elle même  =&quot;</code></pre>
+<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20</code></pre>
+<p>De même, le premier chiffre de chaque série est additioné avec le premier chiffre de la seconde série.</p>
+<div id="les-variables" class="section level4 hasAnchor" number="1.2.1.1">
+<h4><span class="header-section-number">1.2.1.1</span> Les variables<a href="introduction-au-langage-de-programmation-r.html#les-variables" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>En statistique, on distingue deux types de variables :</p>
+<ul>
+<li><strong>Variables quantitatives</strong> : elles prennent des valeurs numériques et permettent de mesurer une quantité (ex. âge, taille, poids).<br />
+</li>
+<li><strong>Variables qualitatives</strong> : elles représentent des catégories ou des qualités et ne sont pas numériques (ex. sexe, couleur des yeux, type de régime).</li>
+</ul>
+<p>Chaque <strong>variable qualitative</strong> peut prendre différentes <strong>modalités</strong>, c’est-à-dire les valeurs possibles qu’elle peut adopter. Par exemple, pour la variable <em>Couleur des yeux</em>, les modalités peuvent être <em>bleu</em>, <em>vert</em>, <em>marron</em>. La différence clé est donc que la <strong>variable</strong> définit la caractéristique étudiée, tandis que les <strong>modalités</strong> représentent ses différentes catégories possibles.</p>
+</div>
+</div>
+<div id="les-fonctions" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Les fonctions<a href="introduction-au-langage-de-programmation-r.html#les-fonctions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Elles permettent de réaliser une action (généralement un calcul) lorsque l’on y fait appel. Le langage possède des fonctions natives, c’est-à-dire des actions/calculs qui sont déjà créer et implémenter dans <code>R</code>.</p>
+<p>Pour faire appel à des fonctions, il faut écrire le nom de la fonction dans la console et définir les arguments de la fonction entre des parenthèses. Les arguments sont à définir par l’utilisateur (vous) et devront être séparés par des virgule.</p>
+<p>Prenons l’exemple de la fonction <code>rnorm(n, mean, sd)</code>. Cette fonction permet de réaliser une simulation de n individus qui suivront une loi normale d’une moyenne (mean) et d’un écrat-type (sd) que vous devez définir. Ici je représente, graphiquement, la distribution normale de la taille (en cm) de 100 individus, ayant une moyenne de 177 cm et un écart type de 1,2.</p>
+<blockquote>
+<p>Posez vous la question à chaque fois : Comment reconnaitre une fonction ? Combien d’arguments possède t’elle ? Quelle est son action ?</p>
+</blockquote>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="introduction-au-langage-de-programmation-r.html#cb11-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">1</span>))</span>
+<span id="cb11-2"><a href="introduction-au-langage-de-programmation-r.html#cb11-2" tabindex="-1"></a>Taille <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">177</span>, <span class="at">sd =</span> <span class="fl">1.2</span>)</span>
+<span id="cb11-3"><a href="introduction-au-langage-de-programmation-r.html#cb11-3" tabindex="-1"></a><span class="fu">hist</span>(Taille)</span>
+<span id="cb11-4"><a href="introduction-au-langage-de-programmation-r.html#cb11-4" tabindex="-1"></a><span class="fu">hist</span>(Taille, <span class="at">col=</span><span class="st">&quot;firebrick&quot;</span>, <span class="at">breaks=</span><span class="dv">40</span>, <span class="at">main=</span><span class="st">&quot;Densité de la population</span><span class="sc">\n</span><span class="st"> en fontion de la taille (cm)&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<blockquote>
+<p>Dans R vous avez la possibilité de réaliser vos propres fonctions (description en fin de cours et objectif du premier TP).</p>
+</blockquote>
+<div id="les-fonctions-indispensables-dans-le-data-mining." class="section level4 hasAnchor" number="1.2.2.1">
+<h4><span class="header-section-number">1.2.2.1</span> Les fonctions indispensables dans le data mining.<a href="introduction-au-langage-de-programmation-r.html#les-fonctions-indispensables-dans-le-data-mining." class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><p><code>c()</code> : concaténation de suite de chiffres/characters/factors.</p></li>
+<li><p><code>object[ , ]</code> : permet de sélectionner une (ou plusieurs) ligne(s) et une (ou plusieurs) colonne(s) d’un objet qui peut être de classe data.frame, matrix ou tibble.</p></li>
+<li><p><code>which()</code> : permet de rechercher les élements d’un vecteur qui valide une condition.</p></li>
+<li><p><code>grep()</code> : similaire à which en moins restrictif. Cette fonction permet de chercher une chaîne de caractère qui se trouve dans un vecteur.</p></li>
+</ul>
+<p><strong>Exercices</strong> : Tester ces fonctions dans le prochain TP.</p>
+<blockquote>
+<p>Ne pas hésiter à utiliser la fonction help(), pour avoir accès aux arguments des fonctions que vous souhaitez utiliser.</p>
+</blockquote>
+</div>
+<div id="data-mining-sur-les-objets-de-classes-numériques" class="section level4 hasAnchor" number="1.2.2.2">
+<h4><span class="header-section-number">1.2.2.2</span> Data mining sur les objets de classes numériques<a href="introduction-au-langage-de-programmation-r.html#data-mining-sur-les-objets-de-classes-numériques" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Les objets, que nous avons créé jusqu’à présent, sont des suites de chiffres et chaque chiffre a une position précise dans la suite. Il nous est alors possible de rechercher un nombre spécifique en fonction de sa position dans la suite.</p>
+<p>Ici je créé une suite allant de 0.8 à 9.8.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Pourquoi la suite ne va pas jusqu’à 10.5 ?</p></li>
+<li><p>Créer une séquence de chiffre personalisée avec la fonction <code>seq()</code>.</p></li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="introduction-au-langage-de-programmation-r.html#cb12-1" tabindex="-1"></a>suite <span class="ot">&lt;-</span> <span class="fl">0.8</span><span class="sc">:</span><span class="fl">10.5</span></span>
+<span id="cb12-2"><a href="introduction-au-langage-de-programmation-r.html#cb12-2" tabindex="-1"></a><span class="fu">print</span>(suite)</span></code></pre></div>
+<pre><code>##  [1] 0.8 1.8 2.8 3.8 4.8 5.8 6.8 7.8 8.8 9.8</code></pre>
+<p>La ligne de code ci-contre montre comment accéder au 5ème chiffre dans la suite.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="introduction-au-langage-de-programmation-r.html#cb14-1" tabindex="-1"></a>suite[<span class="dv">5</span>]</span></code></pre></div>
+<pre><code>## [1] 4.8</code></pre>
+<p>Nous pouvons aussi chercher les chiffres avec des conditions spécifiques. Ici, je vais aller chercher les chiffres de la suite compris entre 1 et 5.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="introduction-au-langage-de-programmation-r.html#cb16-1" tabindex="-1"></a><span class="fu">which</span>(suite<span class="sc">&gt;</span><span class="dv">1</span> <span class="sc">&amp;</span> suite<span class="sc">&lt;</span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] 2 3 4 5</code></pre>
+<p>Par ailleurs, il est possible dans <code>R</code> de créer des tableaux (matrices) et de travailler sur ces mêmes tableaux (comme dans Excel). Dans cet exemple, nous considérerons une matrice (tableau) de 3 lignes et 4 colonnes.</p>
+<p><span class="math display">\[
+X_{i,j} =  
+\left\{\begin{array}{lr}
+        1, 2,5, 7\\
+        2, 2 , 4, 9\\
+        3, 5, 7, 10
+        \end{array}\right\}
+\]</span></p>
+<p>Pour créer ce tableau, nous utiliserons la function <code>matrix()</code>, qui possède 4 arguments. Nous appelons ce tableau <span class="math inline">\(mat\)</span>, qui est un objet.</p>
+<ul>
+<li><p>Le premier argument correspond aux chiffres qui seront implémentés dans le tableau.</p></li>
+<li><p>Le second argument correspond au nombre de lignes.</p></li>
+<li><p>Le troisième argument correspond au nombre de colonnes.</p></li>
+<li><p>Enfin, le 4ème argument correspond à la manière d’implémenter les chiffres, ici nous spécifions que les chiffres seront implémentés par ligne.</p></li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="introduction-au-langage-de-programmation-r.html#cb18-1" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">2</span> , <span class="dv">4</span>, <span class="dv">9</span>,  <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">10</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol=</span><span class="dv">4</span>, <span class="at">byrow=</span>T)</span>
+<span id="cb18-2"><a href="introduction-au-langage-de-programmation-r.html#cb18-2" tabindex="-1"></a><span class="fu">colnames</span>(mat) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;anglais&quot;</span>, <span class="st">&quot;français&quot;</span>, <span class="st">&quot;espagnol&quot;</span>, <span class="st">&quot;latin&quot;</span>)</span>
+<span id="cb18-3"><a href="introduction-au-langage-de-programmation-r.html#cb18-3" tabindex="-1"></a><span class="fu">rownames</span>(mat) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;eleve 1&quot;</span>, <span class="st">&#39;eleve 2&#39;</span>, <span class="st">&quot;eleve 3&quot;</span>)</span>
+<span id="cb18-4"><a href="introduction-au-langage-de-programmation-r.html#cb18-4" tabindex="-1"></a><span class="fu">print</span>(mat)</span></code></pre></div>
+<pre><code>##         anglais français espagnol latin
+## eleve 1       1        2        5     7
+## eleve 2       2        2        4     9
+## eleve 3       3        5        7    10</code></pre>
+<p>On peut utiliser la fonction <code>dim()</code> pour accéder aux dimensions du tableau.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="introduction-au-langage-de-programmation-r.html#cb20-1" tabindex="-1"></a><span class="fu">dim</span>(mat)</span></code></pre></div>
+<pre><code>## [1] 3 4</code></pre>
+<p>Le premier chiffre nous informe du nombre de lignes et le second du nombre de colonnes.</p>
+<p><em>mat</em> est donc un objet correspondant aux notes de 3 étudiants en fonction des disciplines. On peut aller chercher des lignes/colonnes qui nous interessent en utilisant les fonctions indispensables de data mining, introduites précédemment.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="introduction-au-langage-de-programmation-r.html#cb22-1" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">colnames</span>(mat)<span class="sc">==</span><span class="st">&quot;anglais&quot;</span>) <span class="do">## On souhaite avoir le numéro de la colonne qui s&#39;appelle anglais.</span></span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="introduction-au-langage-de-programmation-r.html#cb24-1" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;ais&quot;</span>,<span class="fu">colnames</span>(mat)) <span class="do">## On souhaite avoir l&#39;ensemble des colonnes qui contiennent le mot &quot;ais&quot;.</span></span></code></pre></div>
+<pre><code>## [1] 1 2</code></pre>
+<p>On peut très bien aller chercher l’information de manière manuelle, en sélectionnant les lignes ou colonnes sur lesquelles on souhaite travailler.</p>
+<blockquote>
+<p>Il est possible de réaliser des opérations sur les matrices et de les combiner.</p>
+</blockquote>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="introduction-au-langage-de-programmation-r.html#cb26-1" tabindex="-1"></a>mat[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span> , <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="do">## Sélection débutante</span></span></code></pre></div>
+<pre><code>##         anglais français
+## eleve 1       1        2
+## eleve 2       2        2</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="introduction-au-langage-de-programmation-r.html#cb28-1" tabindex="-1"></a>mat[<span class="fu">which</span>(<span class="fu">rownames</span>(mat)<span class="sc">==</span><span class="st">&quot;eleve 1&quot;</span><span class="sc">|</span><span class="fu">rownames</span>(mat)<span class="sc">==</span><span class="st">&quot;eleve 2&quot;</span>) , </span>
+<span id="cb28-2"><a href="introduction-au-langage-de-programmation-r.html#cb28-2" tabindex="-1"></a>    <span class="fu">grep</span>(<span class="st">&quot;ais&quot;</span>,<span class="fu">colnames</span>(mat))] <span class="do">## Sélection avancée</span></span></code></pre></div>
+<pre><code>##         anglais français
+## eleve 1       1        2
+## eleve 2       2        2</code></pre>
+</div>
+</div>
+<div id="les-data-frames" class="section level3 hasAnchor" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Les data-frames<a href="introduction-au-langage-de-programmation-r.html#les-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Dans notre cours nous utiliserons un type particulier de tableau, le <em>data.frame</em>, qui est proche des tableaux de classe <em>matrice</em>. Ils permettent de gérer les données de manière plus facile et rapide. On peut facilement transformer la matrice que nous avons créer en objet de type data.frame grâce à la fonction <code>as.data.frame()</code>. Je vous présenterai 2 avantages à travailler sur data.frames plutôt que sur des objets de classe matrix.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="introduction-au-langage-de-programmation-r.html#cb30-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mat) <span class="co"># Première étape : transformer l&#39;objet matrix en objet data.frame</span></span>
+<span id="cb30-2"><a href="introduction-au-langage-de-programmation-r.html#cb30-2" tabindex="-1"></a><span class="fu">class</span>(df) <span class="co"># Vérifier la classe de l&#39;objet.</span></span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="introduction-au-langage-de-programmation-r.html#cb32-1" tabindex="-1"></a>df<span class="sc">$</span>latin <span class="co"># Possibilité d&#39;aller chercher des colonnes de manière spécifique avec $.</span></span></code></pre></div>
+<pre><code>## [1]  7  9 10</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="introduction-au-langage-de-programmation-r.html#cb34-1" tabindex="-1"></a>df<span class="sc">$</span>grec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">8</span>,<span class="dv">2</span>) <span class="co"># Possibilité d&#39;ajouter des colonnes avec ce même $, qui n&#39;existait pas avant. Il faut que le vecteur qu&#39;on ajoute soit de la même longueur.</span></span>
+<span id="cb34-2"><a href="introduction-au-langage-de-programmation-r.html#cb34-2" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="introduction-au-langage-de-programmation-r.html#cb34-3" tabindex="-1"></a><span class="co"># Question : quelle est la dimension de notre nouveau tableau ?</span></span></code></pre></div>
+</div>
+</div>
+<div id="les-boucles" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Les boucles<a href="introduction-au-langage-de-programmation-r.html#les-boucles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>L’intérêt de <code>R</code> est de pouvoir réaliser des boucles, c’est-à-dire des itérations pour réaliser des calculs sur des tableaux de données importants. L’exemple le plus simple est de réaliser la moyenne des éleves à partir d’une boucle.</p>
+<p>Une boucle se réalise avec la fonction <code>for()</code> ou <code>while()</code>. La différence entre ces deux fonctions réside dans leur nature d’arrêt.</p>
+<p>Pour la fonction <code>for()</code>, nous allons assigner un objet, une séquence (numérique ou de character) à une lettre, et pour chaque élément de la liste/objet/séquence nous réaliserons l’action ou les actions qui seront inclus dans la boucle.</p>
+<p>Pour la fonction <code>while()</code>, l’argument sera une condition. Tant que cette condition ne sera pas remplie alors la boucle continuera son action.</p>
+<p>Pour l’exemple suivant, <span class="math inline">\(i\)</span> prendra ne nom de chacun des élèves. l’itération n°1 consistera à créer la phrase suivante : “L’élève 1 possède une moyenne de …”. Ici <code>mean(as.numeric(df[which(rownames(df)==i),])))</code> permet de calculer la moyenne de la ligne où la condition suivante <code>which(rownames(df)==i)</code> est respectée. Littérallement, cette condition signifie que nous recherchons le numéro de la ligne de <span class="math inline">\(i\)</span> (ici <span class="math inline">\(i\)</span> correspond à “eleve 1” lors de la première itération, puis “eleve 2” dans la seconde itération).</p>
+<p>Cette ligne de code nous permet donc de calculer l’ensemble des moyennes des élèves.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="introduction-au-langage-de-programmation-r.html#cb35-1" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">rownames</span>(df)){</span>
+<span id="cb35-2"><a href="introduction-au-langage-de-programmation-r.html#cb35-2" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste</span>(i,<span class="st">&quot;possède une moyenne de&quot;</span>, <span class="fu">mean</span>(<span class="fu">as.numeric</span>(df[<span class="fu">which</span>(<span class="fu">rownames</span>(df)<span class="sc">==</span>i),]))))</span>
+<span id="cb35-3"><a href="introduction-au-langage-de-programmation-r.html#cb35-3" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;eleve 1 possède une moyenne de 3.6&quot;
+## [1] &quot;eleve 2 possède une moyenne de 5&quot;
+## [1] &quot;eleve 3 possède une moyenne de 5.4&quot;</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="introduction-au-langage-de-programmation-r.html#cb37-1" tabindex="-1"></a><span class="co"># Quel est le meilleur éleve ?</span></span></code></pre></div>
+<blockquote>
+<p>Vous allez pouvoir utiliser la fonction apply ou rowMeans pour avoir les mêmes résultats.</p>
+</blockquote>
+<div id="exercices" class="section level4 hasAnchor" number="1.3.0.1">
+<h4><span class="header-section-number">1.3.0.1</span> Exercices<a href="introduction-au-langage-de-programmation-r.html#exercices" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><p>Créer une matrice de 200 lignes et 10 colonnes. Simuler les données (200x10 = 2000 données) qui suivront une loi normale de moyenne 3 et d’écart type 1.</p></li>
+<li><p>Ajouter une colonne à ce tableau (200 observations d’une variable), la nouvelle variable suivra une loi normale de moyenne 2 et d’écart type 2.</p></li>
+<li><p>Calculer la moyenne en colonne (par variable) puis la moyenne en ligne (par individu/observation) en utilisant la fonction <code>rowMeans()</code> puis en utilisant la fonction <code>apply()</code>.</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="les-fonctions-version-intermédiaire" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Les fonctions (version intermédiaire)<a href="introduction-au-langage-de-programmation-r.html#les-fonctions-version-intermédiaire" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ce chapitre ne sera sans doute pas vu en cours mais vous êtes libres de le lire pour vos propres connaissances personnelles. Il pourra être approfondi lors du TP n°1.</p>
+<p>L’objectif de cette partie est de créer ses propres fonctions. Je vais vous l’expliquer en prenant un exemple assez simple puis travailler l’ensemble des notions du cours à partir de cette fonction.</p>
+<p>La première étape est de créer une fonction avec les différents arguments séparés par des virgules. Dans cet exemple, nous avons créé une fonction qui permet de calculer l’Indice de Masse Corporelle à partir de 2 arguments (la taille en mètre et le poids en kg).</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="introduction-au-langage-de-programmation-r.html#cb38-1" tabindex="-1"></a>calcul_IMC <span class="ot">&lt;-</span> <span class="cf">function</span>(poids, taille){</span>
+<span id="cb38-2"><a href="introduction-au-langage-de-programmation-r.html#cb38-2" tabindex="-1"></a>  IMC <span class="ot">=</span>  poids<span class="sc">/</span>taille<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb38-3"><a href="introduction-au-langage-de-programmation-r.html#cb38-3" tabindex="-1"></a>  <span class="fu">return</span>(IMC)</span>
+<span id="cb38-4"><a href="introduction-au-langage-de-programmation-r.html#cb38-4" tabindex="-1"></a>}</span></code></pre></div>
+<p>Dans la seconde partie, nous créons une boucle pour calculer un ensemble d’IMC possible soit</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="introduction-au-langage-de-programmation-r.html#cb39-1" tabindex="-1"></a>Ta <span class="ot">=</span> P <span class="ot">=</span> BMI <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb39-2"><a href="introduction-au-langage-de-programmation-r.html#cb39-2" tabindex="-1"></a><span class="cf">for</span>(kg <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">100</span>, <span class="at">by=</span><span class="fl">0.5</span>)){</span>
+<span id="cb39-3"><a href="introduction-au-langage-de-programmation-r.html#cb39-3" tabindex="-1"></a>  <span class="cf">for</span>(metres <span class="cf">in</span> <span class="fu">seq</span>(<span class="fl">1.40</span>,<span class="fl">2.40</span>, <span class="at">by=</span><span class="fl">0.01</span>)){</span>
+<span id="cb39-4"><a href="introduction-au-langage-de-programmation-r.html#cb39-4" tabindex="-1"></a>    P <span class="ot">&lt;-</span> <span class="fu">c</span>(P, kg)</span>
+<span id="cb39-5"><a href="introduction-au-langage-de-programmation-r.html#cb39-5" tabindex="-1"></a>    Ta <span class="ot">&lt;-</span> <span class="fu">c</span>(Ta, metres)</span>
+<span id="cb39-6"><a href="introduction-au-langage-de-programmation-r.html#cb39-6" tabindex="-1"></a>    BMI <span class="ot">&lt;-</span> <span class="fu">c</span>(BMI , <span class="fu">calcul_IMC</span>(kg, metres))</span>
+<span id="cb39-7"><a href="introduction-au-langage-de-programmation-r.html#cb39-7" tabindex="-1"></a>  }</span>
+<span id="cb39-8"><a href="introduction-au-langage-de-programmation-r.html#cb39-8" tabindex="-1"></a>}</span>
+<span id="cb39-9"><a href="introduction-au-langage-de-programmation-r.html#cb39-9" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(P, Ta, BMI)</span>
+<span id="cb39-10"><a href="introduction-au-langage-de-programmation-r.html#cb39-10" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="introduction-au-langage-de-programmation-r.html#cb39-11" tabindex="-1"></a>coupes <span class="ot">&lt;-</span> <span class="fu">cut</span>(df<span class="sc">$</span>BMI, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">15</span>, <span class="fl">18.5</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">55</span>))</span>
+<span id="cb39-12"><a href="introduction-au-langage-de-programmation-r.html#cb39-12" tabindex="-1"></a>colors <span class="ot">=</span> <span class="fu">as.character</span>(<span class="fu">factor</span>(coupes,<span class="fu">c</span>(<span class="fu">levels</span>(coupes)), <span class="fu">c</span>(<span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;firebrick&quot;</span>) ))</span>
+<span id="cb39-13"><a href="introduction-au-langage-de-programmation-r.html#cb39-13" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="introduction-au-langage-de-programmation-r.html#cb39-14" tabindex="-1"></a><span class="fu">plot</span>(df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],<span class="at">col=</span><span class="fu">t</span>(colors), <span class="at">pch=</span><span class="dv">15</span>, <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">xlab=</span> <span class="st">&quot;Poids (kg)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Taille (m)&quot;</span>,</span>
+<span id="cb39-15"><a href="introduction-au-langage-de-programmation-r.html#cb39-15" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;Relation entre Poids et Taille&quot;</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">100</span>))</span>
+<span id="cb39-16"><a href="introduction-au-langage-de-programmation-r.html#cb39-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&#39;topleft&#39;</span>, <span class="at">legend =</span><span class="fu">c</span>(<span class="st">&#39;&lt;15 ou &gt;30&#39;</span>,<span class="st">&#39;&lt;18.5 ou &gt;25&#39;</span>,<span class="st">&#39;18.5&gt;IMC&lt;25&#39;</span>),</span>
+<span id="cb39-17"><a href="introduction-au-langage-de-programmation-r.html#cb39-17" tabindex="-1"></a>       <span class="at">fill=</span><span class="fu">c</span>(<span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>),<span class="at">title =</span> <span class="st">&quot;IMC&quot;</span>,<span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">bty=</span><span class="st">&#39;n&#39;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="test-statistique-chi2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/USERNAME/REPO/edit/BRANCH/01_Introduction_R.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf", "_main.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

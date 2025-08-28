@@ -1,0 +1,1 @@
+"0","df <- read.table(""data/heptathlon_2023.csv"", sep="","", header=T, stringsAsFactors = T, row.names = 1)"

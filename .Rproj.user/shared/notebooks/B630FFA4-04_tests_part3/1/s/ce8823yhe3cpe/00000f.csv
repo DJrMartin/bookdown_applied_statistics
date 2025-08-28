@@ -1,0 +1,2 @@
+"0","n <- length(meta_data$ID) # Nombre d'individus"
+"0","p <- dim(df)[1] # Nombre de variables"

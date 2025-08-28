@@ -1,0 +1,12 @@
+h1:clustering Clustering
+h2:généralités Généralités
+h2:k-means-ou-algorithme-des-centres-mobiles-en-français K-means (ou algorithme des centres mobiles en français)
+h3:principe Principe
+h3:algorithme-du-k-means-appartenance-à-une-classe-pour-chaque-individu Algorithme du k-means (appartenance à une classe pour chaque individu)
+h2:classification-hiérarchique-ascendante Classification Hiérarchique Ascendante
+h3:mesure-déloignement-entre-les-individus Mesure d’éloignement entre les individus
+h3:mesure-dagrégation Mesure d’agrégation
+h2:définir-le-nombre-de-classes-optimales Définir le nombre de classes optimales ?
+h3:première-approche-variance-totale-et-règle-du-coude Première approche : Variance totale et règle du coude
+h3:seconde-approche-coefficient-de-silhouette. Seconde approche : coefficient de Silhouette.
+

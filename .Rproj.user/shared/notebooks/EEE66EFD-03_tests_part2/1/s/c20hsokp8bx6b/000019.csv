@@ -1,0 +1,2 @@
+"0","# Ajouter la légende."
+"0","legend(""bottomleft"", legend = c(""Moyenne"", ""Élevée""), title=""Niveau de Dépendance"", pch=c(15,16), col=c(""darkgreen"", ""gold""), bty=""n"")"
