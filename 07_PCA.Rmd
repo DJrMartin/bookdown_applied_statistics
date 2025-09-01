@@ -80,8 +80,12 @@ library(FactoMineR)
 res.pca = PCA(df_quanti, graph = F)
 
 plot(res.pca, choix = "var")
+```
+
+```{r}
 plot(res.pca, choix = "ind")
 ```
+
 
 ## Interprétation
 
