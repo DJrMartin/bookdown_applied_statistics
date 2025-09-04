@@ -79,7 +79,7 @@ df_quanti = data.frame(scale(df[,var.perf])) # On scale dans un data.frame les v
 library(FactoMineR)
 res.pca = PCA(df_quanti, graph = F)
 
-plot(res.pca, choix = "var")
+plot(res.pca$ind$coord)
 ```
 
 ```{r}

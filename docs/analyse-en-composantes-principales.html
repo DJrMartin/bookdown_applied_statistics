@@ -23,7 +23,7 @@
 <meta name="author" content="David M. Carminati" />
 
 
-<meta name="date" content="2025-09-01" />
+<meta name="date" content="2025-09-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -372,7 +372,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="analyse-en-composantes-principales.html#cb173-1" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
 <span id="cb173-2"><a href="analyse-en-composantes-principales.html#cb173-2" tabindex="-1"></a>res.pca <span class="ot">=</span> <span class="fu">PCA</span>(df_quanti, <span class="at">graph =</span> F)</span>
 <span id="cb173-3"><a href="analyse-en-composantes-principales.html#cb173-3" tabindex="-1"></a></span>
-<span id="cb173-4"><a href="analyse-en-composantes-principales.html#cb173-4" tabindex="-1"></a><span class="fu">plot</span>(res.pca, <span class="at">choix =</span> <span class="st">&quot;var&quot;</span>)</span></code></pre></div>
+<span id="cb173-4"><a href="analyse-en-composantes-principales.html#cb173-4" tabindex="-1"></a><span class="fu">plot</span>(res.pca<span class="sc">$</span>ind<span class="sc">$</span>coord)</span></code></pre></div>
 <p><img src="Applied-statistics_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="analyse-en-composantes-principales.html#cb174-1" tabindex="-1"></a><span class="fu">plot</span>(res.pca, <span class="at">choix =</span> <span class="st">&quot;ind&quot;</span>)</span></code></pre></div>
 <p><img src="Applied-statistics_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
